@@ -1,73 +1,72 @@
-# React + TypeScript + Vite
+# Nutri2BeFit App 🥗
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Nutri2BeFit** es una aplicación moderna de planificación nutricional diseñada para simplificar la gestión de dietas diarias, haciendo que el proceso sea visual, intuitivo y eficiente.
 
-Currently, two official plugins are available:
+Construida para **2BeFit**, esta herramienta permite a los usuarios:
+-   Visualizar sus objetivos diarios de macronutrientes (Proteínas, Carbohidratos, Grasas, Verduras).
+-   Generar menús diarios dinámicos ("Crea tu plato").
+-   Guardar y gestionar historiales de comidas y menús favoritos.
+-   Controlar su hidratación y progreso.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![Nutri2BeFit Banner](/brand-compact.png)
 
-## React Compiler
+## ✨ Características Principales
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+*   **Generador de Menús Inteligente**: Interfaz interactiva para componer platos basados en raciones (Proteína, Carbohidrato, Grasa, Vegetal). Contadores en tiempo real contra objetivos diarios.
+*   **Historial y Gestión**: Guarda tus días planificados. Copia comidas pasadas al día de hoy. Edita, renombra y organiza tus menús.
+*   **Dashboard Visual**: "Cantidades Diarias" ofrece una vista rápida de tu progreso y objetivos.
+*   **Diseño Premium**: Interfaz cuidada (Glassmorphism), totalmente responsiva y con modo oscuro/claro automático.
+*   **Tipografía Optimizada**: Textos legibles y adaptados a dispositivos móviles.
 
-## Expanding the ESLint configuration
+## 🛠️ Tecnologías
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Este proyecto está construido con un stack moderno y eficiente:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+*   **Frontend**: [React](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/)
+*   **Build Tool**: [Vite](https://vitejs.dev/)
+*   **Estilos**: [Tailwind CSS](https://tailwindcss.com/)
+*   **Animaciones**: [Framer Motion](https://www.framer.com/motion/)
+*   **Backend / Base de Datos**: [Firebase](https://firebase.google.com/) (Firestore, Auth)
+*   **Iconos**: Material Symbols
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 🚀 Instalación y Uso
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Sigue estos pasos para correr el proyecto localmente:
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+1.  **Clonar el repositorio**:
+    ```bash
+    git clone https://github.com/tu-usuario/appnutricion.git
+    cd appnutricion/frontend
+    ```
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+2.  **Instalar dependencias**:
+    ```bash
+    npm install
+    ```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+3.  **Configurar Variables de Entorno**:
+    Crea un archivo `.env.local` en la raíz de `frontend/` y añade tus credenciales de Firebase:
+    ```env
+    VITE_FIREBASE_API_KEY=tu_api_key
+    VITE_FIREBASE_AUTH_DOMAIN=tu_project_id.firebaseapp.com
+    VITE_FIREBASE_PROJECT_ID=tu_project_id
+    ...
+    ```
+
+4.  **Correr en desarrollo**:
+    ```bash
+    npm run dev
+    ```
+
+5.  **Construir para producción**:
+    ```bash
+    npm run build
+    ```
+
+## 📦 Despliegue
+
+La aplicación está lista para ser desplegada en **Vercel** o **Netlify**.
+Consulta el archivo `DEPLOY.md` incluido en este repositorio para una guía paso a paso.
+
+---
+Desarrollado con ❤️ para 2BeFit.
