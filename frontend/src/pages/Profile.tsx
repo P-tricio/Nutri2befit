@@ -81,6 +81,7 @@ export default function Profile() {
                                     type="text"
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
+                                    onBlur={handleSaveProfile}
                                     className="w-full bg-slate-50 dark:bg-black/20 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50"
                                     placeholder="Tu Nombre"
                                 />
@@ -97,52 +98,37 @@ export default function Profile() {
             </section>
 
             {/* Support Section */}
-            <section className="pt-8 border-t border-slate-200 dark:border-white/10 mt-4 mb-8"> {/* Adjusted margin for spacing */}
-                <a
-                    href="https://www.instagram.com/2befit.online"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-gradient-to-r from-purple-500 to-pink-500 text-white p-4 rounded-2xl flex items-center justify-between shadow-lg shadow-purple-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
-                >
-                    <div>
-                        <h4 className="font-bold">¿Dudas? Escríbenos</h4>
-                        <p className="text-xs text-white/90">Te ayudamos en @2befit.online</p>
-                    </div>
-                    <div className="bg-white/20 p-2 rounded-xl">
-                        <span className="material-symbols-outlined text-white">chat</span>
-                    </div>
-                </a>
-            </section>
+
 
             {/* Save Action Bar */}
-            <div className="sticky bottom-24 z-10">
-                <button
-                    onClick={handleSaveProfile}
-                    disabled={isSaving}
-                    className="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold py-4 rounded-2xl shadow-xl shadow-slate-900/20 dark:shadow-black/20 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2"
-                >
-                    {isSaving ? (
-                        <>
-                            <span className="size-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                            Guardando...
-                        </>
-                    ) : 'Guardar Cambios'}
-                </button>
-
-                <button
-                    onClick={logout}
-                    className="w-full mt-3 bg-red-50 dark:bg-red-900/10 text-red-500 dark:text-red-400 font-bold py-4 rounded-2xl hover:bg-red-100 dark:hover:bg-red-900/20 active:scale-[0.98] transition-all flex items-center justify-center gap-2 border-2 border-transparent hover:border-red-200 dark:hover:border-red-900/30"
-                >
-                    <span className="material-symbols-outlined">logout</span>
-                    Cerrar Sesión
-                </button>
+            {/* Support Section as Primary Action */}
+            <div className="sticky bottom-24 z-10 space-y-3">
+                {/* Auto-save Indicator (Floating) */}
                 {saveMessage && (
-                    <div className="absolute -top-12 left-0 w-full text-center">
-                        <span className="bg-emerald-500 text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg">
+                    <div className="absolute -top-12 left-0 w-full text-center pointer-events-none">
+                        <span className="bg-emerald-500 text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg animate-in fade-in slide-in-from-bottom-2">
                             {saveMessage}
                         </span>
                     </div>
                 )}
+
+                <a
+                    href="https://www.instagram.com/2befit.online"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold py-4 rounded-2xl shadow-xl shadow-slate-900/20 dark:shadow-black/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+                >
+                    <span className="material-symbols-outlined">chat</span>
+                    ¿Dudas? Escríbenos
+                </a>
+
+                <button
+                    onClick={logout}
+                    className="w-full bg-red-50 dark:bg-red-900/10 text-red-500 dark:text-red-400 font-bold py-4 rounded-2xl hover:bg-red-100 dark:hover:bg-red-900/20 active:scale-[0.98] transition-all flex items-center justify-center gap-2 border-2 border-transparent hover:border-red-200 dark:hover:border-red-900/30"
+                >
+                    <span className="material-symbols-outlined">logout</span>
+                    Cerrar Sesión
+                </button>
             </div>
 
             {/* Legacy / Migration Actions */}
