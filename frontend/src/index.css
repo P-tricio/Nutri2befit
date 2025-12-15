@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    font-family: 'Roboto', sans-serif;
+  }
+
+  body {
+    @apply font-body text-slate-900 dark:text-white min-h-screen selection:bg-primary selection:text-black overflow-x-hidden;
+    background: radial-gradient(circle at 0% 0%, #f6f8f7 0%, #eefcf3 50%, #f6f8f7 100%);
+  }
+
+  /* Dark mode background override if needed, but keeping it simple for now */
+  .dark body {
+    background: radial-gradient(circle at 50% 0%, #102217 0%, #0a160f 100%);
+  }
+
+  .glass-card {
+    @apply bg-white/80 dark:bg-black/50 backdrop-blur-xl border border-white/40 dark:border-white/5 shadow-xl shadow-slate-200/50 dark:shadow-none;
+  }
+
+  .mask-fade {
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+  }
+
+  .glass-island {
+    @apply bg-white/80 dark:bg-black/60 backdrop-blur-2xl border border-white/50 dark:border-white/10 shadow-2xl;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-display;
+  }
+}
+
+/* Hide Scrollbar Utilities */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
