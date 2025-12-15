@@ -93,7 +93,8 @@ export default function History() {
     const { menus: savedMenus, addMenu, deleteMenu, updateMenu, renameMenu } = useSavedMenus();
 
     // Fallback activeLog structure if log is loading or null
-    const activeLog: DailyLog = log || { date: selectedDate, goals: {}, meals: [] };
+    // SAFEGUARD: Ensure meals array exists if log is present but incomplete (e.g. only goals set)
+    const activeLog: DailyLog = log ? { ...log, meals: log.meals || [] } : { date: selectedDate, goals: {}, meals: [] };
 
     // --- MODALS ---
     const [modal, setModal] = useState<{
@@ -512,8 +513,15 @@ export default function History() {
             if (element) {
                 setTimeout(() => {
                     element.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
-                }, 150);
+                }, 300);
             }
+        } else {
+            // Close: Scroll to top
+            setTimeout(() => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                document.documentElement.scrollTo({ top: 0, behavior: 'smooth' });
+                document.body.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 100);
         }
     }, [expandedMenuId]);
 
@@ -553,7 +561,13 @@ export default function History() {
                             <div className="h-2 w-full bg-slate-100 dark:bg-black/20 rounded-full overflow-hidden">
                                 <div
                                     className={clsx("h-full rounded-full transition-all duration-500",
-                                        isOver ? "bg-red-500" : cat.color === 'red' ? "bg-red-400" : cat.color === 'green' ? "bg-emerald-400" : cat.color === 'orange' ? "bg-orange-400" : cat.color === 'yellow' ? "bg-yellow-400" : "bg-purple-400"
+                                        isOver ? "bg-red-500" :
+                                            cat.id === 'fats' ? "bg-amber-500" : // Explicit Amber for Fats
+                                                cat.id === 'carbs' ? "bg-yellow-400" : // Explicit Yellow for Carbs
+                                                    cat.color === 'red' ? "bg-red-400" :
+                                                        cat.color === 'green' ? "bg-emerald-400" :
+                                                            cat.color === 'orange' ? "bg-orange-400" :
+                                                                cat.color === 'yellow' ? "bg-yellow-400" : "bg-purple-400"
                                     )}
                                     style={{ width: `${percentage}%` }}
                                 />
@@ -567,14 +581,60 @@ export default function History() {
 
     // --- MEAL EXPANSION LOGIC (FOR TODAY) ---
     const [expandedMealId, setExpandedMealId] = useState<string | null>(null);
+    const [activeMealContext, setActiveMealContext] = useState<{ type: 'today' } | { type: 'menu', menuId: string } | null>(null);
+    const mealRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
-    const toggleMeal = (id: string, isCollapsible: boolean) => {
+    // Dropdown States
+    const [openMenuOptionsId, setOpenMenuOptionsId] = useState<string | null>(null);
+    const [openMealOptionsId, setOpenMealOptionsId] = useState<string | null>(null);
+
+    // Close dropdowns on click outside
+    useEffect(() => {
+        const handleClickOutside = () => {
+            setOpenMenuOptionsId(null);
+            setOpenMealOptionsId(null);
+        };
+        document.addEventListener('click', handleClickOutside);
+        return () => document.removeEventListener('click', handleClickOutside);
+    }, []);
+
+    // Meal Scroll Effect
+    useEffect(() => {
+        if (expandedMealId) {
+            const element = mealRefs.current[expandedMealId];
+            if (element) {
+                setTimeout(() => {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+                }, 300);
+            }
+        } else if (activeMealContext) {
+            setTimeout(() => {
+                if (activeMealContext.type === 'today') {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    document.documentElement.scrollTo({ top: 0, behavior: 'smooth' });
+                    document.body.scrollTo({ top: 0, behavior: 'smooth' });
+                } else if (activeMealContext.type === 'menu' && activeMealContext.menuId) {
+                    const menuEl = menuRefs.current[activeMealContext.menuId];
+                    if (menuEl) {
+                        menuEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }
+            }, 100);
+        }
+    }, [expandedMealId, activeMealContext]);
+
+    const toggleMeal = (id: string, isCollapsible: boolean, context: { type: 'today' } | { type: 'menu', menuId: string }) => {
         if (!isCollapsible) return;
-        setExpandedMealId(prev => prev === id ? null : id);
+        if (expandedMealId === id) {
+            setExpandedMealId(null);
+        } else {
+            setExpandedMealId(id);
+            setActiveMealContext(context);
+        }
     };
 
     // Shared Meal Renderer
-    const renderMealList = (meals: Meal[], allowDelete: boolean = false, isDraggable: boolean = false, isCollapsible: boolean = false, allowCopyToCreationZone: boolean = false) => (
+    const renderMealList = (meals: Meal[], allowDelete: boolean = false, isDraggable: boolean = false, isCollapsible: boolean = false, allowCopyToCreationZone: boolean = false, context: { type: 'today' } | { type: 'menu', menuId: string } = { type: 'today' }) => (
         <div className="space-y-4">
             {meals.slice().reverse().map((meal) => {
                 const isOpen = !isCollapsible || expandedMealId === meal.id;
@@ -582,44 +642,27 @@ export default function History() {
                 return (
                     <div
                         key={meal.id}
+                        ref={(el) => { mealRefs.current[meal.id] = el; }} // Attack Ref
                         draggable={isDraggable && !editingMealId}
                         onDragStart={(e) => isDraggable ? handleDragStart(e, meal) : undefined}
                         className={clsx(
                             "glass-card rounded-2xl group relative transition-all duration-300",
                             isDraggable && !editingMealId ? "cursor-grab active:cursor-grabbing hover:shadow-md hover:-translate-y-0.5" : "",
-                            isCollapsible ? "p-0" : "p-4" // Remove padding for collapsible container to let header control it
+                            isCollapsible ? "p-0" : "p-4",
+                            openMealOptionsId === meal.id ? "z-50" : "z-0" // Elevate z-index when menu is open
                         )}
                     >
                         {/* Header */}
                         <div
-                            onClick={() => toggleMeal(meal.id, isCollapsible)}
+                            onClick={() => toggleMeal(meal.id, isCollapsible, context)}
                             className={clsx(
                                 "flex flex-col gap-2", // Column layout for multi-line support
                                 isCollapsible ? "p-4 cursor-pointer hover:bg-slate-50/50 dark:hover:bg-white/5 transition-colors rounded-2xl" : "mb-3 border-b border-dashed border-slate-200 dark:border-white/10 pb-2"
                             )}
                         >
                             <div className="flex justify-between items-start w-full">
-                                {/* LEFT SIDE: Helper Buttons (Arrow, Copy) + Name/Edit Input */}
+                                {/* LEFT SIDE: Name/Edit Input */}
                                 <div className="flex items-center flex-1 gap-2 mr-2 min-w-0">
-                                    {allowCopyToCreationZone && (
-                                        <button
-                                            onClick={(e) => { e.stopPropagation(); handleCopyMealToDay(meal); }}
-                                            className="size-8 rounded-full flex items-center justify-center text-slate-300 hover:text-primary hover:bg-primary/10 transition-colors shrink-0"
-                                            title="Copiar a Zona de Creación (Hoy)"
-                                        >
-                                            <span className="material-symbols-outlined text-xl">arrow_upward</span>
-                                        </button>
-                                    )}
-                                    {/* Edit In Generator Button (Only for Creation Zone / Draggable items) */}
-                                    {isDraggable && !editingMealId && (
-                                        <button
-                                            onClick={(e) => { e.stopPropagation(); handleEditInGenerator(meal); }}
-                                            className="size-8 rounded-full flex items-center justify-center text-slate-300 hover:text-amber-500 hover:bg-amber-50 dark:hover:bg-amber-900/20 transition-colors shrink-0"
-                                            title="Editar en Generador"
-                                        >
-                                            <span className="material-symbols-outlined text-xl">construction</span>
-                                        </button>
-                                    )}
                                     {isDraggable && !editingMealId && (
                                         <button
                                             onClick={(e) => { e.stopPropagation(); openCopyModal(meal); }}
@@ -641,7 +684,7 @@ export default function History() {
                                         </div>
                                     ) : (
                                         <div className="flex items-center gap-2 min-w-0 flex-1">
-                                            <span className="font-black text-slate-800 dark:text-white text-lg leading-tight capitalize truncate">{meal.name}</span>
+                                            <span className="font-black text-slate-800 dark:text-white text-lg leading-tight capitalize line-clamp-2 break-words">{meal.name}</span>
                                             {isCollapsible && (
                                                 <motion.span
                                                     animate={{ rotate: isOpen ? 180 : 0 }}
@@ -666,22 +709,85 @@ export default function History() {
                                             </button>
                                         </>
                                     ) : (
-                                        allowDelete && (
-                                            <>
-                                                <button
-                                                    onClick={() => handleStartEdit(meal)}
-                                                    className="size-8 rounded-full flex items-center justify-center text-slate-300 hover:text-primary hover:bg-primary/10 transition-colors"
-                                                >
-                                                    <span className="material-symbols-outlined text-lg">edit</span>
-                                                </button>
-                                                <button
-                                                    onClick={() => confirmDeleteMeal(meal.id)}
-                                                    className="size-8 rounded-full flex items-center justify-center text-slate-300 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
-                                                >
-                                                    <span className="material-symbols-outlined text-lg">delete</span>
-                                                </button>
-                                            </>
-                                        )
+                                        <div className="relative">
+                                            <button
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setOpenMealOptionsId(openMealOptionsId === meal.id ? null : meal.id);
+                                                    setOpenMenuOptionsId(null);
+                                                }}
+                                                className="size-8 rounded-full flex items-center justify-center text-slate-300 hover:text-slate-600 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
+                                            >
+                                                <span className="material-symbols-outlined">more_vert</span>
+                                            </button>
+
+                                            <AnimatePresence>
+                                                {openMealOptionsId === meal.id && (
+                                                    <motion.div
+                                                        initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                                                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                                                        exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                                                        className="absolute right-0 top-8 w-52 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-100 dark:border-white/10 z-[50] overflow-hidden"
+                                                        onClick={(e) => e.stopPropagation()}
+                                                    >
+                                                        {allowCopyToCreationZone && (
+                                                            <button
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    handleCopyMealToDay(meal);
+                                                                    setOpenMealOptionsId(null);
+                                                                }}
+                                                                className="w-full px-2 py-2 text-sm font-medium text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-900/10 flex items-center justify-center gap-2"
+                                                            >
+                                                                <span className="material-symbols-outlined text-lg">arrow_upward</span>
+                                                                Copiar a Hoy
+                                                            </button>
+                                                        )}
+
+                                                        {isDraggable && !editingMealId && (
+                                                            <button
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    handleEditInGenerator(meal);
+                                                                    setOpenMealOptionsId(null);
+                                                                }}
+                                                                className="w-full px-2 py-2 text-sm font-medium text-amber-500 hover:bg-amber-50 dark:hover:bg-amber-900/10 flex items-center justify-center gap-2"
+                                                            >
+                                                                <span className="material-symbols-outlined text-lg">restaurant</span>
+                                                                Editar en Plato
+                                                            </button>
+                                                        )}
+
+                                                        {allowDelete && (
+                                                            <>
+                                                                <button
+                                                                    onClick={(e) => {
+                                                                        e.stopPropagation();
+                                                                        handleStartEdit(meal);
+                                                                        setOpenMealOptionsId(null);
+                                                                    }}
+                                                                    className="w-full px-2 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-white/5 flex items-center justify-center gap-2 border-t border-slate-100 dark:border-white/5"
+                                                                >
+                                                                    <span className="material-symbols-outlined text-lg">edit</span>
+                                                                    Renombrar
+                                                                </button>
+                                                                <button
+                                                                    onClick={(e) => {
+                                                                        e.stopPropagation();
+                                                                        confirmDeleteMeal(meal.id);
+                                                                        setOpenMealOptionsId(null);
+                                                                    }}
+                                                                    className="w-full px-2 py-2 text-sm font-medium text-red-500 hover:bg-red-50 dark:hover:bg-red-900/10 flex items-center justify-center gap-2 border-t border-slate-100 dark:border-white/5"
+                                                                >
+                                                                    <span className="material-symbols-outlined text-lg">delete</span>
+                                                                    Eliminar
+                                                                </button>
+                                                            </>
+                                                        )}
+                                                    </motion.div>
+                                                )}
+                                            </AnimatePresence>
+                                        </div>
                                     )}
                                 </div>
                             </div>
@@ -767,7 +873,7 @@ export default function History() {
                                                                                 onClick={() => handleRemoveIngredient(meal.id, cat.id, itemId, idx)}
                                                                                 className="size-4 flex items-center justify-center rounded-full hover:bg-red-100 text-slate-400 hover:text-red-500 transition-colors"
                                                                             >
-                                                                                <span className="material-symbols-outlined text-[10px] font-bold">close</span>
+                                                                                <span className="material-symbols-outlined text-xs font-bold">close</span>
                                                                             </button>
                                                                         )}
                                                                     </span>
@@ -777,10 +883,10 @@ export default function History() {
                                                             )}
 
                                                             {qty > ingredients.length && (
-                                                                <span className="text-[10px] font-bold text-white bg-slate-400/80 dark:bg-slate-600 px-1.5 py-0.5 rounded-full shrink-0">x{qty}</span>
+                                                                <span className="text-xs font-bold text-white bg-slate-400/80 dark:bg-slate-600 px-1.5 py-0.5 rounded-full shrink-0">x{qty}</span>
                                                             )}
                                                         </div>
-                                                        <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+                                                        <div className="flex items-center gap-2 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
                                                             {ingredients.length > 0 && <span>{def.name}</span>}
                                                             {def.portionMetric && (
                                                                 <span className={clsx("flex items-center gap-1", ingredients.length > 0 && "before:content-['•'] before:mx-1 before:opacity-50")}>
@@ -805,13 +911,12 @@ export default function History() {
     return (
         <div className="w-full">
             {/* Header */}
-            <div className="px-5 pt-6 pb-2 flex flex-col items-center text-center gap-2">
-                <img src="/brand-compact.png" alt="2B" className="h-9 w-auto object-contain" />
+            <div className="px-5 pt-2 pb-2 flex flex-col items-center text-center gap-2">
+                <img src="/brand-compact.png" alt="2B" className="h-8 w-auto object-contain" />
                 <div>
-                    <h1 className="text-2xl font-black text-slate-900 dark:text-white uppercase leading-none">
-                        Creador de menús
+                    <h1 className="text-slate-400 text-xs font-bold leading-none uppercase tracking-wider">
+                        Crea tus menús
                     </h1>
-                    <p className="text-sm text-slate-500 font-medium">Organiza y guarda tus días</p>
                 </div>
             </div>
 
@@ -822,7 +927,7 @@ export default function History() {
                 <div className="flex items-center justify-between mb-2">
                     <h2 className="text-lg font-bold text-slate-800 dark:text-white capitalize flex items-center gap-2">
                         <span className="material-symbols-outlined text-primary">edit_square</span>
-                        Zona de creación ({new Date(selectedDate).toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric' })})
+                        Zona de creación
                     </h2>
 
                     {activeLog.meals.length > 0 && (
@@ -896,7 +1001,7 @@ export default function History() {
                                 <div className="flex justify-between items-start mb-3">
                                     <div className="flex-1 cursor-pointer" onClick={() => toggleMenu(menu.id)}>
                                         <div className="flex items-center gap-2">
-                                            <h4 className="font-black text-slate-800 dark:text-white text-lg leading-tight">{menu.name}</h4>
+                                            <h4 className="font-black text-slate-800 dark:text-white text-lg leading-tight line-clamp-2 break-words">{menu.name}</h4>
                                             <motion.span
                                                 animate={{ rotate: expandedMenuId === menu.id ? 180 : 0 }}
                                                 className="material-symbols-outlined text-slate-400 text-lg"
@@ -908,16 +1013,60 @@ export default function History() {
                                             Guardado el {new Date(menu.createdAt).toLocaleDateString()} • {menu.meals.length} Comidas
                                         </p>
                                     </div>
-                                    <div className="flex gap-1">
+                                    <div className="relative">
                                         <button
-                                            onClick={() => setShoppingListContext({ title: `Lista: ${menu.name}`, menus: [menu] })}
-                                            className="text-slate-400 hover:text-emerald-500 p-1"
-                                            title="Lista de Compra"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setOpenMenuOptionsId(openMenuOptionsId === menu.id ? null : menu.id);
+                                                setOpenMealOptionsId(null); // Close others
+                                            }}
+                                            className="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors"
                                         >
-                                            <span className="material-symbols-outlined text-sm">shopping_cart</span>
+                                            <span className="material-symbols-outlined">more_vert</span>
                                         </button>
-                                        <button onClick={() => promptRenameMenu(menu)} className="text-slate-400 hover:text-primary p-1"><span className="material-symbols-outlined text-sm">edit</span></button>
-                                        <button onClick={() => confirmDeleteMenu(menu.id)} className="text-slate-300 hover:text-red-500 p-1"><span className="material-symbols-outlined text-sm">delete</span></button>
+
+                                        <AnimatePresence>
+                                            {openMenuOptionsId === menu.id && (
+                                                <motion.div
+                                                    initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                                                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                                                    exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                                                    className="absolute right-0 top-8 w-48 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-100 dark:border-white/10 z-[50] overflow-hidden"
+                                                    onClick={(e) => e.stopPropagation()}
+                                                >
+                                                    <button
+                                                        onClick={() => {
+                                                            setShoppingListContext({ title: `Lista: ${menu.name}`, menus: [menu] });
+                                                            setOpenMenuOptionsId(null);
+                                                        }}
+                                                        className="w-full px-2 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-white/5 flex items-center justify-center gap-2"
+                                                    >
+                                                        <span className="material-symbols-outlined text-lg">shopping_cart</span>
+                                                        Lista de Compra
+                                                    </button>
+                                                    <button
+                                                        onClick={() => {
+                                                            promptRenameMenu(menu);
+                                                            setOpenMenuOptionsId(null);
+                                                        }}
+                                                        className="w-full px-2 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-white/5 flex items-center justify-center gap-2"
+                                                    >
+                                                        <span className="material-symbols-outlined text-lg">edit</span>
+                                                        Renombrar
+                                                    </button>
+                                                    <button
+                                                        onClick={() => {
+                                                            confirmDeleteMenu(menu.id);
+                                                            setOpenMenuOptionsId(null);
+                                                        }}
+                                                        className="w-full px-2 py-2 text-sm font-medium text-red-500 hover:bg-red-50 dark:hover:bg-red-900/10 flex items-center justify-center gap-2 border-t border-slate-100 dark:border-white/5"
+                                                    >
+                                                        <span className="material-symbols-outlined text-lg">delete</span>
+                                                        Eliminar
+                                                    </button>
+                                                </motion.div>
+                                            )}
+                                        </AnimatePresence>
                                     </div>
                                 </div>
 
@@ -935,7 +1084,7 @@ export default function History() {
                                             exit={{ height: 0, opacity: 0 }}
                                             className="overflow-hidden border-t border-slate-200 dark:border-white/10 pt-4 mt-2"
                                         >
-                                            {renderMealList(menu.meals, true, false, true, true)}
+                                            {renderMealList(menu.meals, true, false, true, true, { type: 'menu', menuId: menu.id })}
                                         </motion.div>
                                     )}
                                 </AnimatePresence>

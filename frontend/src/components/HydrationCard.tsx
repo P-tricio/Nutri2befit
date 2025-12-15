@@ -24,7 +24,7 @@ export default function HydrationCard({ value, onChange, isEditing = false }: Hy
 
             <div className="flex items-center gap-4">
                 <span className="text-sm font-black text-slate-700 dark:text-slate-200">
-                    {(value / 1000).toFixed(1)} <span className="text-[10px] text-slate-400">L</span>
+                    {(value / 1000).toFixed(1)} <span className="text-xs text-slate-400">L</span>
                 </span>
 
                 {isEditing && (

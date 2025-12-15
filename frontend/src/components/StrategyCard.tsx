@@ -1,5 +1,6 @@
 import clsx from 'clsx';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import { useAutoScroll } from '../hooks/useAutoScroll';
 import { AnimatePresence, motion } from 'framer-motion';
 import type { CategoryDetail } from '../data/categoryDetails';
 import ImageWithFallback from './ImageWithFallback';
@@ -73,6 +74,7 @@ const COLOR_MAP: Record<string, ColorConfig> = {
 
 export default function StrategyCard({ title, expandedTitle, value, color, icon, onIncrease, onDecrease, details, isEditing = false }: StrategyCardProps) {
     const [isExpanded, setIsExpanded] = useState(false);
+    const cardRef = useRef<HTMLDivElement>(null);
 
     // Resolve color configuration
     const theme = COLOR_MAP[color] || COLOR_MAP.default;
@@ -83,11 +85,19 @@ export default function StrategyCard({ title, expandedTitle, value, color, icon,
         }
     };
 
+    // Auto-Scroll Logic (Hook)
+    useAutoScroll({
+        isExpanded,
+        ref: cardRef,
+        enabled: !!details // Only enable if expandable
+    });
+
     return (
         <div
+            ref={cardRef}
             onClick={handleCardClick}
             className={clsx(
-                "rounded-2xl relative overflow-hidden transition-all duration-300 border", // Added border base
+                "rounded-2xl relative overflow-hidden transition-all duration-300 border scroll-mt-24", // Added scroll-mt-24 for sticky header clearance
                 details ? "cursor-pointer hover:shadow-md active:scale-[0.99]" : "",
 
                 // Color Theme Application
@@ -174,7 +184,7 @@ export default function StrategyCard({ title, expandedTitle, value, color, icon,
                                 </div>
                                 <div className="truncate">
                                     <h3 className="font-bold text-slate-900 dark:text-white text-base uppercase tracking-wider leading-tight truncate">{expandedTitle || title}</h3>
-                                    <p className="text-[10px] text-slate-400 font-bold uppercase truncate">{details.subtitle}</p>
+                                    <p className="text-xs text-slate-400 font-bold uppercase truncate">{details.subtitle}</p>
                                 </div>
                             </div>
                             <div className="flex items-center gap-1 shrink-0 ml-2">
@@ -233,13 +243,13 @@ export default function StrategyCard({ title, expandedTitle, value, color, icon,
                                         <span className="material-symbols-outlined text-xl">{details.portionInfo.icon}</span>
                                     </div>
                                     <div>
-                                        <p className="text-[9px] text-blue-500/80 dark:text-blue-300/80 font-bold uppercase tracking-wider mb-0.5">
+                                        <p className="text-[11px] text-blue-500/80 dark:text-blue-300/80 font-bold uppercase tracking-wider mb-0.5">
                                             1 porción equivale a:
                                         </p>
                                         <h4 className="font-bold text-xs text-slate-800 dark:text-white">
                                             {details.portionInfo.metric}
                                         </h4>
-                                        <p className="text-[10px] text-slate-500 dark:text-slate-400 leading-tight">
+                                        <p className="text-xs text-slate-500 dark:text-slate-400 leading-tight">
                                             {details.portionInfo.description}
                                         </p>
                                     </div>

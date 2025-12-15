@@ -97,7 +97,19 @@ function PageTransition({ children }: { children: React.ReactNode }) {
   );
 }
 
+// ... imports
+import SplashScreen from './components/SplashScreen';
+import { useState } from 'react';
+
+// ... AnimatedRoutes ...
+
 function App() {
+  const [showSplash, setShowSplash] = useState(true);
+
+  if (showSplash) {
+    return <SplashScreen onComplete={() => setShowSplash(false)} />;
+  }
+
   return (
     <AuthProvider>
       <BrowserRouter>

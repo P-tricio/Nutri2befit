@@ -127,11 +127,18 @@ export default function MenuGenerator() {
             const key = `${activeGroup.catId}-${activeGroup.groupId}`;
             const element = itemRefs.current[key];
             if (element) {
-                // Small delay to allow expansion animation to start/layout
+                // Delay matches animation (300ms)
                 setTimeout(() => {
                     element.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
-                }, 150);
+                }, 300);
             }
+        } else {
+            // Close: Scroll to top
+            setTimeout(() => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                document.documentElement.scrollTo({ top: 0, behavior: 'smooth' });
+                document.body.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 100);
         }
     }, [activeGroup]);
 
@@ -150,7 +157,8 @@ export default function MenuGenerator() {
 
     // Fallback activeLog structure (synced with Firestore or default empty)
     // Note: If log exists, it has goals. If not, we use current targets.
-    const todayLog: DailyLog = log || { date: todayKey, goals: targets, meals: [] };
+    // SAFEGUARD: Ensure meals is always an array (Firestore might return undefined if field missing)
+    const todayLog: DailyLog = log ? { ...log, meals: log.meals || [] } : { date: todayKey, goals: targets, meals: [] };
 
     // --- LOGIC ---
 
@@ -335,13 +343,13 @@ export default function MenuGenerator() {
     return (
         <div className="w-full h-full flex flex-col">
             {/* Header */}
-            <div className="px-5 pt-6 pb-2 flex flex-col gap-3">
+            <div className="px-5 pt-2 pb-2 flex flex-col gap-3">
                 <div className="flex justify-center items-center text-center">
                     <div className="flex flex-col items-center gap-2">
-                        <img src="/brand-compact.png" alt="2B" className="h-9 w-auto object-contain" />
+                        <img src="/brand-compact.png" alt="2B" className="h-8 w-auto object-contain" />
                         <div>
-                            <h1 className="text-slate-900 dark:text-white text-[24px] font-bold leading-[1.1] uppercase">
-                                Creador de comidas
+                            <h1 className="text-slate-400 text-xs font-bold leading-none uppercase tracking-wider">
+                                Crea tu plato
                             </h1>
                         </div>
                     </div>
@@ -354,7 +362,7 @@ export default function MenuGenerator() {
                 <div className="fixed top-4 left-0 right-0 z-[100] px-4 animate-in fade-in slide-in-from-top-4 duration-300 pointer-events-none">
                     <div className="max-w-md mx-auto pointer-events-auto">
                         <div className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md shadow-lg border-t border-slate-200 dark:border-white/10 p-3 flex flex-col items-center gap-2 rounded-3xl">
-                            <p className="text-[10px] uppercase font-bold text-slate-400 tracking-wider leading-none">Porciones diarias</p>
+                            <p className="text-xs uppercase font-bold text-slate-400 tracking-wider leading-none">Tus porciones diarias</p>
                             <div className="flex items-center gap-2 overflow-x-auto no-scrollbar max-w-full px-2">
                                 {DATA.filter(cat => cat.id !== 'magic').map(cat => {
                                     const consumed = getConsumedToday(cat.id);
@@ -380,7 +388,7 @@ export default function MenuGenerator() {
                                             isUnlimited && "opacity-80",
                                             showRed && "!bg-red-100 !text-red-700 !border-red-300"
                                         )}>
-                                            <div className={clsx("size-5 rounded-full flex items-center justify-center text-[9px] text-white font-black mr-1.5 shadow-sm", theme.iconBg)}>
+                                            <div className={clsx("size-5 rounded-full flex items-center justify-center text-[10px] text-white font-black mr-1.5 shadow-sm", theme.iconBg)}>
                                                 <span className="material-symbols-outlined text-[12px]">{iconName}</span>
                                             </div>
                                             <span className="mr-1">
@@ -401,7 +409,7 @@ export default function MenuGenerator() {
                 "transition-opacity duration-300 flex flex-col items-center gap-2 pb-2",
                 isSticky ? "opacity-0 pointer-events-none" : "opacity-100"
             )}>
-                <p className="text-[10px] uppercase font-bold text-slate-400 tracking-wider leading-none">Porciones diarias</p>
+                <p className="text-xs uppercase font-bold text-slate-400 tracking-wider leading-none">Tus porciones diarias</p>
                 <div className="flex items-center justify-center gap-2 overflow-x-auto hide-scrollbar mask-fade w-full">
                     {DATA.filter(cat => cat.id !== 'magic').map(cat => {
                         const consumed = getConsumedToday(cat.id);
@@ -429,7 +437,7 @@ export default function MenuGenerator() {
                                         showGreen ? "bg-emerald-50 border-emerald-200 text-emerald-700" :
                                             clsx("bg-white text-slate-700 border-slate-200", theme.border) // Default but with colored border hint? Or plain?
                             )}>
-                                <span className={clsx("material-symbols-outlined text-[10px]",
+                                <span className={clsx("material-symbols-outlined text-xs",
                                     isUnlimited ? "text-purple-500" : showRed ? "text-red-500" : showGreen ? "text-emerald-500" : theme.text
                                 )}>
                                     {iconName}
@@ -540,7 +548,7 @@ export default function MenuGenerator() {
                                                                     )}
                                                                 />
                                                                 {isSelected && <div className="absolute inset-0 bg-primary/20 flex items-center justify-center">
-                                                                    <span className="material-symbols-outlined text-primary font-bold bg-white rounded-full p-0.5 text-[10px]">check</span>
+                                                                    <span className="material-symbols-outlined text-primary font-bold bg-white rounded-full p-0.5 text-xs">check</span>
                                                                 </div>}
                                                             </div>
                                                             <div className="flex-1 min-w-0 pr-1">
@@ -582,7 +590,7 @@ export default function MenuGenerator() {
                                                                 return (
                                                                     <>
                                                                         {aggregated.map((item, i) => (
-                                                                            <span key={i} className="text-[9px] px-1.5 py-0.5 rounded-md bg-white dark:bg-black/20 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-white/10 flex items-center gap-1 shadow-sm">
+                                                                            <span key={i} className="text-[10px] px-1.5 py-0.5 rounded-md bg-white dark:bg-black/20 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-white/10 flex items-center gap-1 shadow-sm">
                                                                                 <span className="truncate max-w-[60px]">{item.name}</span>
                                                                                 {item.count > 1 && <strong className="text-primary font-bold">x{item.count}</strong>}
                                                                                 <button
@@ -590,7 +598,7 @@ export default function MenuGenerator() {
                                                                                     className="size-4 rounded-full bg-slate-200 dark:bg-white/20 flex items-center justify-center text-slate-500 dark:text-slate-300 hover:bg-red-100 hover:text-red-500 dark:hover:bg-red-900/40 dark:hover:text-red-400 transition-colors ml-0.5"
                                                                                     title="Borrar 1 porción"
                                                                                 >
-                                                                                    <span className="material-symbols-outlined text-[10px] font-bold">close</span>
+                                                                                    <span className="material-symbols-outlined text-xs font-bold">close</span>
                                                                                 </button>
                                                                             </span>
                                                                         ))}
@@ -626,7 +634,7 @@ export default function MenuGenerator() {
                                                                                 className="px-3 py-2.5 rounded-xl bg-white dark:bg-black/20 text-sm font-bold text-slate-600 dark:text-slate-300 shadow-sm border border-slate-200 dark:border-white/5 hover:border-primary hover:text-primary active:scale-95 transition-all text-left flex justify-between items-center group/btn min-h-[44px]"
                                                                             >
                                                                                 <span className="break-words leading-tight pr-1">{item}</span>
-                                                                                <span className="material-symbols-outlined text-[10px] opacity-30 group-hover/btn:opacity-100 text-primary transition-opacity shrink-0">add</span>
+                                                                                <span className="material-symbols-outlined text-xs opacity-30 group-hover/btn:opacity-100 text-primary transition-opacity shrink-0">add</span>
                                                                             </button>
                                                                         ))}
                                                                     </div>
@@ -635,7 +643,7 @@ export default function MenuGenerator() {
                                                                             e.stopPropagation();
                                                                             setActiveGroup(null);
                                                                         }}
-                                                                        className="w-full mt-3 py-2 flex items-center justify-center gap-1 text-[10px] font-black text-slate-300 uppercase tracking-widest hover:text-slate-500 hover:bg-slate-100 dark:hover:bg-white/5 rounded-lg transition-all"
+                                                                        className="w-full mt-3 py-2 flex items-center justify-center gap-1 text-xs font-black text-slate-300 uppercase tracking-widest hover:text-slate-500 hover:bg-slate-100 dark:hover:bg-white/5 rounded-lg transition-all"
                                                                     >
                                                                         <span>Cerrar</span>
                                                                         <span className="material-symbols-outlined text-sm">expand_less</span>

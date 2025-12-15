@@ -127,18 +127,21 @@ export default function Dashboard() {
     return (
         <div className="w-full flex flex-col relative pb-40"> {/* Adjusted padding for footer */}
             {/* Header */}
-            <div className="px-6 pt-8 pb-4 flex flex-col items-center text-center">
+            <div className="px-6 pt-2 pb-2 flex flex-col items-center text-center">
                 {/* ... existing header logo ... */}
-                <div className="flex items-center justify-center mb-4">
+                <div className="flex items-center justify-center mb-2">
                     <img
-                        src="/brand-full.png"
+                        src="/brand-compact.png"
                         alt="2BeFit"
-                        className="h-40 object-contain"
+                        className="h-8 object-contain"
                     />
                 </div>
-                <h1 className="text-lg font-black text-slate-900 dark:text-white uppercase tracking-widest mb-1">
-                    Cantidades Diarias
+                <h1 className="text-slate-400 text-xs font-bold leading-none uppercase tracking-wider mb-2">
+                    Tus cantidades diarias
                 </h1>
+                <p className="text-xs text-slate-400 font-medium max-w-[280px] leading-tight mx-auto mb-2 opacity-80">
+                    Estas son las porciones que tienes para consumir a diario, haz click en cada categoría para obtener más información.
+                </p>
 
                 {/* Edit Mode Toggle */}
                 <button

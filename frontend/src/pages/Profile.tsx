@@ -57,13 +57,14 @@ export default function Profile() {
         <div className="p-6 space-y-8 pb-24 max-w-2xl mx-auto">
 
             {/* Header */}
-            <header className="flex items-center justify-between">
+            <div className="pt-2 pb-2 flex flex-col items-center text-center gap-2">
+                <img src="/brand-compact.png" alt="2B" className="h-8 w-auto object-contain" />
                 <div>
-                    <h1 className="text-3xl font-black text-slate-900 dark:text-white">Mi Cuenta</h1>
-                    <p className="text-slate-500 dark:text-slate-400 text-sm">Gestiona tus datos y preferencias</p>
+                    <h1 className="text-slate-400 text-xs font-bold leading-none uppercase tracking-wider">
+                        Tu perfil
+                    </h1>
                 </div>
-
-            </header>
+            </div>
 
             {/* Personal Info Card */}
             <section className="space-y-4">
@@ -93,6 +94,24 @@ export default function Profile() {
                         </div>
                     </div>
                 </div>
+            </section>
+
+            {/* Support Section */}
+            <section className="pt-8 border-t border-slate-200 dark:border-white/10 mt-4 mb-8"> {/* Adjusted margin for spacing */}
+                <a
+                    href="https://www.instagram.com/2befit.online"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-gradient-to-r from-purple-500 to-pink-500 text-white p-4 rounded-2xl flex items-center justify-between shadow-lg shadow-purple-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
+                >
+                    <div>
+                        <h4 className="font-bold">¿Dudas? Escríbenos</h4>
+                        <p className="text-xs text-white/90">Te ayudamos en @2befit.online</p>
+                    </div>
+                    <div className="bg-white/20 p-2 rounded-xl">
+                        <span className="material-symbols-outlined text-white">chat</span>
+                    </div>
+                </a>
             </section>
 
             {/* Save Action Bar */}
@@ -127,6 +146,8 @@ export default function Profile() {
             </div>
 
             {/* Legacy / Migration Actions */}
+
+
             {hasLocalData && (
                 <section className="pt-8 border-t border-slate-200 dark:border-white/10">
                     <h3 className="text-xs font-black uppercase text-slate-400 tracking-wider ml-1 mb-4">Zona de Peligro & Utilidades</h3>

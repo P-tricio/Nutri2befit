@@ -184,7 +184,7 @@ function FAQItem({ title, solution, details }: { title: string, solution: string
         <div className="bg-white dark:bg-white/5 rounded-xl p-4 border border-slate-100 dark:border-white/5">
             <h3 className="font-bold text-slate-900 dark:text-white text-sm mb-1">{title}</h3>
             <div className="inline-block bg-primary/10 px-2 py-0.5 rounded mb-2">
-                <span className="text-primary text-[10px] font-bold uppercase tracking-wide">{solution}</span>
+                <span className="text-primary text-xs font-bold uppercase tracking-wide">{solution}</span>
             </div>
             <ul className="list-disc list-inside space-y-1">
                 {details.map((d, i) => (
