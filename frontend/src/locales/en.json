@@ -1,0 +1,429 @@
+{
+  "common": {
+    "save": "Save",
+    "edit": "Edit",
+    "close": "Close",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "free": "Free",
+    "loading": "Loading..."
+  },
+  "nav": {
+    "dashboard": "Targets",
+    "generator": "Generator",
+    "history": "History",
+    "profile": "Profile"
+  },
+  "dashboard": {
+    "title": "Your Daily Targets",
+    "description": "Your nutritional map for the day. Hit your goals with real food.",
+    "reset": "Reset Counters",
+    "save_targets": "Save Targets",
+    "edit_goals": "EDIT TARGETS",
+    "create_meal": "CREATE MEAL",
+    "cards": {
+      "protein": "Protein",
+      "veggies": "Vegetables",
+      "carbs": "Carbs",
+      "fats": "Fats"
+    }
+  },
+  "generator": {
+    "title": "Menu Generator",
+    "subtitle": "Build your plate",
+    "reset": "Clear Selection",
+    "toast_added": "+1 Portion Added",
+    "toast_saved": "Menu saved successfully",
+    "modal_save_title": "Meal Name?",
+    "placeholder_meal_name": "Ex: Post-workout Lunch",
+    "btn_save_meal": "SAVE MEAL",
+    "btn_clear_all": "Clear All",
+    "daily_portions": "Your Daily Portions"
+  },
+  "history": {
+    "title": "Create your menus",
+    "creation_zone_title": "Creation Zone",
+    "creation_zone_desc": "Today's Progress",
+    "saved_menus_title": "Saved Menus",
+    "saved_menus_empty": "No saved menus yet.",
+    "modal_save_menu_title": "Menu Name?",
+    "modal_save_menu_desc_ph": "Optional description...",
+    "btn_save_day": "Save Day",
+    "btn_rename": "Rename",
+    "btn_reset_day": "Reset Today",
+    "copy_to_today": "Copy to Today",
+    "edit_in_generator": "Edit in Plate",
+    "delete_menu_confirm_title": "Delete Menu?",
+    "delete_menu_confirm_msg": "This will delete the menu permanently.",
+    "reset_day_confirm_title": "Reset Day?",
+    "reset_day_confirm_msg": "This will clear all meals for today.",
+    "delete_meal_confirm_title": "Delete Meal?",
+    "delete_meal_confirm_msg": "Are you sure you want to delete this meal?",
+    "empty_today": "Start adding meals in the Generator to see your progress today.",
+    "shopping_list": "Shopping List"
+  },
+  "profile": {
+    "title": "Your Profile",
+    "personal_info": "Personal Info",
+    "display_name": "Display Name",
+    "email": "Email (Not editable)",
+    "support": "Questions? Write to us",
+    "load_examples": "Load Example Menus",
+    "load_examples_success": "Example menus loaded successfully.",
+    "logout": "Log Out",
+    "sync": "Sync",
+    "language": "Language",
+    "premium_title": "2BeFit Premium",
+    "premium_desc": "Custom plans and more"
+  },
+  "food": {
+    "protein": {
+      "title": "Protein",
+      "subtitle": "Building Blocks",
+      "items": {
+        "meat": {
+          "name": "Meat/Poultry",
+          "desc": "Chicken, Turkey, Beef, Pork...",
+          "metric": "📏 1 Palm",
+          "sub": {
+            "chicken": "Chicken",
+            "turkey": "Turkey",
+            "rabbit": "Rabbit",
+            "veal": "Veal",
+            "pork": "Lean Pork",
+            "burger": "Lean Burger",
+            "offal": "Offal"
+          }
+        },
+        "fish": {
+          "name": "Fish",
+          "desc": "Hake, Salmon, Tuna...",
+          "metric": "📏 1 Palm",
+          "sub": {
+            "hake": "Hake",
+            "cod": "Cod",
+            "salmon": "Salmon",
+            "tuna": "Tuna",
+            "mackerel": "Mackerel",
+            "hosmemackerel": "Horse Mackerel",
+            "sardines": "Sardines",
+            "whitefish": "White Fish"
+          }
+        },
+        "seafood": {
+          "name": "Seafood",
+          "desc": "Shrimp, Mussels...",
+          "metric": "📏 1 Palm",
+          "sub": {
+            "shrimp": "Shrimp",
+            "squid": "Squid",
+            "clams": "Clams",
+            "mussels": "Mussels"
+          }
+        },
+        "dairy_zero": {
+          "name": "Dairy 0%",
+          "desc": "Fresh Cheese, Egg Whites, Yogurt...",
+          "metric": "📏 1 Cup / 2 Eggs",
+          "sub": {
+            "eggs": "Eggs",
+            "whites": "Egg Whites",
+            "fresh_cheese": "Fresh Cheese 0%",
+            "beaten_cheese": "Beaten Cheese 0%",
+            "greek_yogurt": "Greek Yogurt",
+            "kefir": "Kefir",
+            "protein_whey": "Whey Protein",
+            "cottage": "Cottage Cheese"
+          }
+        },
+        "veggie_prot": {
+          "name": "Veggie & Legumes",
+          "desc": "Tofu, Soy, Seitan...",
+          "metric": "📏 1 Palm",
+          "sub": {
+            "tofu": "Tofu",
+            "textured_soy": "Textured Soy",
+            "edamame": "Edamame",
+            "seitan": "Seitan",
+            "tempeh": "Tempeh",
+            "legumes": "Legumes (Protein)"
+          }
+        }
+      }
+    },
+    "color": {
+      "title": "Vegetables",
+      "subtitle": "Volume & Fiber",
+      "items": {
+        "leaves": {
+          "name": "Greens",
+          "desc": "Spinach, Lettuce...",
+          "metric": "📏 2 Hands",
+          "sub": {
+            "spinach": "Spinach",
+            "lambs_lettuce": "Lamb's Lettuce",
+            "arugula": "Arugula",
+            "chard": "Chard",
+            "kale": "Kale",
+            "endive": "Endive",
+            "cabbage": "Cabbage",
+            "lettuce": "Lettuce"
+          }
+        },
+        "cruciferous": {
+          "name": "Cruciferous",
+          "desc": "Broccoli, Cauliflower...",
+          "metric": "📏 2 Hands",
+          "sub": {
+            "broccoli": "Broccoli",
+            "cauliflower": "Cauliflower",
+            "cabbage_re": "Cabbage",
+            "red_cabbage": "Red Cabbage",
+            "brussels": "Brussels Sprouts"
+          }
+        },
+        "green_veg": {
+          "name": "Green Veg",
+          "desc": "Zucchini, Asparagus...",
+          "metric": "📏 2 Hands",
+          "sub": {
+            "asparagus": "Asparagus",
+            "celery": "Celery",
+            "cucumber": "Cucumber",
+            "green_beans": "Green Beans",
+            "zucchini": "Zucchini",
+            "artichoke": "Artichoke"
+          }
+        },
+        "colors": {
+          "name": "Colors",
+          "desc": "Pepper, Tomato...",
+          "metric": "📏 2 Hands",
+          "sub": {
+            "tomato": "Tomato",
+            "pepper": "Pepper",
+            "carrot": "Carrot",
+            "pumpkin": "Pumpkin",
+            "eggplant": "Eggplant",
+            "onion": "Onion",
+            "mushrooms": "Mushrooms"
+          }
+        }
+      }
+    },
+    "carbs": {
+      "title": "Carbohydrates",
+      "subtitle": "Energy",
+      "items": {
+        "tubers": {
+          "name": "Tubers",
+          "desc": "Potato, Sweet Potato...",
+          "metric": "📏 1 Fist",
+          "sub": {
+            "potato": "Potato",
+            "sweet_potato": "Sweet Potato",
+            "gnocchi": "Gnocchi",
+            "yucca": "Yucca"
+          }
+        },
+        "grains": {
+          "name": "Grains",
+          "desc": "Rice, Pasta, Oats...",
+          "metric": "📏 1 Cupped Hand",
+          "sub": {
+            "rice": "Rice",
+            "oats": "Oats",
+            "pasta": "Pasta",
+            "quinoa": "Quinoa",
+            "wasa_bread": "Wasa Bread",
+            "rice_corn_cakes": "Rice/Corn Cakes"
+          }
+        },
+        "legumes": {
+          "name": "Legumes",
+          "desc": "Lentils, Chickpeas...",
+          "metric": "📏 1 Cupped Hand",
+          "sub": {
+            "lentils": "Lentils",
+            "beans": "Beans",
+            "peas": "Peas",
+            "chickpeas": "Chickpeas",
+            "soy": "Soy"
+          }
+        },
+        "fruit": {
+          "name": "Fruit",
+          "desc": "Berries, Banana, Apple...",
+          "metric": "📏 1 Piece / Cup",
+          "sub": {
+            "berries": "Berries",
+            "blueberries_blackberries": "Blueberries/Blackberries",
+            "melon_watermelon": "Melon/Watermelon",
+            "apple_pear": "Apple/Pear",
+            "banana": "Banana",
+            "grapes": "Grapes",
+            "peach": "Peach",
+            "kiwi": "Kiwi",
+            "orange": "Orange"
+          }
+        }
+      }
+    },
+    "fats": {
+      "title": "Fats",
+      "subtitle": "Hormonal Health",
+      "items": {
+        "oils": {
+          "name": "Oils",
+          "desc": "Olive Oil, Coconut Oil...",
+          "metric": "📏 1 Tbsp",
+          "sub": {
+            "olive_oil": "Olive Oil",
+            "coconut_oil": "Coconut Oil",
+            "butter": "Butter",
+            "ghee": "Ghee"
+          }
+        },
+        "fruit_fat": {
+          "name": "Fatty Fruit",
+          "desc": "Avocado, Olives...",
+          "metric": "📏 1/2 Piece",
+          "sub": {
+            "avocado": "Avocado",
+            "olives": "Olives",
+            "coconut": "Coconut"
+          }
+        },
+        "nuts": {
+          "name": "Nuts",
+          "desc": "Walnuts, Almonds...",
+          "metric": "📏 1 Thumb / Handful",
+          "sub": {
+            "walnuts": "Walnuts",
+            "almonds": "Almonds",
+            "hazelnuts": "Hazelnuts",
+            "pistachios": "Pistachios",
+            "cashews": "Cashews",
+            "peanuts": "Peanuts",
+            "seeds": "Seeds",
+            "dark_chocolate": "Dark Chocolate 85%"
+          }
+        },
+        "creamy": {
+          "name": "Creamy",
+          "desc": "Cured Cheese, Dark Choco...",
+          "metric": "📏 1 Thumb / Ounce"
+        }
+      }
+    },
+    "magic": {
+      "title": "Essentials",
+      "subtitle": "Flavor & Health",
+      "items": {
+        "spices": {
+          "name": "Spices",
+          "desc": "Turmeric, Pepper, Oregano...",
+          "metric": "✨ To taste",
+          "sub": {
+            "turmeric": "Turmeric",
+            "pepper": "Pepper",
+            "oregano": "Oregano",
+            "basil": "Basil",
+            "cinnamon": "Cinnamon"
+          }
+        },
+        "seasoning": {
+          "name": "Seasoning",
+          "desc": "Vinegar, Lemon, Salt...",
+          "metric": "✨ To taste",
+          "sub": {
+            "salt": "Salt",
+            "vinegar": "Vinegar",
+            "lemon": "Lemon",
+            "mustard": "Mustard",
+            "soy_sauce": "Soy Sauce"
+          }
+        },
+        "drinks": {
+          "name": "Drinks",
+          "desc": "Water, Tea, Coffee...",
+          "metric": "💧 On demand"
+        }
+      },
+      "sub": {
+        "turmeric": "Turmeric",
+        "pepper": "Pepper",
+        "oregano": "Oregano",
+        "basil": "Basil",
+        "cinnamon": "Cinnamon",
+        "salt": "Salt",
+        "vinegar": "Vinegar",
+        "lemon": "Lemon",
+        "mustard": "Mustard",
+        "soy_sauce": "Soy Sauce",
+        "water": "Water",
+        "sparkling_water": "Sparkling Water",
+        "coffee": "Coffee",
+        "tea": "Tea",
+        "infusions": "Infusions"
+      }
+    }
+  },
+  "category_details": {
+    "protein": {
+      "desc": "The foundation of your structure. Includes meat, fish, seafood, eggs, and protein-rich dairy.",
+      "subtitle": "Building Blocks",
+      "portion": {
+        "desc": "Thickness and size of your palm (without fingers).",
+        "metric": "1 Palm"
+      }
+    },
+    "veg": {
+      "desc": "Vital source of fiber and micronutrients. Adds volume to your meals, improving digestion with barely any calories.",
+      "subtitle": "Satiety & Health",
+      "portion": {
+        "desc": "Unlimited quantity. Minimum two cupped hands full.",
+        "metric": "Free / 2 Hands"
+      }
+    },
+    "carb": {
+      "desc": "Your main fuel. Essential for training performance and recovering spent energy.",
+      "subtitle": "Gasoline",
+      "portion": {
+        "desc": "Varies by type (fist, cup...).",
+        "metric": "1 Fist"
+      }
+    },
+    "fat": {
+      "desc": "Key for hormonal health and nutrient absorption. Adds flavor and lasting satiety.",
+      "subtitle": "Hormonal Health",
+      "portion": {
+        "desc": "Dense fats (oils, nuts).",
+        "metric": "1 Thumb"
+      }
+    }
+  },
+  "onboarding": {
+    "step_0": {
+      "title": "Welcome to your Visual Guide",
+      "content": "Forget about weighing food. Use your hands to measure portions and simplify your life. Intuitive eating without stress.",
+      "action": "Get Started"
+    },
+    "step_1": {
+      "title": "1. Define Your Goals",
+      "content": "Configure how many portions of each group you need daily in the 'Portions' panel. It's your daily dashboard.",
+      "action": "Next"
+    },
+    "step_2": {
+      "title": "2. Build Your Plates",
+      "content": "Use the 'Meal Creator' to select ingredients visually. No calorie counting, just food groups.",
+      "action": "Next"
+    },
+    "step_3": {
+      "title": "3. Organize Your Week",
+      "content": "Save your perfect days in 'Menus' and generate your shopping list automatically with a single click.",
+      "action": "Done!"
+    },
+    "skip": "Skip"
+  }
+}

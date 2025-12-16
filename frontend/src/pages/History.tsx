@@ -7,81 +7,16 @@ import { DATA } from '../data/foodData';
 import { useSavedMenus } from '../hooks/useSavedMenus'; // Hook Import
 import ConfirmModal from '../components/ConfirmModal';
 import { useDailyLog } from '../hooks/useDailyLog';
-
-// Imported DATA from ../data/foodData
-
-export type SelectionDetail = {
-    count: number;
-    ingredients: string[];
-};
-
-export type Meal = {
-    id: string;
-    name: string;
-    timestamp: number;
-    selection: Record<string, Record<string, SelectionDetail | number>>;
-};
-
-export type DailyLog = {
-    date: string;
-    goals: Record<string, number>;
-    meals: Meal[];
-};
-
-export type SavedMenu = {
-    id: string;
-    name: string;
-    meals: Meal[];
-    goals: Record<string, number>;
-    createdAt: number;
-};
-
-
-const EXAMPLE_MENU: SavedMenu = {
-    id: 'example-menu-1',
-    name: 'Menú Ejemplo 🌟',
-    createdAt: Date.now(),
-    goals: { protein: 4, color: 5, carbs: 2, fats: 3 },
-    meals: [
-        {
-            id: 'ex-meal-1',
-            name: 'Desayuno: Tostadas Francesas',
-            timestamp: Date.now(),
-            selection: {
-                protein: { 'dairy_zero': { count: 1, ingredients: ['Claras', 'Queso Batido 0%'] } },
-                carbs: { 'grains': { count: 1, ingredients: ['Pan Wasa'] } },
-                magic: { 'spices': { count: 1, ingredients: ['Canela', 'Vainilla'] } }
-            }
-        },
-        {
-            id: 'ex-meal-2',
-            name: 'Almuerzo: Pollo al Curry',
-            timestamp: Date.now() + 1000,
-            selection: {
-                protein: { 'meat': { count: 1, ingredients: ['Pollo'] } },
-                carbs: { 'grains': { count: 1, ingredients: ['Arroz'] } },
-                color: { 'colors': { count: 2, ingredients: ['Pimiento', 'Cebolla'] } },
-                fats: { 'oils': { count: 1, ingredients: ['Aceite Coco V.E.'] } },
-                magic: { 'spices': { count: 1, ingredients: ['Cúrcuma', 'Pimienta'] } }
-            }
-        },
-        {
-            id: 'ex-meal-3',
-            name: 'Cena: Ensalada Fresca',
-            timestamp: Date.now() + 2000,
-            selection: {
-                protein: { 'fish': { count: 1, ingredients: ['Atún', 'Huevo Duro'] } },
-                color: { 'leaves': { count: 2, ingredients: ['Rúcula', 'Canónigos'] } },
-                fats: { 'oils': { count: 1, ingredients: ['Aceite Oliva V.E.'] } },
-                magic: { 'seasoning': { count: 1, ingredients: ['Vinagre de manzana', 'Sal marina'] } }
-            }
-        }
-    ]
-};
+import { useTranslation } from 'react-i18next';
+import { SEED_MENUS } from '../data/seedMenus';
+import { useAuth } from '../context/AuthContext';
+import type { Meal, DailyLog, SavedMenu } from '../types';
 
 export default function History() {
     const navigate = useNavigate();
-
+    const { t } = useTranslation();
+    const { currentUser } = useAuth();
+    const [loadLoading, setLoadLoading] = useState(false);
 
     const [todayKey] = useState(new Date().toLocaleDateString('en-CA'));
     const [selectedDate] = useState(todayKey);
@@ -94,7 +29,39 @@ export default function History() {
 
     // Fallback activeLog structure if log is loading or null
     // SAFEGUARD: Ensure meals array exists if log is present but incomplete (e.g. only goals set)
+    // Safe ActiveLog
     const activeLog: DailyLog = log ? { ...log, meals: log.meals || [] } : { date: selectedDate, goals: {}, meals: [] };
+
+    // --- HANDLERS ---
+    const handleLoadExamples = async () => {
+        if (!currentUser) return;
+        setLoadLoading(true);
+        try {
+            const now = Date.now();
+            await Promise.all(SEED_MENUS.map((menu, index) => {
+                const newMenu: SavedMenu = {
+                    id: `seed_${now}_${index}`,
+                    name: menu.name,
+                    description: menu.description,
+                    goals: menu.goals,
+                    createdAt: now,
+                    meals: menu.meals.map((meal, mIndex) => ({
+                        ...meal,
+                        id: `seed_meal_${now}_${index}_${mIndex}`,
+                        timestamp: now,
+                        selection: meal.selection as any
+                    }))
+                };
+                return addMenu(newMenu);
+            }));
+            alert(t('profile.load_examples_success', "Menús de ejemplo cargados correctamente."));
+        } catch (error) {
+            console.error(error);
+            alert(t('common.error', "Error"));
+        } finally {
+            setLoadLoading(false);
+        }
+    };
 
     // --- MODALS ---
     const [modal, setModal] = useState<{
@@ -114,7 +81,8 @@ export default function History() {
     const [nameModal, setNameModal] = useState<{
         isOpen: boolean;
         currentName: string;
-        onSave: (name: string) => void;
+        currentDescription?: string; // New
+        onSave: (name: string, description?: string) => void;
     } | null>(null);
 
 
@@ -151,8 +119,9 @@ export default function History() {
     const promptSaveMenu = () => {
         setNameModal({
             isOpen: true,
-            currentName: `Menú ${new Date().toLocaleDateString('es-ES', { weekday: 'long' })}`,
-            onSave: async (name) => {
+            currentName: `Menú ${new Date().toLocaleDateString('es-ES', { weekday: 'long' })}`, // Keep date localized or use simple "Menu"
+            currentDescription: '', // Default empty description
+            onSave: async (name, description) => {
                 // Deep clone meals and assign NEW IDs to ensure independence
                 const clonedMeals = activeLog.meals.map((meal, index) => ({
                     ...meal,
@@ -164,13 +133,14 @@ export default function History() {
                 const newMenu: SavedMenu = {
                     id: Date.now().toString(),
                     name: name || 'Menú Sin Nombre',
+                    description: description || '', // Save description
                     meals: clonedMeals,
-                    goals: JSON.parse(JSON.stringify(activeLog.goals)), // Deep copy goals too just in case
+                    goals: JSON.parse(JSON.stringify(activeLog.goals)),
                     createdAt: Date.now()
                 };
 
                 await addMenu(newMenu);
-                setToast({ message: "Menú guardado correctamente", visible: true });
+                setToast({ message: t('generator.toast_saved'), visible: true }); // Use shared toast message
                 closeNameModal();
             }
         });
@@ -192,8 +162,8 @@ export default function History() {
     const confirmDeleteMenu = (menuId: string) => {
         setModal({
             isOpen: true,
-            title: '¿Borrar Menú?',
-            message: 'Eliminarás este menú guardado permanentemente.',
+            title: t('history.delete_menu_confirm_title'),
+            message: t('history.delete_menu_confirm_msg'),
             isDestructive: true,
             onConfirm: async () => {
                 await deleteMenu(menuId);
@@ -205,8 +175,8 @@ export default function History() {
     const confirmResetDay = () => {
         setModal({
             isOpen: true,
-            title: '¿Reiniciar Día?',
-            message: 'Esto borrará todas las comidas registradas hoy. Esta acción no se puede deshacer.',
+            title: t('history.reset_day_confirm_title'),
+            message: t('history.reset_day_confirm_msg'),
             isDestructive: true,
             onConfirm: async () => {
                 // Delete all meals one by one (or implementation a clear method in hook later)
@@ -224,8 +194,8 @@ export default function History() {
     const confirmDeleteMeal = (mealId: string) => {
         setModal({
             isOpen: true,
-            title: '¿Borrar Comida?',
-            message: '¿Estás seguro de que quieres eliminar esta comida?',
+            title: t('history.delete_meal_confirm_title'),
+            message: t('history.delete_meal_confirm_msg'),
             isDestructive: true,
             onConfirm: async () => {
                 // 1. Try delete from Log
@@ -264,7 +234,7 @@ export default function History() {
                             if (ings.length > 0) {
                                 if (!list[cat.id]) {
                                     list[cat.id] = {
-                                        title: cat.id === 'color' ? 'Vegetales' : cat.title,
+                                        title: cat.id === 'color' ? 'dashboard.cards.veggies' : cat.title,
                                         color: cat.color,
                                         items: {}
                                     };
@@ -286,10 +256,10 @@ export default function History() {
         const list = getShoppingList(shoppingListContext.menus);
         let text = `🛒 ${shoppingListContext.title}\n\n`;
 
-        Object.values(list).forEach(cat => {
-            text += `*${cat.title}*\n`;
-            Object.entries(cat.items).forEach(([name, count]) => {
-                text += `- ${name} ${count > 1 ? `(x${count})` : ''}\n`;
+        Object.values(list).forEach((cat: any) => {
+            text += `*${t(cat.title)}*\n`;
+            Object.entries(cat.items).forEach(([name, count]: [string, any]) => {
+                text += `- ${t(name)} ${count > 1 ? `(x${count})` : ''}\n`;
             });
             text += '\n';
         });
@@ -306,38 +276,48 @@ export default function History() {
 
     // --- EDIT MEAL LOGIC ---
     const [editingMealId, setEditingMealId] = useState<string | null>(null);
-    const [editedName, setEditedName] = useState("");
+    const [editName, setEditName] = useState('');
+    const [editDesc, setEditDesc] = useState(''); // New State
 
-    const handleStartEdit = (meal: Meal) => {
+    const handleEditClick = (meal: Meal) => {
         setEditingMealId(meal.id);
-        setEditedName(meal.name);
+        setEditName(meal.name);
+        setEditDesc(meal.description || ''); // Init description
+        // Assuming setOpenMealOptionsId is defined elsewhere and needs to be called here
+        // setOpenMealOptionsId(null); // Close menu
     };
 
     const handleCancelEdit = () => {
         setEditingMealId(null);
-        setEditedName("");
+        setEditName("");
+        setEditDesc("");
     };
 
     const handleSaveEdit = async () => {
         if (!editingMealId) return;
 
-        // 1. Update Daily Log (Firestore)
-        const mealInLog = activeLog.meals.find(m => m.id === editingMealId);
-        if (mealInLog) {
-            const updatedMeal = { ...mealInLog, name: editedName };
-            await updateMeal(updatedMeal);
+        // 1. Update Active Log (Today's Meals)
+        const updatedMeals = activeLog.meals.map(m => m.id === editingMealId ? { ...m, name: editName, description: editDesc } : m);
+        // Only trigger update if something changed in activeLog
+        if (activeLog.meals.some(m => m.id === editingMealId)) {
+            // We need to call the hook's update method OR construct the new log object.
+            // Since useDailyLog exposes 'updateMeal' which updates a SINGLE meal by ID:
+            const mealToUpdate = updatedMeals.find(m => m.id === editingMealId);
+            if (mealToUpdate) {
+                await updateMeal(mealToUpdate); // This is from useDailyLog
+            }
         }
 
         // 2. Update Saved Menus (Firestore)
-        // Find if this meal belongs to a saved menu
         const menuToUpdate = savedMenus.find(menu => menu.meals.some(m => m.id === editingMealId));
         if (menuToUpdate) {
-            const updatedMeals = menuToUpdate.meals.map(m => m.id === editingMealId ? { ...m, name: editedName } : m);
-            await updateMenu({ ...menuToUpdate, meals: updatedMeals });
+            const updatedMenuMeals = menuToUpdate.meals.map(m => m.id === editingMealId ? { ...m, name: editName, description: editDesc } : m);
+            await updateMenu({ ...menuToUpdate, meals: updatedMenuMeals }); // This is from useSavedMenus
         }
 
         setEditingMealId(null);
-        setEditedName("");
+        setEditName("");
+        setEditDesc("");
     };
 
 
@@ -542,12 +522,8 @@ export default function History() {
 
                     const target = goals[cat.id] || 0;
 
-                    const displayTitle = {
-                        'protein': 'Proteína',
-                        'color': 'Verdura',
-                        'carbs': 'Carbos',
-                        'fats': 'Grasas'
-                    }[cat.id] || cat.title;
+                    // Use translated title directly
+                    const displayTitle = t(cat.title);
 
                     const percentage = target > 0 ? Math.min((consumed / target) * 100, 100) : 0;
                     const isOver = consumed > target && target > 0 && cat.id !== 'color';
@@ -673,25 +649,31 @@ export default function History() {
                                         </button>
                                     )}
                                     {editingMealId === meal.id ? (
-                                        <div className="flex-1" onClick={(e) => e.stopPropagation()}>
+                                        <div className="flex-1 min-w-0 mr-2 space-y-2">
                                             <input
                                                 type="text"
-                                                value={editedName}
-                                                onChange={(e) => setEditedName(e.target.value)}
-                                                className="w-full bg-slate-100 dark:bg-white/10 px-3 py-1.5 rounded-lg font-bold text-slate-900 dark:text-white border border-slate-300 dark:border-white/20 focus:ring-2 focus:ring-primary focus:outline-none"
+                                                value={editName}
+                                                onChange={(e) => setEditName(e.target.value)}
+                                                className="w-full bg-slate-100 dark:bg-white/10 border border-slate-200 dark:border-white/10 rounded-lg px-3 py-2 font-bold text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50 text-base"
                                                 autoFocus
+                                                placeholder="Nombre de la comida"
+                                            />
+                                            <textarea
+                                                value={editDesc}
+                                                onChange={(e) => setEditDesc(e.target.value)}
+                                                className="w-full bg-slate-50 dark:bg-black/20 border border-slate-200 dark:border-white/10 rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-primary/50 resize-y min-h-[60px]"
+                                                placeholder="Añade una descripción, instrucciones..."
                                             />
                                         </div>
                                     ) : (
-                                        <div className="flex items-center gap-2 min-w-0 flex-1">
-                                            <span className="font-black text-slate-800 dark:text-white text-lg leading-tight capitalize line-clamp-2 break-words">{meal.name}</span>
-                                            {isCollapsible && (
-                                                <motion.span
-                                                    animate={{ rotate: isOpen ? 180 : 0 }}
-                                                    className="material-symbols-outlined text-slate-400 text-lg shrink-0"
-                                                >
-                                                    expand_more
-                                                </motion.span>
+                                        <div className="flex-1 min-w-0 mr-2">
+                                            <h3 className="font-bold text-slate-800 dark:text-white text-base leading-tight line-clamp-2 break-words">
+                                                {meal.name}
+                                            </h3>
+                                            {meal.description && (
+                                                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2 leading-tight">
+                                                    {meal.description}
+                                                </p>
                                             )}
                                         </div>
                                     )}
@@ -748,7 +730,7 @@ export default function History() {
                                                             <button
                                                                 onClick={(e) => {
                                                                     e.stopPropagation();
-                                                                    handleEditInGenerator(meal);
+                                                                    handleEditInGenerator(meal); // Restored correct function
                                                                     setOpenMealOptionsId(null);
                                                                 }}
                                                                 className="w-full px-2 py-2 text-sm font-medium text-amber-500 hover:bg-amber-50 dark:hover:bg-amber-900/10 flex items-center justify-center gap-2"
@@ -763,13 +745,13 @@ export default function History() {
                                                                 <button
                                                                     onClick={(e) => {
                                                                         e.stopPropagation();
-                                                                        handleStartEdit(meal);
+                                                                        handleEditClick(meal);
                                                                         setOpenMealOptionsId(null);
                                                                     }}
                                                                     className="w-full px-2 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-white/5 flex items-center justify-center gap-2 border-t border-slate-100 dark:border-white/5"
                                                                 >
                                                                     <span className="material-symbols-outlined text-lg">edit</span>
-                                                                    Renombrar
+                                                                    {t('common.edit')}
                                                                 </button>
                                                                 <button
                                                                     onClick={(e) => {
@@ -780,7 +762,7 @@ export default function History() {
                                                                     className="w-full px-2 py-2 text-sm font-medium text-red-500 hover:bg-red-50 dark:hover:bg-red-900/10 flex items-center justify-center gap-2 border-t border-slate-100 dark:border-white/5"
                                                                 >
                                                                     <span className="material-symbols-outlined text-lg">delete</span>
-                                                                    Eliminar
+                                                                    {t('common.delete')}
                                                                 </button>
                                                             </>
                                                         )}
@@ -867,7 +849,7 @@ export default function History() {
                                                             {ingredients.length > 0 ? (
                                                                 ingredients.map((ing: string, idx: number) => (
                                                                     <span key={idx} className="inline-flex items-center gap-1 bg-white dark:bg-black/20 px-1.5 py-0.5 rounded-md text-[13px] font-bold text-slate-900 dark:text-white leading-tight shadow-sm border border-slate-100 dark:border-white/5">
-                                                                        {ing}
+                                                                        {t(ing)}
                                                                         {editingMealId === meal.id && (
                                                                             <button
                                                                                 onClick={() => handleRemoveIngredient(meal.id, cat.id, itemId, idx)}
@@ -879,7 +861,7 @@ export default function History() {
                                                                     </span>
                                                                 ))
                                                             ) : (
-                                                                <span className="text-[13px] font-bold text-slate-900 dark:text-white leading-tight truncate">{def.name}</span>
+                                                                <span className="text-[13px] font-bold text-slate-900 dark:text-white leading-tight truncate">{t(def.name)}</span>
                                                             )}
 
                                                             {qty > ingredients.length && (
@@ -887,10 +869,10 @@ export default function History() {
                                                             )}
                                                         </div>
                                                         <div className="flex items-center gap-2 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
-                                                            {ingredients.length > 0 && <span>{def.name}</span>}
+                                                            {ingredients.length > 0 && <span>{t(def.name)}</span>}
                                                             {def.portionMetric && (
                                                                 <span className={clsx("flex items-center gap-1", ingredients.length > 0 && "before:content-['•'] before:mx-1 before:opacity-50")}>
-                                                                    {def.portionMetric}
+                                                                    {t(def.portionMetric)}
                                                                 </span>
                                                             )}
                                                         </div>
@@ -915,7 +897,7 @@ export default function History() {
                 <img src="/brand-compact.png" alt="2B" className="h-8 w-auto object-contain" />
                 <div>
                     <h1 className="text-slate-400 text-xs font-bold leading-none uppercase tracking-wider">
-                        Crea tus menús
+                        {t('history.title')}
                     </h1>
                 </div>
             </div>
@@ -927,7 +909,7 @@ export default function History() {
                 <div className="flex items-center justify-between mb-2">
                     <h2 className="text-lg font-bold text-slate-800 dark:text-white capitalize flex items-center gap-2">
                         <span className="material-symbols-outlined text-primary">edit_square</span>
-                        Zona de creación
+                        {t('history.creation_zone_title')}
                     </h2>
 
                     {activeLog.meals.length > 0 && (
@@ -945,7 +927,7 @@ export default function History() {
                 <div className="glass-card p-4 rounded-3xl border border-primary/20 bg-primary/5 mb-8">
                     {activeLog.meals.length === 0 ? (
                         <div className="text-center py-6">
-                            <p className="text-slate-500 text-sm">Empieza a añadir comidas en el Generador para ver tu progreso hoy.</p>
+                            <p className="text-slate-500 text-sm">{t('history.empty_today')}</p>
                         </div>
                     ) : (
                         <>
@@ -954,7 +936,7 @@ export default function History() {
                             {/* Simple Meal List for Today - ENABLE COLLAPSIBLE here */}
                             <div className="space-y-2 mt-4">
                                 {renderMealList(activeLog.meals, true, true, true)}
-                                <button onClick={confirmResetDay} className="w-full mt-2 text-xs text-red-400 font-bold uppercase py-2 hover:bg-red-50 dark:hover:bg-red-900/10 rounded-lg transition-colors">Reiniciar Hoy</button>
+                                <button onClick={confirmResetDay} className="w-full mt-2 text-xs text-red-400 font-bold uppercase py-2 hover:bg-red-50 dark:hover:bg-red-900/10 rounded-lg transition-colors">{t('history.btn_reset_day')}</button>
                             </div>
                         </>
                     )}
@@ -966,22 +948,40 @@ export default function History() {
                 <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-2">
                         <span className="material-symbols-outlined text-slate-400">bookmark_border</span>
-                        <h3 className="text-md font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider">Menús Guardados</h3>
+                        <h3 className="text-md font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider">{t('history.saved_menus_title')}</h3>
                     </div>
                     {savedMenus.length > 0 && (
-                        <button
-                            onClick={() => setShoppingListContext({ title: "Lista de Compra Global", menus: savedMenus })}
-                            className="text-xs font-bold text-emerald-600 bg-emerald-100 dark:bg-emerald-900/20 dark:text-emerald-400 px-3 py-1.5 rounded-lg flex items-center gap-1 hover:scale-105 transition-transform"
-                        >
-                            <span className="material-symbols-outlined text-sm">shopping_cart</span>
-                            Lista Global
-                        </button>
+                        <div className="flex gap-2">
+                            <button
+                                onClick={handleLoadExamples}
+                                disabled={loadLoading}
+                                className="text-xs font-bold text-slate-500 bg-slate-100 dark:bg-white/5 px-3 py-1.5 rounded-lg flex items-center gap-1 hover:bg-slate-200 dark:hover:bg-white/10 transition-colors"
+                            >
+                                <span className="material-symbols-outlined text-sm text-amber-500">lightbulb</span>
+                                {loadLoading ? "..." : t('profile.load_examples', 'Cargar Ejemplos')}
+                            </button>
+                            <button
+                                onClick={() => setShoppingListContext({ title: "Lista de Compra Global", menus: savedMenus })}
+                                className="text-xs font-bold text-emerald-600 bg-emerald-100 dark:bg-emerald-900/20 dark:text-emerald-400 px-3 py-1.5 rounded-lg flex items-center gap-1 hover:scale-105 transition-transform"
+                            >
+                                <span className="material-symbols-outlined text-sm">shopping_cart</span>
+                                Lista Global
+                            </button>
+                        </div>
                     )}
                 </div>
 
                 {savedMenus.length === 0 ? (
                     <div className="text-center py-8 opacity-60">
-                        <p className="text-sm text-slate-400">No hay menús guardados aún.</p>
+                        <button
+                            onClick={handleLoadExamples}
+                            disabled={loadLoading}
+                            className="mb-4 bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-300 font-bold text-sm px-4 py-2 rounded-xl flex items-center justify-center gap-2 hover:bg-slate-200 dark:hover:bg-white/10 transition-colors mx-auto"
+                        >
+                            <span className="material-symbols-outlined text-amber-500">lightbulb</span>
+                            {loadLoading ? "..." : t('profile.load_examples', 'Cargar Ejemplos')}
+                        </button>
+                        <p className="text-sm text-slate-400">{t('history.saved_menus_empty')}</p>
                     </div>
                 ) : (
                     <div className="space-y-4">
@@ -1052,7 +1052,7 @@ export default function History() {
                                                         className="w-full px-2 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-white/5 flex items-center justify-center gap-2"
                                                     >
                                                         <span className="material-symbols-outlined text-lg">edit</span>
-                                                        Renombrar
+                                                        {t('common.edit')}
                                                     </button>
                                                     <button
                                                         onClick={() => {
@@ -1062,7 +1062,7 @@ export default function History() {
                                                         className="w-full px-2 py-2 text-sm font-medium text-red-500 hover:bg-red-50 dark:hover:bg-red-900/10 flex items-center justify-center gap-2 border-t border-slate-100 dark:border-white/5"
                                                     >
                                                         <span className="material-symbols-outlined text-lg">delete</span>
-                                                        Eliminar
+                                                        {t('common.delete')}
                                                     </button>
                                                 </motion.div>
                                             )}
@@ -1131,21 +1131,46 @@ export default function History() {
                             isDestructive={modal.isDestructive}
                         />
                     )}
-                    {nameModal && (
-                        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
-                            <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }} className="bg-white dark:bg-slate-900 rounded-2xl p-6 w-full max-w-sm shadow-xl">
-                                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4">Nombre del Menú</h3>
-                                <input
-                                    autoFocus
-                                    type="text"
-                                    value={nameModal.currentName}
-                                    onChange={(e) => setNameModal(prev => prev ? { ...prev, currentName: e.target.value } : null)}
-                                    className="w-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 mb-6 font-bold text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary"
-                                    placeholder="Ej: Lunes Saludable"
-                                />
+                    {nameModal?.isOpen && (
+                        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+                            <motion.div
+                                initial={{ scale: 0.95, opacity: 0 }}
+                                animate={{ scale: 1, opacity: 1 }}
+                                exit={{ scale: 0.95, opacity: 0 }}
+                                className="bg-white dark:bg-slate-900 rounded-3xl p-6 w-full max-w-sm shadow-2xl"
+                            >
+                                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4">Editar Detalles</h3>
+                                <div className="space-y-4 mb-6">
+                                    <div>
+                                        <label className="block text-xs font-bold text-slate-400 uppercase mb-1">Nombre</label>
+                                        <input
+                                            type="text"
+                                            value={nameModal.currentName}
+                                            onChange={(e) => setNameModal({ ...nameModal, currentName: e.target.value })}
+                                            className="w-full bg-slate-100 dark:bg-black/20 px-4 py-3 rounded-xl font-bold text-slate-900 dark:text-white border border-slate-200 dark:border-white/10 focus:ring-2 focus:ring-primary focus:outline-none"
+                                            autoFocus
+                                            placeholder="Ej: Lunes Saludable"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-xs font-bold text-slate-400 uppercase mb-1">Descripción (Opcional)</label>
+                                        <textarea
+                                            value={nameModal.currentDescription || ''}
+                                            onChange={(e) => setNameModal({ ...nameModal, currentDescription: e.target.value })}
+                                            className="w-full bg-slate-100 dark:bg-black/20 px-4 py-3 rounded-xl text-sm text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-white/10 focus:ring-2 focus:ring-primary focus:outline-none resize-none h-24"
+                                            placeholder="Añade notas, instrucciones, o detalles..."
+                                        />
+                                    </div>
+                                </div>
                                 <div className="flex gap-3">
-                                    <button onClick={closeNameModal} className="flex-1 py-3 rounded-xl bg-slate-100 dark:bg-white/5 text-slate-500 font-bold">Cancelar</button>
-                                    <button onClick={() => nameModal.onSave(nameModal.currentName)} className="flex-1 py-3 rounded-xl bg-primary text-slate-900 font-bold shadow-lg shadow-primary/20">Guardar</button>
+                                    <button onClick={closeNameModal} className="flex-1 py-3 rounded-xl bg-slate-100 dark:bg-white/5 text-slate-500 font-bold hover:bg-slate-200 dark:hover:bg-white/10 transition-colors">Cancelar</button>
+                                    <button
+                                        onClick={() => nameModal.onSave(nameModal.currentName, nameModal.currentDescription)}
+                                        disabled={!nameModal.currentName.trim()}
+                                        className="flex-1 py-3 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold shadow-lg shadow-slate-900/20 disabled:opacity-50 disabled:pointer-events-none hover:scale-105 active:scale-95 transition-all"
+                                    >
+                                        Guardar
+                                    </button>
                                 </div>
                             </motion.div>
                         </div>
@@ -1162,7 +1187,7 @@ export default function History() {
                                     <div>
                                         <h3 className="text-xl font-black text-slate-900 dark:text-white flex items-center gap-2">
                                             <span className="material-symbols-outlined text-emerald-500">shopping_cart</span>
-                                            Lista de Compra
+                                            {t('history.shopping_list')}
                                         </h3>
                                         <p className="text-sm font-medium text-slate-500">{shoppingListContext.title}</p>
                                     </div>
@@ -1176,16 +1201,16 @@ export default function History() {
                                         <div key={group.title}>
                                             <h4 className="font-bold text-xs uppercase tracking-wider mb-2 flex items-center gap-2" style={{ color: group.color === 'red' ? '#F87171' : group.color === 'green' ? '#34D399' : group.color === 'orange' ? '#FB923C' : group.color === 'yellow' ? '#FACC15' : '#C084FC' }}>
                                                 <span className="size-2 rounded-full" style={{ backgroundColor: 'currentColor' }} />
-                                                {group.title}
+                                                {t(group.title)}
                                             </h4>
                                             <div className="space-y-2">
                                                 {Object.entries(group.items).map(([name, count]: [string, any]) => (
                                                     <div key={name} className="flex justify-between items-center p-3 bg-slate-50 dark:bg-white/5 rounded-xl border border-slate-100 dark:border-white/5">
                                                         <div className="flex items-center gap-3">
                                                             <div className="size-5 rounded-md border-2 border-slate-300 dark:border-slate-600" />
-                                                            <span className="font-medium text-slate-700 dark:text-slate-300">{name}</span>
+                                                            <span className="font-medium text-slate-700 dark:text-slate-300">{t(name)}</span>
                                                         </div>
-                                                        {count > 1 && <span className="bg-white dark:bg-black/20 text-xs font-bold px-2 py-1 rounded-lg text-slate-500">x{count}</span>}
+
                                                     </div>
                                                 ))}
                                             </div>

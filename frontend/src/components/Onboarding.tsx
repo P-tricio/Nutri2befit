@@ -2,39 +2,42 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import clsx from 'clsx';
 
+import { useTranslation } from 'react-i18next';
+
 interface OnboardingProps {
     onClose: () => void;
 }
 
-const STEPS = [
-    {
-        title: "Bienvenid@ a tu Guía Visual",
-        icon: "waving_hand",
-        content: "Olvida pesar comida. Usa tus manos para medir porciones y simplificar tu vida. Alimentación intuitiva y sin estrés.",
-        action: "Empezar"
-    },
-    {
-        title: "1. Define tus Metas",
-        icon: "dashboard",
-        content: "Configura cuántas porciones de cada grupo necesitas al día en el panel de 'Porciones'. Es tu cuadro de mando diario.",
-        action: "Siguiente"
-    },
-    {
-        title: "2. Crea tus Platos",
-        icon: "restaurant",
-        content: "Usa el 'Creador de Comidas' para seleccionar ingredientes visualmente. Sin contar calorías, solo grupos de alimentos.",
-        action: "Siguiente"
-    },
-    {
-        title: "3. Organiza tu Semana",
-        icon: "menu_book",
-        content: "Guarda tus días perfectos en 'Menús' y genera tu lista de la compra automáticamente con un solo clic.",
-        action: "¡Listo!"
-    }
-];
-
 export default function Onboarding({ onClose }: OnboardingProps) {
+    const { t } = useTranslation();
     const [step, setStep] = useState(0);
+
+    const STEPS = [
+        {
+            title: t('onboarding.step_0.title'),
+            icon: "waving_hand",
+            content: t('onboarding.step_0.content'),
+            action: t('onboarding.step_0.action')
+        },
+        {
+            title: t('onboarding.step_1.title'),
+            icon: "dashboard",
+            content: t('onboarding.step_1.content'),
+            action: t('onboarding.step_1.action')
+        },
+        {
+            title: t('onboarding.step_2.title'),
+            icon: "restaurant",
+            content: t('onboarding.step_2.content'),
+            action: t('onboarding.step_2.action')
+        },
+        {
+            title: t('onboarding.step_3.title'),
+            icon: "menu_book",
+            content: t('onboarding.step_3.content'),
+            action: t('onboarding.step_3.action')
+        }
+    ];
 
     const handleNext = () => {
         if (step < STEPS.length - 1) {
@@ -98,7 +101,7 @@ export default function Onboarding({ onClose }: OnboardingProps) {
 
                     {step < STEPS.length - 1 && (
                         <button onClick={onClose} className="mt-4 text-xs font-bold text-slate-400 uppercase tracking-widest hover:text-slate-600 dark:hover:text-slate-300">
-                            Saltar
+                            {t('onboarding.skip')}
                         </button>
                     )}
                 </div>

@@ -7,6 +7,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import clsx from 'clsx';
 import { createPortal } from 'react-dom';
 import Onboarding from './Onboarding';
+import { useTranslation } from 'react-i18next';
 
 // --- LAYOUT ---
 export default function Layout({ children }: { children: React.ReactNode }) {
@@ -14,6 +15,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     const [showOnboarding, setShowOnboarding] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
+    const { t } = useTranslation();
 
     // Auth & Profile Hooks
     const { currentUser } = useAuth();

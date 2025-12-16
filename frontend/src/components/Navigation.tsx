@@ -1,13 +1,15 @@
 import { Link, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export default function Navigation() {
     const location = useLocation();
+    const { t } = useTranslation();
 
     const links = [
-        { path: '/portions', icon: 'dashboard', label: 'Porciones' },
-        { path: '/menu-generator', icon: 'restaurant_menu', label: 'Generador' },
-        { path: '/history', icon: 'calendar_today', label: 'Diario' },
-        { path: '/profile', icon: 'person', label: 'Perfil' },
+        { path: '/portions', icon: 'dashboard', label: t('nav.dashboard') },
+        { path: '/menu-generator', icon: 'restaurant_menu', label: t('nav.generator') },
+        { path: '/history', icon: 'calendar_today', label: t('nav.history') },
+        { path: '/profile', icon: 'person', label: t('nav.profile') },
     ];
 
     return (

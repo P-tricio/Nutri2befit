@@ -1,32 +1,44 @@
-
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import clsx from 'clsx';
 import { useAuth } from '../context/AuthContext';
 import { useUserProfile } from '../hooks/useUserProfile';
 import { useDataMigration } from '../hooks/useDataMigration';
+// import { SEED_MENUS } from '../data/seedMenus'; // Moved to History
+// import { useSavedMenus } from '../hooks/useSavedMenus'; // Not needed if removing button
+import type { SavedMenu } from '../types'; // Import type
+import { useTranslation } from 'react-i18next';
 
 
 export default function Profile() {
+    const { t, i18n } = useTranslation();
     const { currentUser, logout } = useAuth();
-    const { profile, loading, updateProfile } = useUserProfile();
+    const { profile: userProfile, loading, updateProfile } = useUserProfile();
     const { checkForLocalData, migrateData, isMigrating } = useDataMigration();
+    // const { addMenu } = useSavedMenus();
+    const navigate = useNavigate();
     const hasLocalData = checkForLocalData();
 
     // Local state for editing
     const [name, setName] = useState('');
     const [isSaving, setIsSaving] = useState(false);
     const [saveMessage, setSaveMessage] = useState('');
+    // const [loadLoading, setLoadLoading] = useState(false);
 
     // Load profile data into local state when available
     useEffect(() => {
-        if (profile) {
-            setName(profile.displayName || '');
+        if (userProfile?.displayName) {
+            setName(userProfile.displayName || '');
         }
-    }, [profile]);
+    }, [userProfile]);
+
+    // handleLoadExamples moved to History.tsx
 
     const handleSaveProfile = async () => {
         setIsSaving(true);
         setSaveMessage('');
         try {
+            if (!currentUser || !name.trim()) return;
             // Update Profile Info
             await updateProfile({ displayName: name });
             setSaveMessage('¡Cambios guardados!');
@@ -51,7 +63,7 @@ export default function Profile() {
         }
     };
 
-    if (loading) return <div className="p-8 text-center opacity-50">Cargando perfil...</div>;
+    if (loading) return <div className="p-8 text-center opacity-50">{t('common.loading')}</div>;
 
     return (
         <div className="p-6 space-y-8 pb-24 max-w-2xl mx-auto">
@@ -61,14 +73,24 @@ export default function Profile() {
                 <img src="/brand-compact.png" alt="2B" className="h-8 w-auto object-contain" />
                 <div>
                     <h1 className="text-slate-400 text-xs font-bold leading-none uppercase tracking-wider">
-                        Tu perfil
+                        {t('profile.title')}
                     </h1>
                 </div>
             </div>
 
+            {/* Language Selector */}
+
+
+
             {/* Personal Info Card */}
             <section className="space-y-4">
-                <h3 className="text-xs font-black uppercase text-slate-400 tracking-wider ml-1">Información Personal</h3>
+                <div className="flex items-center justify-between ml-1 mb-2">
+                    <h3 className="text-xs font-black uppercase text-slate-400 tracking-wider">{t('profile.personal_info')}</h3>
+                    <button onClick={logout} className="text-red-400 hover:text-red-500 font-bold text-[10px] flex items-center gap-1 transition-colors bg-red-50 dark:bg-red-900/10 px-2 py-1 rounded-md">
+                        <span className="material-symbols-outlined text-sm">logout</span>
+                        {t('profile.logout')}
+                    </button>
+                </div>
                 <div className="glass-card p-6 rounded-3xl space-y-6">
                     <div className="flex items-center gap-6">
                         <div className="size-20 rounded-full bg-slate-100 dark:bg-white/10 flex items-center justify-center text-3xl font-black text-slate-300 dark:text-slate-600 overflow-hidden border-4 border-slate-50 dark:border-slate-800">
@@ -76,7 +98,7 @@ export default function Profile() {
                         </div>
                         <div className="flex-1 space-y-4">
                             <div>
-                                <label className="block text-xs font-bold text-slate-400 uppercase mb-1">Nombre Visible</label>
+                                <label className="block text-xs font-bold text-slate-400 uppercase mb-1">{t('profile.display_name')}</label>
                                 <input
                                     type="text"
                                     value={name}
@@ -87,11 +109,36 @@ export default function Profile() {
                                 />
                             </div>
                             <div>
-                                <label className="block text-xs font-bold text-slate-400 uppercase mb-1">Email (No editable)</label>
+                                <label className="block text-xs font-bold text-slate-400 uppercase mb-1">{t('profile.email')}</label>
                                 <div className="w-full bg-slate-50/50 dark:bg-white/5 border border-transparent rounded-xl px-4 py-3 text-slate-500 dark:text-slate-500 text-sm font-medium truncate">
                                     {currentUser?.email}
                                 </div>
                             </div>
+                        </div>
+                    </div>
+
+                    {/* Language Selector Moved Here */}
+                    <div className="pt-2 border-t border-slate-100 dark:border-white/5">
+                        <label className="block text-center text-xs font-bold text-slate-400 uppercase mb-3">{t('profile.language')}:</label>
+                        <div className="bg-slate-50 dark:bg-black/20 rounded-xl p-1 flex items-center relative">
+                            <button
+                                onClick={() => i18n.changeLanguage('es')}
+                                className={clsx(
+                                    "flex-1 py-2 rounded-lg text-xs font-bold transition-all z-10",
+                                    i18n.language === 'es' ? "text-slate-900 bg-white dark:bg-slate-600 shadow-sm" : "text-slate-400"
+                                )}
+                            >
+                                Español
+                            </button>
+                            <button
+                                onClick={() => i18n.changeLanguage('en')}
+                                className={clsx(
+                                    "flex-1 py-2 rounded-lg text-xs font-bold transition-all z-10",
+                                    i18n.language === 'en' ? "text-slate-900 bg-white dark:bg-slate-600 shadow-sm" : "text-slate-400"
+                                )}
+                            >
+                                English
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -116,42 +163,59 @@ export default function Profile() {
                     href="https://www.instagram.com/2befit.online"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold py-4 rounded-2xl shadow-xl shadow-slate-900/20 dark:shadow-black/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+                    className="w-full bg-emerald-500 text-white font-bold py-4 rounded-2xl shadow-xl shadow-emerald-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
                 >
                     <span className="material-symbols-outlined">chat</span>
-                    ¿Dudas? Escríbenos
+                    {t('profile.support')}
                 </a>
 
-                <button
-                    onClick={logout}
-                    className="w-full bg-red-50 dark:bg-red-900/10 text-red-500 dark:text-red-400 font-bold py-4 rounded-2xl hover:bg-red-100 dark:hover:bg-red-900/20 active:scale-[0.98] transition-all flex items-center justify-center gap-2 border-2 border-transparent hover:border-red-200 dark:hover:border-red-900/30"
+                {/* 2BeFit Link - Visible Card Style */}
+                <a
+                    href="https://2befit.vercel.app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block mt-4 bg-slate-900 dark:bg-white p-1 rounded-2xl shadow-xl hover:scale-[1.02] transition-transform group"
                 >
-                    <span className="material-symbols-outlined">logout</span>
-                    Cerrar Sesión
-                </button>
+                    <div className="bg-slate-900 dark:bg-white rounded-xl px-4 py-4 flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                            <div className="bg-white/10 dark:bg-black/5 p-2 rounded-lg">
+                                <span className="material-symbols-outlined text-white dark:text-slate-900">fitness_center</span>
+                            </div>
+                            <div>
+                                <h4 className="text-white dark:text-slate-900 font-black text-sm uppercase tracking-wider">{t('profile.premium_title')}</h4>
+                                <p className="text-slate-400 dark:text-slate-500 text-xs font-medium">{t('profile.premium_desc')}</p>
+                            </div>
+                        </div>
+                        <span className="material-symbols-outlined text-white dark:text-slate-900 -rotate-45 group-hover:rotate-0 transition-transform">arrow_forward</span>
+                    </div>
+                </a>
             </div>
 
             {/* Legacy / Migration Actions */}
 
 
-            {hasLocalData && (
-                <section className="pt-8 border-t border-slate-200 dark:border-white/10">
-                    <h3 className="text-xs font-black uppercase text-slate-400 tracking-wider ml-1 mb-4">Zona de Peligro & Utilidades</h3>
-                    <div className="bg-slate-50 dark:bg-black/20 p-4 rounded-2xl flex items-center justify-between">
-                        <div>
-                            <h4 className="font-bold text-slate-700 dark:text-slate-300">Sincronizar Datos Locales</h4>
-                            <p className="text-xs text-slate-500">Sube backups antiguos a la nube</p>
+            {
+                hasLocalData && (
+                    <section className="pt-8 border-t border-slate-200 dark:border-white/10">
+                        <h3 className="text-xs font-black uppercase text-slate-400 tracking-wider ml-1 mb-4">Zona de Peligro & Utilidades</h3>
+                        <div className="bg-slate-50 dark:bg-black/20 p-4 rounded-2xl flex items-center justify-between">
+                            <div>
+                                <h4 className="font-bold text-slate-700 dark:text-slate-300">Sincronizar Datos Locales</h4>
+                                <p className="text-xs text-slate-500">Sube backups antiguos a la nube</p>
+                            </div>
+                            <button
+                                className="bg-white dark:bg-white/10 text-slate-700 dark:text-white px-4 py-2 rounded-xl font-bold text-xs shadow-sm hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 transition-colors"
+                                onClick={handleMigration}
+                                disabled={isMigrating}
+                            >
+                                {isMigrating ? "..." : t('profile.sync')}
+                            </button>
                         </div>
-                        <button
-                            className="bg-white dark:bg-white/10 text-slate-700 dark:text-white px-4 py-2 rounded-xl font-bold text-xs shadow-sm hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 transition-colors"
-                            onClick={handleMigration}
-                            disabled={isMigrating}
-                        >
-                            {isMigrating ? "..." : "Sincronizar"}
-                        </button>
-                    </div>
-                </section>
-            )}
-        </div>
+                    </section>
+                )
+            }
+
+
+        </div >
     );
 }

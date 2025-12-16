@@ -3,7 +3,7 @@ import { doc, onSnapshot, setDoc, updateDoc, arrayUnion, arrayRemove } from 'fir
 
 import { db } from '../lib/firebase';
 import { useAuth } from '../context/AuthContext';
-import type { Meal, DailyLog } from '../pages/History';
+import type { Meal, DailyLog } from '../types';
 
 export function useDailyLog(date: string) {
     const { currentUser } = useAuth();

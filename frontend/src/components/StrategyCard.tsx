@@ -4,6 +4,7 @@ import { useAutoScroll } from '../hooks/useAutoScroll';
 import { AnimatePresence, motion } from 'framer-motion';
 import type { CategoryDetail } from '../data/categoryDetails';
 import ImageWithFallback from './ImageWithFallback';
+import { useTranslation } from 'react-i18next';
 
 interface StrategyCardProps {
     title: string;
@@ -75,6 +76,7 @@ const COLOR_MAP: Record<string, ColorConfig> = {
 export default function StrategyCard({ title, expandedTitle, value, color, icon, onIncrease, onDecrease, details, isEditing = false }: StrategyCardProps) {
     const [isExpanded, setIsExpanded] = useState(false);
     const cardRef = useRef<HTMLDivElement>(null);
+    const { t } = useTranslation();
 
     // Resolve color configuration
     const theme = COLOR_MAP[color] || COLOR_MAP.default;
@@ -184,7 +186,7 @@ export default function StrategyCard({ title, expandedTitle, value, color, icon,
                                 </div>
                                 <div className="truncate">
                                     <h3 className="font-bold text-slate-900 dark:text-white text-base uppercase tracking-wider leading-tight truncate">{expandedTitle || title}</h3>
-                                    <p className="text-xs text-slate-400 font-bold uppercase truncate">{details.subtitle}</p>
+                                    <p className="text-xs text-slate-400 font-bold uppercase truncate">{t(details.subtitle)}</p>
                                 </div>
                             </div>
                             <div className="flex items-center gap-1 shrink-0 ml-2">
@@ -219,7 +221,7 @@ export default function StrategyCard({ title, expandedTitle, value, color, icon,
                             <div className="relative h-32 rounded-xl overflow-hidden bg-gray-200 shadow-inner">
                                 <ImageWithFallback
                                     src={details.image}
-                                    alt={details.title}
+                                    alt={title}
                                     className="w-full h-full object-cover"
                                     fallbackColor="bg-slate-200"
                                 />
@@ -232,7 +234,7 @@ export default function StrategyCard({ title, expandedTitle, value, color, icon,
                             <div className="bg-slate-50 dark:bg-white/5 p-4 rounded-xl border border-slate-100 dark:border-white/5 mb-3">
                                 <h4 className="font-bold text-xs text-slate-400 dark:text-slate-500 uppercase mb-2 tracking-wider">Beneficios Clave</h4>
                                 <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
-                                    {details.description}
+                                    {t(details.description)}
                                 </p>
                             </div>
 
@@ -247,10 +249,10 @@ export default function StrategyCard({ title, expandedTitle, value, color, icon,
                                             1 porción equivale a:
                                         </p>
                                         <h4 className="font-bold text-xs text-slate-800 dark:text-white">
-                                            {details.portionInfo.metric}
+                                            {t(details.portionInfo.metric)}
                                         </h4>
                                         <p className="text-xs text-slate-500 dark:text-slate-400 leading-tight">
-                                            {details.portionInfo.description}
+                                            {t(details.portionInfo.description)}
                                         </p>
                                     </div>
                                 </div>

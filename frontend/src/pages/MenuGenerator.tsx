@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { createPortal } from 'react-dom';
 import { useNavigate, useLocation } from 'react-router-dom';
 import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useDailyLog } from '../hooks/useDailyLog'; // Import Hook
-import type { Meal, DailyLog, SelectionDetail } from './History'; // Import Shared Types
+import type { Meal, DailyLog, SelectionDetail } from '../types'; // Import Shared Types
 import ImageWithFallback from '../components/ImageWithFallback';
 import { DATA } from '../data/foodData';
 
@@ -52,6 +53,7 @@ const GENERATOR_THEME: Record<string, ColorConfig> = {
 };
 
 export default function MenuGenerator() {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const location = useLocation();
     const [selection, setSelection] = useState<LocalSelectionState>({}); // Use local strict type
@@ -349,7 +351,7 @@ export default function MenuGenerator() {
                         <img src="/brand-compact.png" alt="2B" className="h-8 w-auto object-contain" />
                         <div>
                             <h1 className="text-slate-400 text-xs font-bold leading-none uppercase tracking-wider">
-                                Crea tu plato
+                                {t('generator.title')}
                             </h1>
                         </div>
                     </div>
@@ -362,7 +364,7 @@ export default function MenuGenerator() {
                 <div className="fixed top-4 left-0 right-0 z-[100] px-4 animate-in fade-in slide-in-from-top-4 duration-300 pointer-events-none">
                     <div className="max-w-md mx-auto pointer-events-auto">
                         <div className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md shadow-lg border-t border-slate-200 dark:border-white/10 p-3 flex flex-col items-center gap-2 rounded-3xl">
-                            <p className="text-xs uppercase font-bold text-slate-400 tracking-wider leading-none">Tus porciones diarias</p>
+                            <p className="text-xs uppercase font-bold text-slate-400 tracking-wider leading-none">{t('generator.daily_portions')}</p>
                             <div className="flex items-center gap-2 overflow-x-auto no-scrollbar max-w-full px-2">
                                 {DATA.filter(cat => cat.id !== 'magic').map(cat => {
                                     const consumed = getConsumedToday(cat.id);
@@ -409,7 +411,7 @@ export default function MenuGenerator() {
                 "transition-opacity duration-300 flex flex-col items-center gap-2 pb-2",
                 isSticky ? "opacity-0 pointer-events-none" : "opacity-100"
             )}>
-                <p className="text-xs uppercase font-bold text-slate-400 tracking-wider leading-none">Tus porciones diarias</p>
+                <p className="text-xs uppercase font-bold text-slate-400 tracking-wider leading-none">{t('generator.daily_portions')}</p>
                 <div className="flex items-center justify-center gap-2 overflow-x-auto hide-scrollbar mask-fade w-full">
                     {DATA.filter(cat => cat.id !== 'magic').map(cat => {
                         const consumed = getConsumedToday(cat.id);
@@ -504,10 +506,10 @@ export default function MenuGenerator() {
                                                 </span>
                                                 <div className="min-w-0">
                                                     <h3 className={clsx("text-lg font-black uppercase tracking-tight leading-none truncate", theme.text)}>
-                                                        {cat.title}
+                                                        {t(cat.title)}
                                                     </h3>
                                                     <p className={clsx("text-[11px] font-bold uppercase tracking-wider truncate opacity-70", theme.text)}>
-                                                        {cat.subtitle}
+                                                        {t(cat.subtitle)}
                                                     </p>
                                                 </div>
                                             </div>
@@ -553,9 +555,9 @@ export default function MenuGenerator() {
                                                             </div>
                                                             <div className="flex-1 min-w-0 pr-1">
                                                                 <span className={clsx("text-base font-bold leading-tight block truncate", isSelected ? "text-primary" : "text-slate-800 dark:text-slate-100")}>
-                                                                    {group.name}
+                                                                    {t(group.name)}
                                                                 </span>
-                                                                <p className="text-xs text-slate-500 dark:text-slate-400 truncate font-medium">{group.description}</p>
+                                                                <p className="text-xs text-slate-500 dark:text-slate-400 truncate font-medium">{t(group.description)}</p>
                                                             </div>
                                                         </button>
 
@@ -572,7 +574,6 @@ export default function MenuGenerator() {
                                                         )}
                                                     </div>
 
-                                                    {/* selected list preview */}
                                                     {/* selected list preview */}
                                                     {selectedIngredients.length > 0 && (
                                                         <div className="flex flex-wrap gap-1 pl-16">
@@ -591,14 +592,14 @@ export default function MenuGenerator() {
                                                                     <>
                                                                         {aggregated.map((item, i) => (
                                                                             <span key={i} className="text-[10px] px-1.5 py-0.5 rounded-md bg-white dark:bg-black/20 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-white/10 flex items-center gap-1 shadow-sm">
-                                                                                <span className="truncate max-w-[60px]">{item.name}</span>
+                                                                                <span className="truncate max-w-[60px]">{t(item.name)}</span>
                                                                                 {item.count > 1 && <strong className="text-primary font-bold">x{item.count}</strong>}
                                                                                 <button
                                                                                     onClick={(e) => { e.stopPropagation(); removeGroup(cat.id, group.id, item.name); }}
                                                                                     className="size-4 rounded-full bg-slate-200 dark:bg-white/20 flex items-center justify-center text-slate-500 dark:text-slate-300 hover:bg-red-100 hover:text-red-500 dark:hover:bg-red-900/40 dark:hover:text-red-400 transition-colors ml-0.5"
                                                                                     title="Borrar 1 porción"
                                                                                 >
-                                                                                    <span className="material-symbols-outlined text-xs font-bold">close</span>
+                                                                                    <span className="material-symbols-outlined text-[10px] font-bold">close</span>
                                                                                 </button>
                                                                             </span>
                                                                         ))}
@@ -607,6 +608,7 @@ export default function MenuGenerator() {
                                                             })()}
                                                         </div>
                                                     )}
+
                                                     {/* EXPANDED INLINE OPTIONS (ACCORDION) */}
                                                     <AnimatePresence>
                                                         {activeGroup?.catId === cat.id && activeGroup?.groupId === group.id && (
@@ -620,7 +622,7 @@ export default function MenuGenerator() {
                                                                     {group.portionMetric && (
                                                                         <div className="mb-2 flex items-center gap-2 bg-blue-50 dark:bg-blue-900/20 px-3 py-1.5 rounded-lg border border-blue-100 dark:border-blue-500/30">
                                                                             <span className="material-symbols-outlined text-sm text-blue-600 dark:text-blue-400">straighten</span>
-                                                                            <span className="text-xs font-bold text-blue-800 dark:text-blue-200">{group.portionMetric}</span>
+                                                                            <span className="text-xs font-bold text-blue-800 dark:text-blue-200">{t(group.portionMetric)}</span>
                                                                         </div>
                                                                     )}
                                                                     <div className="bg-slate-50 dark:bg-white/5 rounded-2xl p-3 grid grid-cols-2 gap-2 border border-slate-100 dark:border-white/5 shadow-inner">
@@ -633,7 +635,7 @@ export default function MenuGenerator() {
                                                                                 }}
                                                                                 className="px-3 py-2.5 rounded-xl bg-white dark:bg-black/20 text-sm font-bold text-slate-600 dark:text-slate-300 shadow-sm border border-slate-200 dark:border-white/5 hover:border-primary hover:text-primary active:scale-95 transition-all text-left flex justify-between items-center group/btn min-h-[44px]"
                                                                             >
-                                                                                <span className="break-words leading-tight pr-1">{item}</span>
+                                                                                <span className="break-words leading-tight pr-1">{t(item)}</span>
                                                                                 <span className="material-symbols-outlined text-xs opacity-30 group-hover/btn:opacity-100 text-primary transition-opacity shrink-0">add</span>
                                                                             </button>
                                                                         ))}
@@ -656,12 +658,12 @@ export default function MenuGenerator() {
                                             );
                                         })}
                                     </div>
-                                </div>
+                                </div >
                             );
                         })
                     }
                 </div >
-            </div>
+            </div >
 
             {/* Floating Action - PORTALED */}
             {
@@ -699,66 +701,70 @@ export default function MenuGenerator() {
             }
 
             {/* SAVE MODAL PORTAL */}
-            {createPortal(
-                <AnimatePresence>
-                    {saveModal.isOpen && (
-                        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-                            <motion.div
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                                className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-                                onClick={closeSaveModal}
-                            />
-                            <motion.div
-                                initial={{ scale: 0.95, opacity: 0, y: 20 }}
-                                animate={{ scale: 1, opacity: 1, y: 0 }}
-                                exit={{ scale: 0.95, opacity: 0, y: 20 }}
-                                className="bg-white dark:bg-slate-900 rounded-3xl p-6 w-full max-w-sm relative z-10 shadow-2xl"
-                            >
-                                <h3 className="text-xl font-black text-slate-900 dark:text-white mb-4">¿Nombre de la comida?</h3>
-                                <input
-                                    type="text"
-                                    value={saveModal.currentName}
-                                    onChange={(e) => setSaveModal(prev => ({ ...prev, currentName: e.target.value }))}
-                                    className="w-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 mb-6 font-bold text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary"
-                                    placeholder="Ej: Almuerzo post-entreno"
-                                    autoFocus
+            {
+                createPortal(
+                    <AnimatePresence>
+                        {saveModal.isOpen && (
+                            <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+                                <motion.div
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                    className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                                    onClick={closeSaveModal}
                                 />
-                                <div className="flex gap-3">
-                                    <button onClick={closeSaveModal} className="flex-1 py-3 rounded-xl bg-slate-100 dark:bg-white/5 text-slate-500 font-bold hover:bg-slate-200 dark:hover:bg-white/10 transition-colors">Cancelar</button>
-                                    <button onClick={confirmSaveMeal} className="flex-1 py-3 rounded-xl bg-primary text-slate-900 font-bold shadow-lg shadow-primary/20 hover:bg-primary/90 transition-colors">Guardar</button>
-                                </div>
-                            </motion.div>
-                        </div>
-                    )}
-                </AnimatePresence>,
-                document.body
-            )}
+                                <motion.div
+                                    initial={{ scale: 0.95, opacity: 0, y: 20 }}
+                                    animate={{ scale: 1, opacity: 1, y: 0 }}
+                                    exit={{ scale: 0.95, opacity: 0, y: 20 }}
+                                    className="bg-white dark:bg-slate-900 rounded-3xl p-6 w-full max-w-sm relative z-10 shadow-2xl"
+                                >
+                                    <h3 className="text-xl font-black text-slate-900 dark:text-white mb-4">¿Nombre de la comida?</h3>
+                                    <input
+                                        type="text"
+                                        value={saveModal.currentName}
+                                        onChange={(e) => setSaveModal(prev => ({ ...prev, currentName: e.target.value }))}
+                                        className="w-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 mb-6 font-bold text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary"
+                                        placeholder="Ej: Almuerzo post-entreno"
+                                        autoFocus
+                                    />
+                                    <div className="flex gap-3">
+                                        <button onClick={closeSaveModal} className="flex-1 py-3 rounded-xl bg-slate-100 dark:bg-white/5 text-slate-500 font-bold hover:bg-slate-200 dark:hover:bg-white/10 transition-colors">Cancelar</button>
+                                        <button onClick={confirmSaveMeal} className="flex-1 py-3 rounded-xl bg-primary text-slate-900 font-bold shadow-lg shadow-primary/20 hover:bg-primary/90 transition-colors">Guardar</button>
+                                    </div>
+                                </motion.div>
+                            </div>
+                        )}
+                    </AnimatePresence>,
+                    document.body
+                )
+            }
 
             {/* Toast Notification Portal */}
-            {createPortal(
-                <AnimatePresence>
-                    {toast.visible && (
-                        <div className="fixed top-24 left-1/2 -translate-x-1/2 z-[500] pointer-events-none">
-                            <motion.div
-                                initial={{ opacity: 0, y: -20, scale: 0.9 }}
-                                animate={{ opacity: 1, y: 0, scale: 1 }}
-                                exit={{ opacity: 0, y: -20, scale: 0.9 }}
-                                className="bg-slate-800 text-white px-6 py-3 rounded-full shadow-2xl flex items-center gap-3 backdrop-blur-md border border-white/10"
-                            >
-                                <div className="bg-green-500 rounded-full p-1">
-                                    <span className="material-symbols-outlined text-sm font-bold text-white">check</span>
-                                </div>
-                                <span className="font-bold text-sm tracking-wide">{toast.message}</span>
-                            </motion.div>
-                        </div>
-                    )}
-                </AnimatePresence>,
-                document.body
-            )}
+            {
+                createPortal(
+                    <AnimatePresence>
+                        {toast.visible && (
+                            <div className="fixed top-24 left-1/2 -translate-x-1/2 z-[500] pointer-events-none">
+                                <motion.div
+                                    initial={{ opacity: 0, y: -20, scale: 0.9 }}
+                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                    exit={{ opacity: 0, y: -20, scale: 0.9 }}
+                                    className="bg-slate-800 text-white px-6 py-3 rounded-full shadow-2xl flex items-center gap-3 backdrop-blur-md border border-white/10"
+                                >
+                                    <div className="bg-green-500 rounded-full p-1">
+                                        <span className="material-symbols-outlined text-sm font-bold text-white">check</span>
+                                    </div>
+                                    <span className="font-bold text-sm tracking-wide">{toast.message}</span>
+                                </motion.div>
+                            </div>
+                        )}
+                    </AnimatePresence>,
+                    document.body
+                )
+            }
 
-        </div>
+        </div >
     );
 }
 

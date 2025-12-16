@@ -6,6 +6,7 @@ import { useDailyLog } from '../hooks/useDailyLog'; // Hook Import
 import { useUserProfile } from '../hooks/useUserProfile'; // Hook Import
 import { useEffect, useState } from 'react';
 import { CATEGORY_DETAILS } from '../data/categoryDetails';
+import { useTranslation } from 'react-i18next';
 
 // Define the shape of the goals state
 interface Goals {
@@ -18,6 +19,7 @@ interface Goals {
 
 export default function Dashboard() {
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     // Scroll to top on mount
     useEffect(() => {
@@ -58,14 +60,20 @@ export default function Dashboard() {
             // In MenuGenerator we used keys: protein, color, carbs, fats. 
             // Here 'veg' maps to 'color', 'carb' to 'carbs', 'fat' to 'fats'.
 
-            setGoals(prev => ({
-                ...prev,
-                protein: log.goals.protein ?? prev.protein,
-                veg: log.goals.color ?? prev.veg,
-                carb: log.goals.carbs ?? prev.carb,
-                fat: log.goals.fats ?? prev.fat,
-                // Water might not be in daily log goals yet? assuming it is or kept local
-            }));
+            setGoals(prev => {
+                const next = {
+                    ...prev,
+                    protein: log.goals.protein ?? prev.protein,
+                    veg: log.goals.color ?? prev.veg,
+                    carb: log.goals.carbs ?? prev.carb,
+                    fat: log.goals.fats ?? prev.fat,
+                };
+                // IMPORTANT: Sync savedGoals here too so we don't start with "unsaved changes"
+                // Wrap in a timeout or state update to avoid render loops if needed, 
+                // but setting state here is standard if we want to "reset" the baseline.
+                setSavedGoals(next);
+                return next;
+            });
         }
     }, [log]);
 
@@ -137,10 +145,10 @@ export default function Dashboard() {
                     />
                 </div>
                 <h1 className="text-slate-400 text-xs font-bold leading-none uppercase tracking-wider mb-2">
-                    Tus cantidades diarias
+                    {t('dashboard.title')}
                 </h1>
                 <p className="text-xs text-slate-400 font-medium max-w-[280px] leading-tight mx-auto mb-2 opacity-80">
-                    Estas son las porciones que tienes para consumir a diario, haz click en cada categoría para obtener más información.
+                    {t('dashboard.description')}
                 </p>
 
                 {/* Edit Mode Toggle */}
@@ -151,14 +159,14 @@ export default function Dashboard() {
                         : 'bg-slate-100 text-slate-500 border-slate-200 dark:bg-white/5 dark:text-slate-400 dark:border-white/10 hover:bg-slate-200'
                         }`}
                 >
-                    {isEditingGoals ? 'Terminar Edición' : 'Editar Objetivos'}
+                    {isEditingGoals ? t('common.save') : t('common.edit')}
                 </button>
             </div>
 
             {/* Cards Grid */}
             <div className="flex flex-col gap-2 px-4">
                 <StrategyCard
-                    title="Proteínas"
+                    title={t('dashboard.cards.protein')}
                     value={goals.protein}
                     color="rose"
                     icon="egg_alt"
@@ -168,7 +176,7 @@ export default function Dashboard() {
                     isEditing={isEditingGoals}
                 />
                 <StrategyCard
-                    title="Vegetales"
+                    title={t('dashboard.cards.veggies')}
                     value={goals.veg}
                     color="emerald"
                     icon="nutrition"
@@ -178,8 +186,8 @@ export default function Dashboard() {
                     isEditing={isEditingGoals}
                 />
                 <StrategyCard
-                    title="Carbos"
-                    expandedTitle="Carbohidratos"
+                    title={t('dashboard.cards.carbs')}
+                    expandedTitle={t('food.carbs.title')}
                     value={goals.carb}
                     color="orange"
                     icon="rice_bowl"
@@ -189,7 +197,7 @@ export default function Dashboard() {
                     isEditing={isEditingGoals}
                 />
                 <StrategyCard
-                    title="Grasas"
+                    title={t('dashboard.cards.fats')}
                     value={goals.fat}
                     color="amber"
                     icon="water_drop"
@@ -230,7 +238,7 @@ export default function Dashboard() {
                                 title="Guardar y Generar Menú"
                             >
                                 <span className="material-symbols-outlined">{hasUnsavedChanges ? 'save' : 'arrow_forward'}</span>
-                                <span className="font-black">{hasUnsavedChanges ? 'GUARDAR CANTIDADES' : 'CREAR COMIDA'}</span>
+                                <span className="font-black">{hasUnsavedChanges ? t('dashboard.save_targets') : t('dashboard.create_meal')}</span>
                             </button>
                         </div>
                     </div>,

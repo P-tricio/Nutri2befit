@@ -29,11 +29,11 @@ export type CategoryDetail = {
 
 export const CATEGORY_DETAILS: Record<string, CategoryDetail> = {
     protein: {
-        title: 'La Proteína', subtitle: 'Construcción', color: 'text-red-500',
+        title: 'food.protein.title', subtitle: 'category_details.protein.subtitle', color: 'text-red-500',
         icon: 'restaurant', borderColor: 'border-red-500/30',
-        description: 'La base de tu estructura. Incluye carnes, pescados, mariscos, huevos y lácteos ricos en proteína.',
+        description: 'category_details.protein.desc',
         image: '/protein_category.png',
-        portionInfo: { metric: '1 Palma', icon: 'back_hand', description: 'Grosor y tamaño de la palma de tu mano (sin dedos).' },
+        portionInfo: { metric: 'category_details.protein.portion.metric', icon: 'back_hand', description: 'category_details.protein.portion.desc' },
         groups: [
             { title: 'Carne Blanca', items: ['Pollo', 'Pavo', 'Conejo'], metric: '📏 1 Palma' },
             { title: 'Carne Roja', items: ['Ternera', 'Cerdo', 'Vísceras'], metric: '📏 1 Palma' },
@@ -44,11 +44,11 @@ export const CATEGORY_DETAILS: Record<string, CategoryDetail> = {
         ]
     },
     veg: {
-        title: 'La Verdura', subtitle: 'Saciedad y Salud', color: 'text-emerald-500',
+        title: 'food.color.title', subtitle: 'category_details.veg.subtitle', color: 'text-emerald-500',
         icon: 'nutrition', borderColor: 'border-emerald-500/30',
-        description: 'Fuente vital de fibra y micronutrientes. Aportan volumen a tus platos mejorando la digestión sin apenas calorías.',
+        description: 'category_details.veg.desc',
         image: '/vegetable_category.png',
-        portionInfo: { metric: 'Libre / 2 Manos', icon: 'nest_eco_leaf', description: 'Cantidad ilimitada. Mínimo dos manos juntas llenas.' },
+        portionInfo: { metric: 'category_details.veg.portion.metric', icon: 'nest_eco_leaf', description: 'category_details.veg.portion.desc' },
         groups: [
             { title: 'Hojas', items: ['Espinacas', 'Lechuga', 'Rúcula'], metric: '📏 Libre / 2 Manos' },
             { title: 'Crucíferas', items: ['Brócoli', 'Coliflor', 'Repollo'], metric: '📏 1 Puño / Libre' },
@@ -57,11 +57,11 @@ export const CATEGORY_DETAILS: Record<string, CategoryDetail> = {
         ]
     },
     carb: {
-        title: 'El Carbohidrato', subtitle: 'Gasolina', color: 'text-orange-500',
+        title: 'food.carbs.title', subtitle: 'category_details.carb.subtitle', color: 'text-orange-500',
         icon: 'bolt', borderColor: 'border-orange-500/30',
-        description: 'Tu combustible principal. Esenciales para rendir en los entrenamientos y recuperar la energía gastada.',
+        description: 'category_details.carb.desc',
         image: '/carbohydrate_category.png',
-        portionInfo: { metric: '1 Puño', icon: 'sports_mma', description: 'Varía según el tipo (puño, cuenco...).' },
+        portionInfo: { metric: 'category_details.carb.portion.metric', icon: 'sports_mma', description: 'category_details.carb.portion.desc' },
         groups: [
             { title: 'Tubérculos', items: ['Patata', 'Boniato', 'Yuca'], metric: '📏 1 Puño cerrado' },
             { title: 'Granos', items: ['Arroz', 'Pasta', 'Avena'], metric: '📏 1 Mano en cuenco' },
@@ -70,11 +70,11 @@ export const CATEGORY_DETAILS: Record<string, CategoryDetail> = {
         ]
     },
     fat: {
-        title: 'La Grasa', subtitle: 'Salud Hormonal', color: 'text-yellow-500',
+        title: 'food.fats.title', subtitle: 'category_details.fat.subtitle', color: 'text-yellow-500',
         icon: 'water_drop', borderColor: 'border-yellow-500/30',
-        description: 'Clave para tu entorno hormonal y absorción de nutrientes. Aportan sabor y una saciedad más duradera.',
+        description: 'category_details.fat.desc',
         image: '/fat_category.png',
-        portionInfo: { metric: '1 Pulgar', icon: 'thumb_up', description: 'Grasas densas (aceites, frutos secos).' },
+        portionInfo: { metric: 'category_details.fat.portion.metric', icon: 'thumb_up', description: 'category_details.fat.portion.desc' },
         groups: [
             { title: 'Aceites', items: ['AOVE', 'Coco', 'Ghee'], metric: '📏 1 Cda. Sopera' },
             { title: 'Frutos Secos', items: ['Nueces', 'Almendras'], metric: '📏 1 Pulgar / Puñadito' },

@@ -1,0 +1,377 @@
+{
+    "common": {
+        "save": "Guardar",
+        "edit": "Editar",
+        "close": "Cerrar",
+        "delete": "Borrar",
+        "cancel": "Cancelar",
+        "free": "Libre",
+        "loading": "Cargando..."
+    },
+    "nav": {
+        "dashboard": "Cantidades",
+        "generator": "Generador",
+        "history": "Historial",
+        "profile": "Perfil"
+    },
+    "dashboard": {
+        "title": "TUS CANTIDADES DIARIAS",
+        "description": "Estas son las porciones que tienes para consumir a diario, haz click en cada categoría para obtener más información.",
+        "reset": "Reiniciar contadores",
+        "save_targets": "GUARDAR CANTIDADES",
+        "edit_goals": "EDITAR OBJETIVOS",
+        "create_meal": "CREAR COMIDA",
+        "cards": {
+            "protein": "Proteínas",
+            "veggies": "Vegetales",
+            "carbs": "Carbos",
+            "fats": "Grasas"
+        }
+    },
+    "generator": {
+        "title": "Crea tu plato",
+        "subtitle": "Crea tu plato",
+        "reset": "Limpiar Selección",
+        "toast_added": "+1 Porción añadida",
+        "toast_saved": "Menú guardado correctamente",
+        "modal_save_title": "¿Nombre de la comida?",
+        "placeholder_meal_name": "Ej: Almuerzo post-entreno",
+        "btn_save_meal": "GUARDAR COMIDA",
+        "btn_clear_all": "Borrar todo",
+        "daily_portions": "Tus porciones diarias"
+    },
+    "history": {
+        "title": "Crea tus menús",
+        "creation_zone_title": "Zona de creación",
+        "creation_zone_desc": "Tu progreso de hoy",
+        "saved_menus_title": "Menús Guardados",
+        "saved_menus_empty": "No hay menús guardados aún.",
+        "modal_save_menu_title": "¿Nombre del menú?",
+        "modal_save_menu_desc_ph": "Descripción opcional...",
+        "btn_save_day": "Guardar Día",
+        "btn_rename": "Renombrar",
+        "btn_reset_day": "Reiniciar Hoy",
+        "copy_to_today": "Copiar a Hoy",
+        "edit_in_generator": "Editar en Plato",
+        "delete_menu_confirm_title": "¿Borrar Menú?",
+        "delete_menu_confirm_msg": "Esto eliminará el menú permanentemente.",
+        "reset_day_confirm_title": "¿Reiniciar Día?",
+        "reset_day_confirm_msg": "Esto borrará todas las comidas de hoy.",
+        "delete_meal_confirm_title": "¿Borrar Comida?",
+        "delete_meal_confirm_msg": "¿Seguro que quieres borrar esta comida?",
+        "empty_today": "Empieza a añadir comidas en el Generador para ver tu progreso hoy.",
+        "shopping_list": "Lista de Compra"
+    },
+    "profile": {
+        "title": "Tu perfil",
+        "personal_info": "Información Personal",
+        "display_name": "Nombre Visible",
+        "email": "Email (No editable)",
+        "support": "¿Dudas? Escríbenos",
+        "load_examples": "Cargar Menús de Ejemplo",
+        "load_examples_success": "Menús de ejemplo cargados correctamente.",
+        "logout": "Cerrar Sesión",
+        "sync": "Sincronizar",
+        "language": "Idioma",
+        "premium_title": "2BeFit Premium",
+        "premium_desc": "Planes personalizados y más"
+    },
+    "food": {
+        "protein": {
+            "title": "Proteína",
+            "subtitle": "Construcción",
+            "items": {
+                "meat": {
+                    "name": "Carnes",
+                    "desc": "Pollo, Pavo, Ternera, Cerdo...",
+                    "metric": "📏 1 Palma",
+                    "sub": {
+                        "chicken": "Pollo",
+                        "turkey": "Pavo",
+                        "rabbit": "Conejo",
+                        "veal": "Ternera",
+                        "pork": "Cerdo sin grasa",
+                        "burger": "Hamburguesa magra",
+                        "offal": "Vísceras"
+                    }
+                },
+                "fish": {
+                    "name": "Pescados",
+                    "desc": "Merluza, Salmón, Atún...",
+                    "metric": "📏 1 Palma",
+                    "sub": {
+                        "hake": "Merluza",
+                        "cod": "Bacalao",
+                        "salmon": "Salmón",
+                        "tuna": "Atún",
+                        "mackerel": "Caballa",
+                        "hosmemackerel": "Jurel",
+                        "sardines": "Sardinas",
+                        "whitefish": "Pescado blanco"
+                    }
+                },
+                "seafood": {
+                    "name": "Mariscos",
+                    "desc": "Gambas, Mejillones...",
+                    "metric": "📏 1 Palma",
+                    "sub": {
+                        "shrimp": "Gambas",
+                        "squid": "Calamar",
+                        "clams": "Almejas",
+                        "mussels": "Mejillones"
+                    }
+                },
+                "dairy_zero": {
+                    "name": "Lácteos 0%",
+                    "desc": "Queso Fresco, Claras, Yogur...",
+                    "metric": "📏 1 Taza / 2 Huevos",
+                    "sub": {
+                        "eggs": "Huevos",
+                        "whites": "Claras",
+                        "fresh_cheese": "Queso Fresco 0%",
+                        "beaten_cheese": "Queso Batido 0%",
+                        "greek_yogurt": "Yogur Griego",
+                        "kefir": "Kefir",
+                        "protein_whey": "Suero de proteína",
+                        "cottage": "Requesón"
+                    }
+                },
+                "veggie_prot": {
+                    "name": "Vegetal y Legumbre",
+                    "desc": "Tofu, Soja, Seitán...",
+                    "metric": "📏 1 Palma",
+                    "sub": {
+                        "tofu": "Tofu",
+                        "textured_soy": "Soja Texturizada",
+                        "edamame": "Edamame",
+                        "seitan": "Seitán",
+                        "tempeh": "Tempeh",
+                        "legumes": "Legumbre (Proteína)"
+                    }
+                }
+            }
+        },
+        "color": {
+            "title": "Verdura",
+            "subtitle": "Saciedad",
+            "items": {
+                "leaves": {
+                    "name": "Hojas Verdes",
+                    "desc": "Espinacas, Lechuga, Rúcula...",
+                    "metric": "📏 Libre",
+                    "sub": {
+                        "spinach": "Espinacas",
+                        "lambs_lettuce": "Canónigos",
+                        "arugula": "Rúcula",
+                        "chard": "Acelgas",
+                        "kale": "Kale",
+                        "endive": "Endivias",
+                        "cabbage": "Col",
+                        "lettuce": "Lechuga"
+                    }
+                },
+                "cruciferous": {
+                    "name": "Crucíferas",
+                    "desc": "Brócoli, Coliflor...",
+                    "metric": "📏 1 Puño / Libre",
+                    "sub": {
+                        "broccoli": "Brócoli",
+                        "cauliflower": "Coliflor",
+                        "cabbage_re": "Repollo",
+                        "red_cabbage": "Lombarda",
+                        "brussels": "Col de Bruselas"
+                    }
+                },
+                "green_veg": {
+                    "name": "Verdes",
+                    "desc": "Espárragos, Calabacín...",
+                    "metric": "📏 Libre",
+                    "sub": {
+                        "asparagus": "Espárragos",
+                        "celery": "Apio",
+                        "cucumber": "Pepino",
+                        "green_beans": "Habas verdes",
+                        "zucchini": "Calabacín",
+                        "artichoke": "Alcachofa"
+                    }
+                },
+                "colors": {
+                    "name": "Colores",
+                    "desc": "Tomate, Pimiento, Zanahoria...",
+                    "metric": "📏 Libre",
+                    "sub": {
+                        "tomato": "Tomate",
+                        "pepper": "Pimiento",
+                        "carrot": "Zanahoria",
+                        "pumpkin": "Calabaza",
+                        "eggplant": "Berenjena",
+                        "onion": "Cebolla",
+                        "mushrooms": "Setas"
+                    }
+                }
+            }
+        },
+        "carbs": {
+            "title": "Carbos",
+            "subtitle": "Energía",
+            "items": {
+                "tubers": {
+                    "name": "Tubérculos",
+                    "desc": "Patata, Boniato...",
+                    "metric": "📏 1 Puño",
+                    "sub": {
+                        "potato": "Patata",
+                        "sweet_potato": "Boniato",
+                        "gnocchi": "Gnocchi",
+                        "yucca": "Yuca"
+                    }
+                },
+                "grains": {
+                    "name": "Granos",
+                    "desc": "Arroz, Pasta, Avena...",
+                    "metric": "📏 1 Puño",
+                    "sub": {
+                        "rice": "Arroz",
+                        "oats": "Avena",
+                        "pasta": "Pasta",
+                        "quinoa": "Quinoa",
+                        "wasa_bread": "Pan Wasa",
+                        "rice_corn_cakes": "Tortitas Arroz/Maíz"
+                    }
+                },
+                "legumes": {
+                    "name": "Legumbres",
+                    "desc": "Lentejas, Garbanzos...",
+                    "metric": "📏 1 Puño",
+                    "sub": {
+                        "lentils": "Lentejas",
+                        "beans": "Alubias",
+                        "peas": "Guisantes",
+                        "chickpeas": "Garbanzos",
+                        "soy": "Soja"
+                    }
+                },
+                "fruit": {
+                    "name": "Fruta",
+                    "desc": "Manzana, Plátano...",
+                    "metric": "📏 1 Pieza",
+                    "sub": {
+                        "berries": "Fresas/Frambuesas",
+                        "blueberries_blackberries": "Arándanos/Moras",
+                        "melon_watermelon": "Melón/Sandía",
+                        "apple_pear": "Manzana/Pera",
+                        "banana": "Plátano",
+                        "grapes": "Uvas",
+                        "peach": "Melocotón",
+                        "kiwi": "Kiwi",
+                        "orange": "Naranja"
+                    }
+                }
+            }
+        },
+        "fats": {
+            "title": "Grasas",
+            "subtitle": "Salud Hormonal",
+            "items": {
+                "oils": {
+                    "name": "Aceites",
+                    "desc": "Oliva, Coco...",
+                    "metric": "📏 1 Pulgar",
+                    "sub": {
+                        "olive_oil": "Aceite Oliva V.E.",
+                        "coconut_oil": "Aceite Coco V.E.",
+                        "butter": "Mantequilla",
+                        "ghee": "Ghee"
+                    }
+                },
+                "fruit_fat": {
+                    "name": "Frutas Grasas",
+                    "desc": "Aguacate, Coco...",
+                    "metric": "📏 1/4 o Puñado",
+                    "sub": {
+                        "avocado": "Aguacate",
+                        "olives": "Aceitunas",
+                        "coconut": "Coco natural"
+                    }
+                },
+                "nuts": {
+                    "name": "Frutos Secos",
+                    "desc": "Nueces, Almendras...",
+                    "metric": "📏 1 Puñado Cerrado",
+                    "sub": {
+                        "walnuts": "Nueces",
+                        "almonds": "Almendras",
+                        "hazelnuts": "Avellanas",
+                        "pistachios": "Pistachos",
+                        "cashews": "Anacardos",
+                        "peanuts": "Cacahuetes",
+                        "seeds": "Semillas",
+                        "dark_chocolate": "Chocolate 85%"
+                    }
+                },
+                "creamy": {
+                    "name": "Cremosos",
+                    "desc": "Queso Curado, Chocolate >85%...",
+                    "metric": "📏 1 Pulgar / Onza"
+                }
+            }
+        }
+    },
+    "category_details": {
+        "protein": {
+            "desc": "La base de tu estructura. Incluye carnes, pescados, mariscos, huevos y lácteos ricos en proteína.",
+            "subtitle": "Construcción",
+            "portion": {
+                "desc": "Grosor y tamaño de la palma de tu mano (sin dedos).",
+                "metric": "1 Palma"
+            }
+        },
+        "veg": {
+            "desc": "Fuente vital de fibra y micronutrientes. Aportan volumen a tus platos mejorando la digestión sin apenas calorías.",
+            "subtitle": "Saciedad y Salud",
+            "portion": {
+                "desc": "Cantidad ilimitada. Mínimo dos manos juntas llenas.",
+                "metric": "Libre / 2 Manos"
+            }
+        },
+        "carb": {
+            "desc": "Tu combustible principal. Esenciales para rendir en los entrenamientos y recuperar la energía gastada.",
+            "subtitle": "Gasolina",
+            "portion": {
+                "desc": "Varía según el tipo (puño, cuenco...).",
+                "metric": "1 Puño"
+            }
+        },
+        "fat": {
+            "desc": "Clave para tu entorno hormonal y absorción de nutrientes. Aportan sabor y una saciedad más duradera.",
+            "subtitle": "Salud Hormonal",
+            "portion": {
+                "desc": "Grasas densas (aceites, frutos secos).",
+                "metric": "1 Pulgar"
+            }
+        }
+    },
+    "onboarding": {
+        "step_0": {
+            "title": "Bienvenid@ a tu Guía Visual",
+            "content": "Olvida pesar comida. Usa tus manos para medir porciones y simplificar tu vida. Alimentación intuitiva y sin estrés.",
+            "action": "Empezar"
+        },
+        "step_1": {
+            "title": "1. Define tus Metas",
+            "content": "Configura cuántas porciones de cada grupo necesitas al día en el panel de 'Porciones'. Es tu cuadro de mando diario.",
+            "action": "Siguiente"
+        },
+        "step_2": {
+            "title": "2. Crea tus Platos",
+            "content": "Usa el 'Creador de Comidas' para seleccionar ingredientes visualmente. Sin contar calorías, solo grupos de alimentos.",
+            "action": "Siguiente"
+        },
+        "step_3": {
+            "title": "3. Organiza tu Semana",
+            "content": "Guarda tus días perfectos en 'Menús' y genera tu lista de la compra automáticamente con un solo clic.",
+            "action": "¡Listo!"
+        },
+        "skip": "Saltar"
+    }
+}

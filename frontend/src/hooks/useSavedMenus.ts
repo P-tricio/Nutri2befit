@@ -11,7 +11,7 @@ import {
 } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { useAuth } from '../context/AuthContext';
-import type { SavedMenu, Meal } from '../pages/History';
+import type { SavedMenu, Meal } from '../types';
 
 export function useSavedMenus() {
     const { currentUser } = useAuth();
@@ -89,10 +89,10 @@ export function useSavedMenus() {
     };
 
     // Rename wrapper since it's a common specific action
-    const renameMenu = async (menuId: string, newName: string) => {
+    const renameMenu = async (menuId: string, newName: string, newDescription?: string) => {
         if (!currentUser) return;
         const menuRef = doc(db, 'users', currentUser.uid, 'saved_menus', menuId);
-        await updateDoc(menuRef, { name: newName });
+        await updateDoc(menuRef, { name: newName, description: newDescription || '' });
     };
 
     return {
