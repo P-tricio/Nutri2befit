@@ -246,15 +246,18 @@ export const DATA: Category[] = [
                     'food.fats.items.nuts.sub.pistachios',
                     'food.fats.items.nuts.sub.cashews',
                     'food.fats.items.nuts.sub.peanuts',
-                    'food.fats.items.nuts.sub.seeds',
-                    'food.fats.items.nuts.sub.dark_chocolate'
+                    'food.fats.items.nuts.sub.seeds'
                 ]
             },
             {
                 id: 'creamy', name: 'food.fats.items.creamy.name', description: 'food.fats.items.creamy.desc',
                 image: '/sub_fat_other.png',
                 portionMetric: 'food.fats.items.creamy.metric',
-                subItems: ['Queso curado', 'Chocolate >85%', 'Crema Frutos Secos']
+                subItems: [
+                    'food.fats.items.creamy.sub.cured_cheese',
+                    'food.fats.items.creamy.sub.dark_chocolate_plus',
+                    'food.fats.items.creamy.sub.nut_butter'
+                ]
             }
         ]
     },
@@ -265,19 +268,43 @@ export const DATA: Category[] = [
                 id: 'spices', name: 'food.magic.items.spices.name', description: 'food.magic.items.spices.desc',
                 image: '/sub_magic_spices.png',
                 portionMetric: 'food.magic.items.spices.metric',
-                subItems: ['Cúrcuma', 'Chile', 'Jengibre', 'Pimienta', 'Azafrán', 'Orégano', 'Perejil', 'Nuez Moscada', 'Comino', 'Canela', 'Ajo', 'Sésamo']
+                subItems: [
+                    'food.magic.items.spices.sub.turmeric',
+                    'food.magic.items.spices.sub.chili',
+                    'food.magic.items.spices.sub.ginger',
+                    'food.magic.items.spices.sub.pepper',
+                    'food.magic.items.spices.sub.saffron',
+                    'food.magic.items.spices.sub.oregano',
+                    'food.magic.items.spices.sub.parsley',
+                    'food.magic.items.spices.sub.nutmeg',
+                    'food.magic.items.spices.sub.cumin',
+                    'food.magic.items.spices.sub.cinnamon',
+                    'food.magic.items.spices.sub.garlic',
+                    'food.magic.items.spices.sub.sesame'
+                ]
             },
             {
                 id: 'seasoning', name: 'food.magic.items.seasoning.name', description: 'food.magic.items.seasoning.desc',
                 image: '/sub_magic_seasoning.png',
                 portionMetric: 'food.magic.items.seasoning.metric',
-                subItems: ['Sal marina', 'Vinagre de vino', 'Vinagre de manzana', 'Limón', 'Mostaza']
+                subItems: [
+                    'food.magic.items.seasoning.sub.sea_salt',
+                    'food.magic.items.seasoning.sub.wine_vinegar',
+                    'food.magic.items.seasoning.sub.apple_cider_vinegar',
+                    'food.magic.items.seasoning.sub.lemon',
+                    'food.magic.items.seasoning.sub.mustard'
+                ]
             },
             {
                 id: 'drinks', name: 'food.magic.items.drinks.name', description: 'food.magic.items.drinks.desc',
                 image: '/sub_magic_drinks.png',
                 portionMetric: 'food.magic.items.drinks.metric',
-                subItems: ['Agua', 'Té sin azúcar', 'Café solo', 'Refresco Zero']
+                subItems: [
+                    'food.magic.items.drinks.sub.water',
+                    'food.magic.items.drinks.sub.tea',
+                    'food.magic.items.drinks.sub.coffee',
+                    'food.magic.items.drinks.sub.soda_zero'
+                ]
             }
         ]
     },

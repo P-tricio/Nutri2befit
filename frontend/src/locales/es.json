@@ -60,7 +60,48 @@
         "delete_meal_confirm_title": "¿Borrar Comida?",
         "delete_meal_confirm_msg": "¿Seguro que quieres borrar esta comida?",
         "empty_today": "Empieza a añadir comidas en el Generador para ver tu progreso hoy.",
-        "shopping_list": "Lista de Compra"
+        "shopping_list": "Lista de Compra",
+        "faq": {
+            "title": "FAQ y Consejos",
+            "guide_title": "Guía de Inicio",
+            "guide_desc": "Aprende a usar la app",
+            "items": {
+                "social": {
+                    "title": "Cena social / Comida trabajo",
+                    "solution": "Ahorro de Calorías",
+                    "details": [
+                        "Come solo Proteína + Verduras durante el día.",
+                        "Guarda carbos/grasas para la cena.",
+                        "Alcohol: 1 agua por cada copa."
+                    ]
+                },
+                "hunger": {
+                    "title": "Me he quedado con hambre",
+                    "solution": "Espera 20 min y bebe agua",
+                    "details": [
+                        "✅ Añade más Verdura.",
+                        "✅ Añade media palma de Proteína.",
+                        "❌ No picoteos."
+                    ]
+                },
+                "junk": {
+                    "title": "Azúcar y procesados",
+                    "solution": "Regla 90/10",
+                    "details": [
+                        "Si el 90% cumples, el 10% (1-2 comidas libres) no daña."
+                    ]
+                },
+                "flexibility": {
+                    "title": "¿Debo ser exacto con las medidas?",
+                    "solution": "Flexibilidad ante todo",
+                    "details": [
+                        "Las manos son una guía visual, no una regla estricta.",
+                        "Lo importante es la constancia, no la perfección.",
+                        "Obsesionarse por gramos solo genera estrés."
+                    ]
+                }
+            }
+        }
     },
     "profile": {
         "title": "Tu perfil",
@@ -85,68 +126,106 @@
                     "name": "Carnes",
                     "desc": "Pollo, Pavo, Ternera, Cerdo...",
                     "metric": "📏 1 Palma",
+                    "metric_guide": "El tamaño y grosor de la palma de tu mano, sin contar los dedos.",
                     "sub": {
                         "chicken": "Pollo",
+                        "chicken_info": "Alta en proteínas, baja en grasa. Rico en vitamina B6.",
                         "turkey": "Pavo",
+                        "turkey_info": "Proteína muy magra, rica en triptófano.",
                         "rabbit": "Conejo",
+                        "rabbit_info": "Carne blanca muy baja en grasas y colesterol.",
                         "veal": "Ternera",
+                        "veal_info": "Fuente de hierro hemo y zinc.",
                         "pork": "Cerdo sin grasa",
+                        "pork_info": "El lomo es una opción magra rica en tiamina.",
                         "burger": "Hamburguesa magra",
-                        "offal": "Vísceras"
+                        "burger_info": "Elige opciones con <5% de grasa.",
+                        "offal": "Vísceras",
+                        "offal_info": "Muy ricas en nutrientes (hígado), consumir con moderación."
                     }
                 },
                 "fish": {
                     "name": "Pescados",
-                    "desc": "Merluza, Salmón, Atún...",
-                    "metric": "📏 1 Palma",
+                    "desc": "Merluza, Bacalao, Salmón...",
+                    "metric": "📏 1 Palma Extendida",
+                    "metric_guide": "Para pescados blancos, usa la mano completa (incluyendo dedos). Para azules, solo la palma.",
                     "sub": {
                         "hake": "Merluza",
+                        "hake_info": "Pescado blanco, ligero y fácil de digerir.",
                         "cod": "Bacalao",
+                        "cod_info": "Bajo en calorías y rico en yodo.",
                         "salmon": "Salmón",
+                        "salmon_info": "Rico en Omega-3, esencial para el corazón y cerebro.",
                         "tuna": "Atún",
+                        "tuna_info": "Alta proteína, ojo con el mercurio en grandes cantidades.",
                         "mackerel": "Caballa",
+                        "mackerel_info": "Pescado azul económico y muy nutritivo.",
                         "hosmemackerel": "Jurel",
+                        "hosmemackerel_info": "Excelente fuente de ácidos grasos.",
                         "sardines": "Sardinas",
-                        "whitefish": "Pescado blanco"
+                        "sardines_info": "Ricas en calcio (si se comen con espina) y Omega-3.",
+                        "whitefish": "Pescado Blanco",
+                        "whitefish_info": "Versátil y bajo en calorías."
                     }
                 },
                 "seafood": {
                     "name": "Mariscos",
                     "desc": "Gambas, Mejillones...",
                     "metric": "📏 1 Palma",
+                    "metric_guide": "Para mariscos (gambas, calamares), usa la palma de la mano llena.",
                     "sub": {
                         "shrimp": "Gambas",
+                        "shrimp_info": "Bajas en calorías y muy ricas en proteínas.",
                         "squid": "Calamar",
+                        "squid_info": "Fuente excelente de proteínas, evitar rebozados.",
                         "clams": "Almejas",
-                        "mussels": "Mejillones"
+                        "clams_info": "Altísimas en hierro, superando incluso a las carnes rojas.",
+                        "mussels": "Mejillones",
+                        "mussels_info": "Económicos, sostenibles y ricos en B12."
                     }
                 },
                 "dairy_zero": {
                     "name": "Lácteos 0%",
                     "desc": "Queso Fresco, Claras, Yogur...",
-                    "metric": "📏 1 Taza / 2 Huevos",
+                    "metric": "📏 Taza / Unidad",
+                    "metric_guide": "1 Taza de lácteos líquidos/yogur o una ración estándar (ej. 2 huevos).",
                     "sub": {
                         "eggs": "Huevos",
+                        "eggs_info": "Proteína de alto valor biológico. La yema contiene la mayoría de vitaminas.",
                         "whites": "Claras",
+                        "whites_info": "Proteína pura sin grasas.",
                         "fresh_cheese": "Queso Fresco 0%",
+                        "fresh_cheese_info": "Opción ligera rica en calcio.",
                         "beaten_cheese": "Queso Batido 0%",
+                        "beaten_cheese_info": "Textura cremosa tipo yogur, muy alto en proteínas caseína.",
                         "greek_yogurt": "Yogur Griego",
+                        "greek_yogurt_info": "Más cremoso y con más proteína que el normal. Elige sin azúcar.",
                         "kefir": "Kefir",
+                        "kefir_info": "Probiótico natural excelente para la salud intestinal.",
                         "protein_whey": "Suero de proteína",
-                        "cottage": "Requesón"
+                        "protein_whey_info": "Absorción rápida, ideal post-entreno.",
+                        "cottage": "Requesón",
+                        "cottage_info": "Queso granulado bajo en grasa y alto en proteína lenta."
                     }
                 },
                 "veggie_prot": {
                     "name": "Vegetal y Legumbre",
                     "desc": "Tofu, Soja, Seitán...",
                     "metric": "📏 1 Palma",
+                    "metric_guide": "El bloque de tofu/seitan del tamaño de tu palma.",
                     "sub": {
                         "tofu": "Tofu",
+                        "tofu_info": "Proteína completa de soja, absorbe el sabor de lo que cocines.",
                         "textured_soy": "Soja Texturizada",
+                        "textured_soy_info": "Muy alta en proteínas y fibra. Hidratar antes de usar.",
                         "edamame": "Edamame",
+                        "edamame_info": "Soja joven, excelente snack.",
                         "seitan": "Seitán",
+                        "seitan_info": "Gluten de trigo, textura muy similar a la carne.",
                         "tempeh": "Tempeh",
-                        "legumes": "Legumbre (Proteína)"
+                        "tempeh_info": "Soja fermentada, sabor intenso y más digestivo que el tofu.",
+                        "legumes": "Legumbre (Proteína)",
+                        "legumes_info": "Lentejas/Garbanzos usados como fuente principal de proteína."
                     }
                 }
             }
@@ -158,55 +237,85 @@
                 "leaves": {
                     "name": "Hojas Verdes",
                     "desc": "Espinacas, Lechuga, Rúcula...",
-                    "metric": "📏 Libre",
+                    "metric": "📏 Libre / 2 Manos",
+                    "metric_guide": "Cantidad ilimitada. Visualmente: dos manos juntas abiertas llenas.",
                     "sub": {
                         "spinach": "Espinacas",
+                        "spinach_info": "Muy ricas en hierro, calcio y vitaminas A, C, K.",
                         "lambs_lettuce": "Canónigos",
+                        "lambs_lettuce_info": "Suaves y digestivos, aportan Vitamina C.",
                         "arugula": "Rúcula",
+                        "arugula_info": "Sabor amargo que estimula la digestión.",
                         "chard": "Acelgas",
+                        "chard_info": "Altas en fibra, cocinar los tallos por separado.",
                         "kale": "Kale",
+                        "kale_info": "Superalimento rico en antioxidantes y calcio vegetal.",
                         "endive": "Endivias",
+                        "endive_info": "Bajas en calorías, sabor refrescante.",
                         "cabbage": "Col",
-                        "lettuce": "Lechuga"
+                        "cabbage_info": "Económica y muy versátil.",
+                        "lettuce": "Lechuga",
+                        "lettuce_info": "Base hidratante para ensaladas."
                     }
                 },
                 "cruciferous": {
                     "name": "Crucíferas",
                     "desc": "Brócoli, Coliflor...",
-                    "metric": "📏 1 Puño / Libre",
+                    "metric": "📏 1-2 Puños",
+                    "metric_guide": "Al menos un puño cerrado si es cocida, o más si tienes hambre.",
                     "sub": {
                         "broccoli": "Brócoli",
+                        "broccoli_info": "Potente anticancerígeno y rico en sulforafano.",
                         "cauliflower": "Coliflor",
+                        "cauliflower_info": "Sustituto bajo en carbohidratos para arroz o puré.",
                         "cabbage_re": "Repollo",
+                        "cabbage_re_info": "Rico en vitamina C y azufre.",
                         "red_cabbage": "Lombarda",
-                        "brussels": "Col de Bruselas"
+                        "red_cabbage_info": "Pigmentos antioxidantes potentes.",
+                        "brussels": "Col de Bruselas",
+                        "brussels_info": "Pequeñas pero densas en nutrientes y fibra."
                     }
                 },
                 "green_veg": {
                     "name": "Verdes",
                     "desc": "Espárragos, Calabacín...",
-                    "metric": "📏 Libre",
+                    "metric": "📏 Libre / 2 Manos",
+                    "metric_guide": "Dos manos juntas abiertas. Cuanto más, mejor.",
                     "sub": {
                         "asparagus": "Espárragos",
+                        "asparagus_info": "Diuréticos naturales.",
                         "celery": "Apio",
+                        "celery_info": "Crujiente, hidratante y muy bajo en calorías.",
                         "cucumber": "Pepino",
-                        "green_beans": "Habas verdes",
+                        "cucumber_info": "95% agua, ideal para hidratarse.",
+                        "green_beans": "Judías verdes",
+                        "green_beans_info": "Aportan fibra y saciedad.",
                         "zucchini": "Calabacín",
-                        "artichoke": "Alcachofa"
+                        "zucchini_info": "Versátil, sabor neutro, piel rica en nutrientes.",
+                        "artichoke": "Alcachofa",
+                        "artichoke_info": "Protector hepático y digestivo."
                     }
                 },
                 "colors": {
                     "name": "Colores",
                     "desc": "Tomate, Pimiento, Zanahoria...",
-                    "metric": "📏 Libre",
+                    "metric": "📏 1 Puño / Libre",
+                    "metric_guide": "Añade color a tu plato. Un puño o más.",
                     "sub": {
                         "tomato": "Tomate",
+                        "tomato_info": "Rico en licopeno (mejor cocinado).",
                         "pepper": "Pimiento",
+                        "pepper_info": "Más vitamina C que la naranja.",
                         "carrot": "Zanahoria",
+                        "carrot_info": "Betacarotenos para la piel y vista.",
                         "pumpkin": "Calabaza",
+                        "pumpkin_info": "Dulce natural, buena fibra.",
                         "eggplant": "Berenjena",
+                        "eggplant_info": "Esponjosa y baja en calorías, absorbe sabores.",
                         "onion": "Cebolla",
-                        "mushrooms": "Setas"
+                        "onion_info": "Base de sabor esencial, rica en quercetina.",
+                        "mushrooms": "Setas",
+                        "mushrooms_info": "Sabor Umami y Vitamina D."
                     }
                 }
             }
@@ -219,52 +328,76 @@
                     "name": "Tubérculos",
                     "desc": "Patata, Boniato...",
                     "metric": "📏 1 Puño",
+                    "metric_guide": "El tamaño de tu puño cerrado (cocinado).",
                     "sub": {
                         "potato": "Patata",
+                        "potato_info": "Mejor cocida y enfriada (almidón resistente).",
                         "sweet_potato": "Boniato",
+                        "sweet_potato_info": "Rico en betacarotenos y sabor dulce.",
                         "gnocchi": "Gnocchi",
-                        "yucca": "Yuca"
+                        "gnocchi_info": "Densos en energía, controlar ración.",
+                        "yucca": "Yuca",
+                        "yucca_info": "Muy energética, excelente fuente de carbos complejos."
                     }
                 },
                 "grains": {
                     "name": "Granos",
-                    "desc": "Arroz, Pasta, Avena...",
-                    "metric": "📏 1 Puño",
+                    "desc": "Arroz, Quinoa, Avena...",
+                    "metric": "📏 1 Mano (Cuenco)",
+                    "metric_guide": "La cantidad que cabe en una mano haciendo forma de cuenco (en cocinado).",
                     "sub": {
                         "rice": "Arroz",
-                        "oats": "Avena",
-                        "pasta": "Pasta",
+                        "rice_info": "Mejor integral o basmati.",
                         "quinoa": "Quinoa",
-                        "wasa_bread": "Pan Wasa",
-                        "rice_corn_cakes": "Tortitas Arroz/Maíz"
+                        "quinoa_info": "Pseudocereal con proteína completa.",
+                        "oats": "Avena",
+                        "oats_info": "Betaglucanos para el colesterol.",
+                        "corn": "Maíz",
+                        "corn_info": "Cereal dulce, rico en antioxidantes.",
+                        "buckwheat": "Trigo Sarraceno",
+                        "buckwheat_info": "Sin gluten, rico en magnesio."
                     }
                 },
                 "legumes": {
                     "name": "Legumbres",
                     "desc": "Lentejas, Garbanzos...",
-                    "metric": "📏 1 Puño",
+                    "metric": "📏 2 Manos (Cuenco)",
+                    "metric_guide": "La cantidad que cabe en tus dos manos juntas haciendo cuenco (en cocinado).",
                     "sub": {
                         "lentils": "Lentejas",
-                        "beans": "Alubias",
-                        "peas": "Guisantes",
+                        "lentils_info": "Hierro vegetal (añade Vit C).",
                         "chickpeas": "Garbanzos",
-                        "soy": "Soja"
+                        "chickpeas_info": "Versátiles y ricos en fibra.",
+                        "beans": "Alubias",
+                        "beans_info": "Saciantes y económicas.",
+                        "peas": "Guisantes",
+                        "peas_info": "Proteína verde."
                     }
                 },
                 "fruit": {
                     "name": "Fruta",
                     "desc": "Manzana, Plátano...",
-                    "metric": "📏 1 Pieza",
+                    "metric": "📏 1 Pieza / Taza",
+                    "metric_guide": "Una pieza mediana (tamaño pelota tenis) o una taza llena (troceada/frutos rojos).",
                     "sub": {
                         "berries": "Fresas/Frambuesas",
+                        "berries_info": "Bajas en azúcar, altísimas en antioxidantes.",
                         "blueberries_blackberries": "Arándanos/Moras",
+                        "blueberries_blackberries_info": "Potencian la memoria y salud cerebral.",
                         "melon_watermelon": "Melón/Sandía",
+                        "melon_watermelon_info": "Muy hidratantes y refrescantes.",
                         "apple_pear": "Manzana/Pera",
+                        "apple_pear_info": "Fibra (pectina) y saciedad. Piel rica en nutrientes.",
                         "banana": "Plátano",
+                        "banana_info": "Potasio y energía rápida. Ideal pre/post entreno.",
                         "grapes": "Uvas",
+                        "grapes_info": "Resveratrol antioxidante.",
                         "peach": "Melocotón",
+                        "peach_info": "Dulce y rico en fibra.",
                         "kiwi": "Kiwi",
-                        "orange": "Naranja"
+                        "kiwi_info": "Más Vitamina C que la naranja, excelente para el tránsito.",
+                        "orange": "Naranja",
+                        "orange_info": "Clásico de Vitamina C. Mejor entera que en zumo."
                     }
                 }
             }
@@ -277,42 +410,138 @@
                     "name": "Aceites",
                     "desc": "Oliva, Coco...",
                     "metric": "📏 1 Pulgar",
+                    "metric_guide": "Una cucharada sopera o la longitud de tu pulgar.",
                     "sub": {
                         "olive_oil": "Aceite Oliva V.E.",
+                        "olive_oil_info": "Oro líquido. Rico en polifenoles.",
                         "coconut_oil": "Aceite Coco V.E.",
+                        "coconut_oil_info": "Triglicéridos de cadena media, energía rápida.",
                         "butter": "Mantequilla",
-                        "ghee": "Ghee"
+                        "butter_info": "Mejor si es de pasto (rica en Vitamina A/K2).",
+                        "ghee": "Ghee",
+                        "ghee_info": "Mantequilla clarificada, sin lactosa."
                     }
                 },
                 "fruit_fat": {
                     "name": "Frutas Grasas",
                     "desc": "Aguacate, Coco...",
                     "metric": "📏 1/4 o Puñado",
+                    "metric_guide": "1/4 de aguacate o un trozo de coco (puñado).",
                     "sub": {
                         "avocado": "Aguacate",
+                        "avocado_info": "Grasas monoinsaturadas y mucha fibra.",
                         "olives": "Aceitunas",
-                        "coconut": "Coco natural"
+                        "olives_info": "Ricas en vitamina E.",
+                        "coconut": "Coco natural",
+                        "coconut_info": "Fibra y grasas saturadas naturales."
                     }
                 },
                 "nuts": {
                     "name": "Frutos Secos",
                     "desc": "Nueces, Almendras...",
                     "metric": "📏 1 Puñado Cerrado",
+                    "metric_guide": "El hueco de tu mano cerrada (sin hacer montaña).",
                     "sub": {
                         "walnuts": "Nueces",
+                        "walnuts_info": "La reina del Omega-3 vegetal.",
                         "almonds": "Almendras",
+                        "almonds_info": "Calcio y vitamina E.",
                         "hazelnuts": "Avellanas",
+                        "hazelnuts_info": "Muy energéticas.",
                         "pistachios": "Pistachos",
+                        "pistachios_info": "Proteína completa y fibra.",
                         "cashews": "Anacardos",
+                        "cashews_info": "Cremosos y dulces, ricos en cobre.",
                         "peanuts": "Cacahuetes",
+                        "peanuts_info": "Legumbre rica en proteínas (ojo, muy calórica).",
                         "seeds": "Semillas",
-                        "dark_chocolate": "Chocolate 85%"
+                        "seeds_info": "Chía, lino, calabaza... bombas de nutrientes."
                     }
                 },
                 "creamy": {
                     "name": "Cremosos",
                     "desc": "Queso Curado, Chocolate >85%...",
-                    "metric": "📏 1 Pulgar / Onza"
+                    "metric": "📏 1 Pulgar / Onza",
+                    "metric_guide": "Un trozo del tamaño de tu pulgar (30g) o una onza cuadrada (10-15g).",
+                    "sub": {
+                        "cured_cheese": "Queso curado",
+                        "cured_cheese_info": "Fuente concentrada de calcio y sabor.",
+                        "dark_chocolate_plus": "Chocolate >85%",
+                        "dark_chocolate_plus_info": "Poco azúcar, mucha grasa saludable.",
+                        "nut_butter": "Crema Frutos Secos",
+                        "nut_butter_info": "1 Cucharada. Elige 100% cacahuete/almendra sin azúcar."
+                    }
+                }
+            }
+        },
+        "magic": {
+            "title": "Magia",
+            "subtitle": "Sabor",
+            "items": {
+                "spices": {
+                    "name": "Especias",
+                    "desc": "Cúrcuma, Ajo...",
+                    "metric": "📏 Libre",
+                    "metric_guide": "Usa tantas como quieras para dar sabor sin calorías.",
+                    "sub": {
+                        "turmeric": "Cúrcuma",
+                        "turmeric_info": "Antiinflamatorio natural potente.",
+                        "chili": "Chile",
+                        "chili_info": "Capsaicina que activa el metabolismo.",
+                        "ginger": "Jengibre",
+                        "ginger_info": "Digestivo y picante.",
+                        "pepper": "Pimienta",
+                        "pepper_info": "Potencia la absorción de la cúrcuma.",
+                        "saffron": "Azafrán",
+                        "saffron_info": "El oro rojo.",
+                        "oregano": "Orégano",
+                        "oregano_info": "Antimicrobiano.",
+                        "parsley": "Perejil",
+                        "parsley_info": "Rico en vitamina C y diurético.",
+                        "nutmeg": "Nuez Moscada",
+                        "nutmeg_info": "Sabor intenso, usa poco.",
+                        "cumin": "Comino",
+                        "cumin_info": "Digestivo, reduce gases.",
+                        "cinnamon": "Canela",
+                        "cinnamon_info": "Ayuda a regular el azúcar en sangre.",
+                        "garlic": "Ajo",
+                        "garlic_info": "Antibiótico natural.",
+                        "sesame": "Sésamo",
+                        "sesame_info": "Fuente de calcio."
+                    }
+                },
+                "seasoning": {
+                    "name": "Aderezos",
+                    "desc": "Vinagre, Limón...",
+                    "metric": "📏 Libre",
+                    "metric_guide": "Adereza con moderación de sal.",
+                    "sub": {
+                        "sea_salt": "Sal marina",
+                        "sea_salt_info": "Electrolitos esenciales.",
+                        "wine_vinegar": "Vinagre de vino",
+                        "apple_cider_vinegar": "Vinagre de manzana",
+                        "apple_cider_vinegar_info": "Mejora la sensibilidad a la insulina.",
+                        "lemon": "Limón",
+                        "lemon_info": "Vitamina C y frescor.",
+                        "mustard": "Mostaza",
+                        "mustard_info": "Sabor intenso con pocas calorías (sin azúcar)."
+                    }
+                },
+                "drinks": {
+                    "name": "Bebidas",
+                    "desc": "Agua, Té, Café...",
+                    "metric": "📏 Libre",
+                    "metric_guide": "Mantente hidratado.",
+                    "sub": {
+                        "water": "Agua",
+                        "water_info": "Lo más importante del día.",
+                        "tea": "Té sin azúcar",
+                        "tea_info": "Antioxidantes.",
+                        "coffee": "Café solo",
+                        "coffee_info": "Cafeína para el rendimiento.",
+                        "soda_zero": "Refresco Zero",
+                        "soda_zero_info": "Ocasionalmente para quitar el antojo dulce."
+                    }
                 }
             }
         }
@@ -370,7 +599,12 @@
         "step_3": {
             "title": "3. Organiza tu Semana",
             "content": "Guarda tus días perfectos en 'Menús' y genera tu lista de la compra automáticamente con un solo clic.",
-            "action": "¡Listo!"
+            "action": "Siguiente"
+        },
+        "step_4": {
+            "title": "4. Domina tu Historial",
+            "content": "Edita nombres, reorganiza comidas o envíalas de nuevo al 'Creador' para modificar ingredientes fácilmente.",
+            "action": "¡Empezar!"
         },
         "skip": "Saltar"
     }

@@ -139,36 +139,32 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                                                 <span className="material-symbols-outlined">waving_hand</span>
                                             </div>
                                             <div className="text-left">
-                                                <h3 className="font-black text-slate-900 dark:text-white text-sm">Guía de Inicio</h3>
-                                                <p className="text-xs text-slate-500 font-medium">Aprende a usar la app</p>
+                                                <h3 className="font-black text-slate-900 dark:text-white text-sm">{t('history.faq.guide_title', 'Guía de Inicio')}</h3>
+                                                <p className="text-xs text-slate-500 font-medium">{t('history.faq.guide_desc', 'Aprende a usar la app')}</p>
                                             </div>
                                         </div>
                                         <span className="material-symbols-outlined text-slate-400 group-hover:translate-x-1 transition-transform">arrow_forward_ios</span>
                                     </button>
+
                                     <FAQItem
-                                        title="Cena social / Comida trabajo"
-                                        solution="Ahorro de Calorías"
-                                        details={[
-                                            "Come solo Proteína + Verduras durante el día.",
-                                            "Guarda carbos/grasas para la cena.",
-                                            "Alcohol: 1 agua por cada copa."
-                                        ]}
+                                        title={t('history.faq.items.social.title')}
+                                        solution={t('history.faq.items.social.solution')}
+                                        details={t('history.faq.items.social.details', { returnObjects: true }) as string[]}
                                     />
                                     <FAQItem
-                                        title="Me he quedado con hambre"
-                                        solution="Espera 20 min y bebe agua"
-                                        details={[
-                                            "✅ Añade más Verdura.",
-                                            "✅ Añade media palma de Proteína.",
-                                            "❌ No picoteos."
-                                        ]}
+                                        title={t('history.faq.items.hunger.title')}
+                                        solution={t('history.faq.items.hunger.solution')}
+                                        details={t('history.faq.items.hunger.details', { returnObjects: true }) as string[]}
                                     />
                                     <FAQItem
-                                        title="Azúcar y procesados"
-                                        solution="Regla 90/10"
-                                        details={[
-                                            "Si el 90% cumples, el 10% (1-2 comidas libres) no daña."
-                                        ]}
+                                        title={t('history.faq.items.junk.title')}
+                                        solution={t('history.faq.items.junk.solution')}
+                                        details={t('history.faq.items.junk.details', { returnObjects: true }) as string[]}
+                                    />
+                                    <FAQItem
+                                        title={t('history.faq.items.flexibility.title')}
+                                        solution={t('history.faq.items.flexibility.solution')}
+                                        details={t('history.faq.items.flexibility.details', { returnObjects: true }) as string[]}
                                     />
                                 </div>
                             </motion.div>
@@ -182,6 +178,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 }
 
 function FAQItem({ title, solution, details }: { title: string, solution: string, details: string[] }) {
+    // Safe check for details array to prevent crash if translation fails
+    const safeDetails = Array.isArray(details) ? details : [];
+
     return (
         <div className="bg-white dark:bg-white/5 rounded-xl p-4 border border-slate-100 dark:border-white/5">
             <h3 className="font-bold text-slate-900 dark:text-white text-sm mb-1">{title}</h3>
@@ -189,7 +188,7 @@ function FAQItem({ title, solution, details }: { title: string, solution: string
                 <span className="text-primary text-xs font-bold uppercase tracking-wide">{solution}</span>
             </div>
             <ul className="list-disc list-inside space-y-1">
-                {details.map((d, i) => (
+                {safeDetails.map((d, i) => (
                     <li key={i} className="text-xs text-slate-600 dark:text-slate-300">{d}</li>
                 ))}
             </ul>

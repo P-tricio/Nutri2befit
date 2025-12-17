@@ -9,6 +9,16 @@ import type { Meal, DailyLog, SelectionDetail } from '../types'; // Import Share
 import ImageWithFallback from '../components/ImageWithFallback';
 import { DATA } from '../data/foodData';
 
+// Map pairing translation keys of portions with images
+const METRIC_IMAGES: Record<string, string> = {
+    // 'food.protein.items.meat.metric': '/portion_guide_palm.png',
+    // 'food.protein.items.fish.metric': '/portion_guide_palm.png',
+    // 'food.protein.items.seafood.metric': '/portion_guide_palm.png',
+    // 'food.protein.items.veggie_prot.metric': '/portion_guide_palm.png',
+    // Future placeholders
+    // 'food.carbs.items.tubers.metric': '/portion_guide_fist.png',
+};
+
 
 
 
@@ -275,6 +285,14 @@ export default function MenuGenerator() {
     const [saveModal, setSaveModal] = useState<{ isOpen: boolean; currentName: string }>({
         isOpen: false,
         currentName: ''
+    });
+
+    // --- INFO MODAL STATE ---
+    const [infoModal, setInfoModal] = useState<{ isOpen: boolean; title: string; content: string; image?: string }>({
+        isOpen: false,
+        title: '',
+        content: '',
+        image: undefined
     });
 
     const openSaveModal = () => {
@@ -620,25 +638,66 @@ export default function MenuGenerator() {
                                                             >
                                                                 <div className="pt-2 pb-2 px-1">
                                                                     {group.portionMetric && (
-                                                                        <div className="mb-2 flex items-center gap-2 bg-blue-50 dark:bg-blue-900/20 px-3 py-1.5 rounded-lg border border-blue-100 dark:border-blue-500/30">
+                                                                        <button
+                                                                            onClick={(e) => {
+                                                                                e.stopPropagation();
+                                                                                const metricGuideKey = `${group.portionMetric!}_guide`;
+                                                                                const metricGuide = t(metricGuideKey);
+
+                                                                                // Dynamic image lookup
+                                                                                const image = METRIC_IMAGES[group.portionMetric!] || undefined;
+
+                                                                                setInfoModal({
+                                                                                    isOpen: true,
+                                                                                    title: t(group.portionMetric!),
+                                                                                    content: metricGuide !== metricGuideKey ? metricGuide : "Guía detallada próximamente.",
+                                                                                    image: image
+                                                                                });
+                                                                            }}
+                                                                            className="mb-2 flex items-center gap-2 bg-blue-50 dark:bg-blue-900/20 px-3 py-1.5 rounded-lg border border-blue-100 dark:border-blue-500/30 hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors w-full"
+                                                                        >
                                                                             <span className="material-symbols-outlined text-sm text-blue-600 dark:text-blue-400">straighten</span>
                                                                             <span className="text-xs font-bold text-blue-800 dark:text-blue-200">{t(group.portionMetric)}</span>
-                                                                        </div>
+                                                                            <span className="material-symbols-outlined text-xs text-blue-400 ml-auto">info</span>
+                                                                        </button>
                                                                     )}
                                                                     <div className="bg-slate-50 dark:bg-white/5 rounded-2xl p-3 grid grid-cols-2 gap-2 border border-slate-100 dark:border-white/5 shadow-inner">
-                                                                        {group.subItems.map(item => (
-                                                                            <button
-                                                                                key={item}
-                                                                                onClick={(e) => {
-                                                                                    e.stopPropagation();
-                                                                                    addIngredient(item);
-                                                                                }}
-                                                                                className="px-3 py-2.5 rounded-xl bg-white dark:bg-black/20 text-sm font-bold text-slate-600 dark:text-slate-300 shadow-sm border border-slate-200 dark:border-white/5 hover:border-primary hover:text-primary active:scale-95 transition-all text-left flex justify-between items-center group/btn min-h-[44px]"
-                                                                            >
-                                                                                <span className="break-words leading-tight pr-1">{t(item)}</span>
-                                                                                <span className="material-symbols-outlined text-xs opacity-30 group-hover/btn:opacity-100 text-primary transition-opacity shrink-0">add</span>
-                                                                            </button>
-                                                                        ))}
+                                                                        {group.subItems.map(item => {
+                                                                            const infoKey = `${item}_info`;
+                                                                            const infoText = t(infoKey);
+                                                                            const hasInfo = infoText !== infoKey;
+
+                                                                            return (
+                                                                                <button
+                                                                                    key={item}
+                                                                                    onClick={(e) => {
+                                                                                        e.stopPropagation();
+                                                                                        addIngredient(item);
+                                                                                    }}
+                                                                                    className="px-2 py-2 rounded-xl bg-white dark:bg-black/20 text-xs font-bold text-slate-600 dark:text-slate-300 shadow-sm border border-slate-200 dark:border-white/5 hover:border-primary hover:text-primary active:scale-95 transition-all text-left flex items-center gap-1 group/btn min-h-[42px]"
+                                                                                >
+                                                                                    {hasInfo && (
+                                                                                        <span
+                                                                                            onClick={(e) => {
+                                                                                                e.stopPropagation();
+                                                                                                setInfoModal({
+                                                                                                    isOpen: true,
+                                                                                                    title: t(item),
+                                                                                                    content: infoText
+                                                                                                });
+                                                                                            }}
+                                                                                            className="material-symbols-outlined text-[16px] text-blue-400 hover:text-blue-600 transition-colors cursor-pointer shrink-0 z-10"
+                                                                                        >
+                                                                                            info
+                                                                                        </span>
+                                                                                    )}
+                                                                                    <div className="flex-1 min-w-0">
+                                                                                        <span className="break-words leading-tight line-clamp-2 block">{t(item)}</span>
+                                                                                    </div>
+                                                                                    <span className="material-symbols-outlined text-[10px] opacity-30 group-hover/btn:opacity-100 text-primary transition-opacity shrink-0 ml-auto">add</span>
+                                                                                </button>
+                                                                            );
+                                                                        })}
                                                                     </div>
                                                                     <button
                                                                         onClick={(e) => {
@@ -732,6 +791,53 @@ export default function MenuGenerator() {
                                         <button onClick={closeSaveModal} className="flex-1 py-3 rounded-xl bg-slate-100 dark:bg-white/5 text-slate-500 font-bold hover:bg-slate-200 dark:hover:bg-white/10 transition-colors">Cancelar</button>
                                         <button onClick={confirmSaveMeal} className="flex-1 py-3 rounded-xl bg-primary text-slate-900 font-bold shadow-lg shadow-primary/20 hover:bg-primary/90 transition-colors">Guardar</button>
                                     </div>
+                                </motion.div>
+                            </div>
+                        )}
+                    </AnimatePresence>,
+                    document.body
+                )
+            }
+
+            {/* INFO MODAL PORTAL */}
+            {
+                createPortal(
+                    <AnimatePresence>
+                        {infoModal.isOpen && (
+                            <div className="fixed inset-0 z-[600] flex items-center justify-center p-6">
+                                <motion.div
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                    className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                                    onClick={() => setInfoModal(prev => ({ ...prev, isOpen: false }))}
+                                />
+                                <motion.div
+                                    initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                                    animate={{ scale: 1, opacity: 1, y: 0 }}
+                                    exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                                    className="bg-white dark:bg-slate-900 rounded-3xl p-6 w-full max-w-sm relative z-10 shadow-2xl border border-white/10"
+                                >
+                                    <div className="mb-4 bg-blue-50 dark:bg-blue-900/20 w-12 h-12 rounded-full flex items-center justify-center">
+                                        <span className="material-symbols-outlined text-blue-500 text-2xl">info</span>
+                                    </div>
+                                    <h3 className="text-xl font-black text-slate-900 dark:text-white mb-2">{infoModal.title}</h3>
+                                    {infoModal.image && (
+                                        <div className="mb-4 rounded-xl overflow-hidden border border-slate-200 dark:border-white/10 shadow-sm">
+                                            <div className="bg-white p-4 flex justify-center">
+                                                <img src={infoModal.image} alt="Guía visual" className="max-h-48 object-contain" />
+                                            </div>
+                                        </div>
+                                    )}
+                                    <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed mb-6 font-medium">
+                                        {infoModal.content}
+                                    </p>
+                                    <button
+                                        onClick={() => setInfoModal(prev => ({ ...prev, isOpen: false }))}
+                                        className="w-full py-3 rounded-xl bg-slate-100 dark:bg-white/5 text-slate-900 dark:text-white font-bold hover:bg-slate-200 dark:hover:bg-white/10 transition-colors"
+                                    >
+                                        Entendido
+                                    </button>
                                 </motion.div>
                             </div>
                         )}

@@ -60,7 +60,48 @@
     "delete_meal_confirm_title": "Delete Meal?",
     "delete_meal_confirm_msg": "Are you sure you want to delete this meal?",
     "empty_today": "Start adding meals in the Generator to see your progress today.",
-    "shopping_list": "Shopping List"
+    "shopping_list": "Shopping List",
+    "faq": {
+      "title": "FAQ & Tips",
+      "guide_title": "Start Guide",
+      "guide_desc": "Learn how to use the app",
+      "items": {
+        "social": {
+          "title": "Social Dinner / Work Lunch",
+          "solution": "Calorie Saving",
+          "details": [
+            "Eat only Protein + Veggies during the day.",
+            "Save carbs/fats for dinner.",
+            "Alcohol: 1 water for every drink."
+          ]
+        },
+        "hunger": {
+          "title": "I'm still hungry",
+          "solution": "Wait 20 min and drink water",
+          "details": [
+            "✅ Add more Veggies.",
+            "✅ Add half a palm of Protein.",
+            "❌ No snacking."
+          ]
+        },
+        "junk": {
+          "title": "Sugar and processed food",
+          "solution": "90/10 Rule",
+          "details": [
+            "If you comply 90%, the 10% (1-2 cheat meals) won't hurt."
+          ]
+        },
+        "flexibility": {
+          "title": "Do I need to be exact?",
+          "solution": "Flexibility First",
+          "details": [
+            "Hands are a visual guide, not a strict rule.",
+            "Consistency is more important than perfection.",
+            "Obsessing over grams only creates stress."
+          ]
+        }
+      }
+    }
   },
   "profile": {
     "title": "Your Profile",
@@ -85,8 +126,10 @@
           "name": "Meat/Poultry",
           "desc": "Chicken, Turkey, Beef, Pork...",
           "metric": "📏 1 Palm",
+          "metric_guide": "The protein portion is equal to the size and thickness of the palm of your hand (excluding fingers).",
           "sub": {
             "chicken": "Chicken",
+            "chicken_info": "Excellent source of lean protein. Rich in vitamin B6 and niacin, essential for energy metabolism.",
             "turkey": "Turkey",
             "rabbit": "Rabbit",
             "veal": "Veal",
@@ -228,43 +271,62 @@
         },
         "grains": {
           "name": "Grains",
-          "desc": "Rice, Pasta, Oats...",
-          "metric": "📏 1 Cupped Hand",
+          "desc": "Rice, Quinoa, Oats...",
+          "metric": "📏 1 Hand (Cupped)",
+          "metric_guide": "The amount that fits in one cupped hand (cooked).",
           "sub": {
             "rice": "Rice",
+            "rice_info": "Whole or basmati is best.",
             "oats": "Oats",
-            "pasta": "Pasta",
+            "oats_info": "Beta-glucans for cholesterol.",
             "quinoa": "Quinoa",
-            "wasa_bread": "Wasa Bread",
-            "rice_corn_cakes": "Rice/Corn Cakes"
+            "quinoa_info": "Complete protein pseudocereal.",
+            "corn": "Corn",
+            "corn_info": "Sweet cereal, rich in antioxidants.",
+            "buckwheat": "Buckwheat",
+            "buckwheat_info": "Gluten-free, rich in magnesium."
           }
         },
         "legumes": {
           "name": "Legumes",
           "desc": "Lentils, Chickpeas...",
-          "metric": "📏 1 Cupped Hand",
+          "metric": "📏 2 Hands (Cupped)",
+          "metric_guide": "The amount that fits in two cupped hands together (cooked).",
           "sub": {
             "lentils": "Lentils",
+            "lentils_info": "Plant iron (add Vit C).",
             "beans": "Beans",
+            "beans_info": "Satiating and economical.",
             "peas": "Peas",
+            "peas_info": "Green protein.",
             "chickpeas": "Chickpeas",
-            "soy": "Soy"
+            "chickpeas_info": "Versatile and fiber-rich."
           }
         },
         "fruit": {
           "name": "Fruit",
-          "desc": "Berries, Banana, Apple...",
+          "desc": "Apple, Banana...",
           "metric": "📏 1 Piece / Cup",
+          "metric_guide": "One medium piece (tennis ball size) or one full cup (chopped/berries).",
           "sub": {
-            "berries": "Berries",
+            "berries": "Strawberries/Raspberries",
+            "berries_info": "Low sugar, high antioxidants.",
             "blueberries_blackberries": "Blueberries/Blackberries",
+            "blueberries_blackberries_info": "Brain health.",
             "melon_watermelon": "Melon/Watermelon",
+            "melon_watermelon_info": "Hydrating.",
             "apple_pear": "Apple/Pear",
+            "apple_pear_info": "Fiber (pectin). nutrient-rich skin.",
             "banana": "Banana",
+            "banana_info": "Potassium and fast energy.",
             "grapes": "Grapes",
+            "grapes_info": "Resveratrol.",
             "peach": "Peach",
+            "peach_info": "Sweet fiber.",
             "kiwi": "Kiwi",
-            "orange": "Orange"
+            "kiwi_info": "Vital C superstar.",
+            "orange": "Orange",
+            "orange_info": "Whole better than juice."
           }
         }
       }
@@ -275,44 +337,69 @@
       "items": {
         "oils": {
           "name": "Oils",
-          "desc": "Olive Oil, Coconut Oil...",
-          "metric": "📏 1 Tbsp",
+          "desc": "Olive, Coconut...",
+          "metric": "📏 1 Thumb",
+          "metric_guide": "One tablespoon or thumb length.",
           "sub": {
-            "olive_oil": "Olive Oil",
-            "coconut_oil": "Coconut Oil",
+            "olive_oil": "Olive Oil E.V.",
+            "olive_oil_info": "Liquid gold. Rich in polyphenols.",
+            "coconut_oil": "Coconut Oil E.V.",
+            "coconut_oil_info": "MCTs for fast energy.",
             "butter": "Butter",
-            "ghee": "Ghee"
+            "butter_info": "Grass-fed is best (Vit A/K2).",
+            "ghee": "Ghee",
+            "ghee_info": "Clarified butter, lactose-free."
           }
         },
         "fruit_fat": {
-          "name": "Fatty Fruit",
-          "desc": "Avocado, Olives...",
-          "metric": "📏 1/2 Piece",
+          "name": "Fatty Fruits",
+          "desc": "Avocado, Coconut...",
+          "metric": "📏 1/4 or Handful",
+          "metric_guide": "1/4 avocado or a piece of coconut.",
           "sub": {
             "avocado": "Avocado",
+            "avocado_info": "Monounsaturated fats and fiber.",
             "olives": "Olives",
-            "coconut": "Coconut"
+            "olives_info": "Vitamin E rich.",
+            "coconut": "Fresh Coconut",
+            "coconut_info": "Natural saturated fats."
           }
         },
         "nuts": {
           "name": "Nuts",
           "desc": "Walnuts, Almonds...",
-          "metric": "📏 1 Thumb / Handful",
+          "metric": "📏 1 Closed Handful",
+          "metric_guide": "The hollow of your closed hand.",
           "sub": {
             "walnuts": "Walnuts",
+            "walnuts_info": "Plant Omega-3 queen.",
             "almonds": "Almonds",
+            "almonds_info": "Calcium and Vit E.",
             "hazelnuts": "Hazelnuts",
+            "hazelnuts_info": "High energy.",
             "pistachios": "Pistachios",
+            "pistachios_info": "Complete protein.",
             "cashews": "Cashews",
+            "cashews_info": "Creamy and rich in copper.",
             "peanuts": "Peanuts",
+            "peanuts_info": "Legume rich in protein (watch calories).",
             "seeds": "Seeds",
-            "dark_chocolate": "Dark Chocolate 85%"
+            "seeds_info": "Chia, flax, pumpkin... nutrient bombs."
           }
         },
         "creamy": {
           "name": "Creamy",
           "desc": "Cured Cheese, Dark Choco...",
-          "metric": "📏 1 Thumb / Ounce"
+          "metric": "📏 1 Thumb / Ounce",
+          "metric_guide": "A piece the size of your thumb (30g) or a square ounce (10-15g).",
+          "sub": {
+            "cured_cheese": "Cured Cheese",
+            "cured_cheese_info": "Concentrated source of calcium and flavor.",
+            "dark_chocolate_plus": "Dark Chocolate >85%",
+            "dark_chocolate_plus_info": "Low sugar, high healthy fat.",
+            "nut_butter": "Nut Butter",
+            "nut_butter_info": "1 Tablespoon. Choose 100% peanut/almond."
+          }
         }
       }
     },
@@ -324,48 +411,67 @@
           "name": "Spices",
           "desc": "Turmeric, Pepper, Oregano...",
           "metric": "✨ To taste",
+          "metric_guide": "Use as much as you want for flavor without calories.",
           "sub": {
             "turmeric": "Turmeric",
+            "turmeric_info": "Potent natural anti-inflammatory.",
+            "chili": "Chili",
+            "chili_info": "Capsaicin activates metabolism.",
+            "ginger": "Ginger",
+            "ginger_info": "Digestive and spicy.",
             "pepper": "Pepper",
+            "pepper_info": "Boosts turmeric absorption.",
+            "saffron": "Saffron",
+            "saffron_info": "The red gold.",
             "oregano": "Oregano",
-            "basil": "Basil",
-            "cinnamon": "Cinnamon"
+            "oregano_info": "Antimicrobial.",
+            "parsley": "Parsley",
+            "parsley_info": "Vitamin C and diuretic.",
+            "nutmeg": "Nutmeg",
+            "nutmeg_info": "Intense flavor, use sparingly.",
+            "cumin": "Cumin",
+            "cumin_info": "Digestive, reduces gas.",
+            "cinnamon": "Cinnamon",
+            "cinnamon_info": "Helps regulate blood sugar.",
+            "garlic": "Garlic",
+            "garlic_info": "Natural antibiotic.",
+            "sesame": "Sesame",
+            "sesame_info": "Source of Calcium."
           }
         },
         "seasoning": {
           "name": "Seasoning",
           "desc": "Vinegar, Lemon, Salt...",
           "metric": "✨ To taste",
+          "metric_guide": "Season with salt in moderation.",
           "sub": {
-            "salt": "Salt",
-            "vinegar": "Vinegar",
+            "sea_salt": "Sea Salt",
+            "sea_salt_info": "Essential electrolytes.",
+            "wine_vinegar": "Wine Vinegar",
+            "apple_cider_vinegar": "Apple Cider Vinegar",
+            "apple_cider_vinegar_info": "Improves insulin sensitivity.",
             "lemon": "Lemon",
+            "lemon_info": "Vitamin C and freshness.",
             "mustard": "Mustard",
-            "soy_sauce": "Soy Sauce"
+            "mustard_info": "Intense flavor, few calories."
           }
         },
         "drinks": {
           "name": "Drinks",
           "desc": "Water, Tea, Coffee...",
-          "metric": "💧 On demand"
+          "metric": "💧 On demand",
+          "metric_guide": "Stay hydrated.",
+          "sub": {
+            "water": "Water",
+            "water_info": "Most important thing of the day.",
+            "tea": "Tea (Unsweetened)",
+            "tea_info": "Antioxidants.",
+            "coffee": "Black Coffee",
+            "coffee_info": "Caffeine for performance.",
+            "soda_zero": "Soda Zero",
+            "soda_zero_info": "Occasionally to kill sweet cravings."
+          }
         }
-      },
-      "sub": {
-        "turmeric": "Turmeric",
-        "pepper": "Pepper",
-        "oregano": "Oregano",
-        "basil": "Basil",
-        "cinnamon": "Cinnamon",
-        "salt": "Salt",
-        "vinegar": "Vinegar",
-        "lemon": "Lemon",
-        "mustard": "Mustard",
-        "soy_sauce": "Soy Sauce",
-        "water": "Water",
-        "sparkling_water": "Sparkling Water",
-        "coffee": "Coffee",
-        "tea": "Tea",
-        "infusions": "Infusions"
       }
     }
   },
@@ -422,7 +528,12 @@
     "step_3": {
       "title": "3. Organize Your Week",
       "content": "Save your perfect days in 'Menus' and generate your shopping list automatically with a single click.",
-      "action": "Done!"
+      "action": "Next"
+    },
+    "step_4": {
+      "title": "4. Master your History",
+      "content": "Edit names, reorganize meals, or send them back to the 'Creator' to easily modify ingredients.",
+      "action": "Get Started!"
     },
     "skip": "Skip"
   }

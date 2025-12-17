@@ -98,6 +98,9 @@ export default function History() {
         mealToCopy: null
     });
 
+    // Shopping List Checkbox State (Ephemeral)
+    const [checkedIngredients, setCheckedIngredients] = useState<Record<string, boolean>>({});
+
     const openCopyModal = (meal: Meal) => setCopyModal({ isOpen: true, mealToCopy: meal });
     const closeCopyModal = () => setCopyModal({ isOpen: false, mealToCopy: null });
 
@@ -1037,6 +1040,7 @@ export default function History() {
                                                     <button
                                                         onClick={() => {
                                                             setShoppingListContext({ title: `Lista: ${menu.name}`, menus: [menu] });
+                                                            setCheckedIngredients({});
                                                             setOpenMenuOptionsId(null);
                                                         }}
                                                         className="w-full px-2 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-white/5 flex items-center justify-center gap-2"
@@ -1204,15 +1208,39 @@ export default function History() {
                                                 {t(group.title)}
                                             </h4>
                                             <div className="space-y-2">
-                                                {Object.entries(group.items).map(([name, count]: [string, any]) => (
-                                                    <div key={name} className="flex justify-between items-center p-3 bg-slate-50 dark:bg-white/5 rounded-xl border border-slate-100 dark:border-white/5">
-                                                        <div className="flex items-center gap-3">
-                                                            <div className="size-5 rounded-md border-2 border-slate-300 dark:border-slate-600" />
-                                                            <span className="font-medium text-slate-700 dark:text-slate-300">{t(name)}</span>
+                                                {Object.entries(group.items).map(([name, count]: [string, any]) => {
+                                                    const isChecked = checkedIngredients[name];
+                                                    return (
+                                                        <div
+                                                            key={name}
+                                                            onClick={() => setCheckedIngredients(prev => ({ ...prev, [name]: !prev[name] }))}
+                                                            className={clsx(
+                                                                "flex justify-between items-center p-3 rounded-xl border transition-all cursor-pointer select-none group",
+                                                                isChecked
+                                                                    ? "bg-emerald-50/50 dark:bg-emerald-900/10 border-emerald-100 dark:border-emerald-500/20"
+                                                                    : "bg-slate-50 dark:bg-white/5 border-slate-100 dark:border-white/5 hover:border-slate-300 dark:hover:border-white/20"
+                                                            )}
+                                                        >
+                                                            <div className="flex items-center gap-3">
+                                                                <div className={clsx(
+                                                                    "size-5 rounded-md border-2 flex items-center justify-center transition-colors shadow-sm",
+                                                                    isChecked
+                                                                        ? "bg-emerald-500 border-emerald-500"
+                                                                        : "border-slate-300 dark:border-slate-600 bg-white dark:bg-black/20 group-hover:border-slate-400"
+                                                                )}>
+                                                                    {isChecked && <span className="material-symbols-outlined text-white text-sm font-bold">check</span>}
+                                                                </div>
+                                                                <div className="flex flex-col">
+                                                                    <span className={clsx("font-medium transition-colors", isChecked ? "text-slate-400 dark:text-slate-500 line-through decoration-2" : "text-slate-700 dark:text-slate-300")}>{t(name)}</span>
+                                                                </div>
+                                                            </div>
+                                                            {count > 1 && (isChecked ?
+                                                                <span className="text-xs font-bold text-slate-300">x{count}</span> :
+                                                                <span className="text-xs font-bold text-emerald-600 bg-emerald-100 dark:bg-emerald-900/30 px-2 py-1 rounded-md">x{count}</span>
+                                                            )}
                                                         </div>
-
-                                                    </div>
-                                                ))}
+                                                    );
+                                                })}
                                             </div>
                                         </div>
                                     ))}

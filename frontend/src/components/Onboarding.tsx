@@ -36,6 +36,12 @@ export default function Onboarding({ onClose }: OnboardingProps) {
             icon: "menu_book",
             content: t('onboarding.step_3.content'),
             action: t('onboarding.step_3.action')
+        },
+        {
+            title: t('onboarding.step_4.title'),
+            icon: "history_edu",
+            content: t('onboarding.step_4.content'),
+            action: t('onboarding.step_4.action')
         }
     ];
 
