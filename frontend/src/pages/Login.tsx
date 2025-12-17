@@ -70,7 +70,7 @@ export default function Login() {
             <div className="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-xl max-w-md w-full border border-slate-100 dark:border-white/5">
                 <div className="mb-8 text-center">
                     <img
-                        src="/brand-full.png"
+                        src="/logo2befitancho.PNG"
                         alt="2BeFit"
                         className="h-24 mx-auto mb-6 object-contain"
                     />
