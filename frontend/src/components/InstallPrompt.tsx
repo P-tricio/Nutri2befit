@@ -48,7 +48,7 @@ export default function InstallPrompt() {
     return (
         <>
             {/* Install Button (Floating or Inline) */}
-            <div className="fixed bottom-24 right-4 z-40 md:static md:w-full md:mt-4 pointer-events-none">
+            <div className="fixed top-6 left-5 z-40 md:static md:w-full md:mt-4 pointer-events-none">
                 {/* Only show floating button on mobile if needed, or integrate elsewhere. 
                      For now, let's make it a discrete floating button that pulses. */}
                 <div className="pointer-events-auto">
@@ -58,10 +58,10 @@ export default function InstallPrompt() {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={handleInstallClick}
-                        className="bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-xl rounded-full px-4 py-3 flex items-center gap-2 text-sm font-bold border border-slate-700 dark:border-slate-200"
+                        className="bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-xl rounded-full px-4 py-2 flex items-center gap-2 text-xs font-bold border border-slate-700 dark:border-slate-200"
                     >
-                        <span className="material-symbols-outlined text-[20px]">download</span>
-                        <span>Instalar App</span>
+                        <span className="material-symbols-outlined text-[18px]">download</span>
+                        <span>Instalar</span>
                     </motion.button>
                 </div>
             </div>
