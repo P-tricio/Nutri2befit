@@ -1,0 +1,17 @@
+{
+    "name": "2BeFit - Guía Visual",
+    "short_name": "2BeFit",
+    "description": "Tu guía de nutrición visual e intuitiva.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#ffffff",
+    "orientation": "portrait",
+    "icons": [
+        {
+            "src": "/brand-compact.png",
+            "sizes": "any",
+            "type": "image/png"
+        }
+    ]
+}

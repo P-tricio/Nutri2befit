@@ -7,6 +7,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import clsx from 'clsx';
 import { createPortal } from 'react-dom';
 import Onboarding from './Onboarding';
+import InstallPrompt from './InstallPrompt';
 import { useTranslation } from 'react-i18next';
 
 // --- LAYOUT ---
@@ -71,6 +72,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </main>
 
             <Navigation />
+
+            <InstallPrompt />
 
             {/* Onboarding - PORTALED */}
             {showOnboarding && createPortal(
