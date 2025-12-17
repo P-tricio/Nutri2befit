@@ -129,13 +129,19 @@
           "metric_guide": "The protein portion is equal to the size and thickness of the palm of your hand (excluding fingers).",
           "sub": {
             "chicken": "Chicken",
-            "chicken_info": "Excellent source of lean protein. Rich in vitamin B6 and niacin, essential for energy metabolism.",
+            "chicken_info": "Excellent source of lean protein. Rich in vitamin B6.",
             "turkey": "Turkey",
+            "turkey_info": "Lean protein, rich in tryptophan.",
             "rabbit": "Rabbit",
+            "rabbit_info": "Very lean white meat, low cholesterol.",
             "veal": "Veal",
+            "veal_info": "Source of heme iron and zinc.",
             "pork": "Lean Pork",
+            "pork_info": "Loin is a lean option rich in thiamine.",
             "burger": "Lean Burger",
-            "offal": "Offal"
+            "burger_info": "Choose options with <5% fat.",
+            "offal": "Offal",
+            "offal_info": "Nutrient-dense (liver), consume in moderation."
           }
         },
         "fish": {
@@ -144,13 +150,21 @@
           "metric": "📏 1 Palm",
           "sub": {
             "hake": "Hake",
+            "hake_info": "White fish, light and easy to digest.",
             "cod": "Cod",
+            "cod_info": "Low calorie and iodine-rich.",
             "salmon": "Salmon",
+            "salmon_info": "Rich in Omega-3, essential for heart/brain.",
             "tuna": "Tuna",
+            "tuna_info": "High protein, watch mercury intake.",
             "mackerel": "Mackerel",
+            "mackerel_info": "Affordable blue fish, very nutritious.",
             "hosmemackerel": "Horse Mackerel",
+            "hosmemackerel_info": "Excellent source of fatty acids.",
             "sardines": "Sardines",
-            "whitefish": "White Fish"
+            "sardines_info": "Rich in calcium (with bones) and Omega-3.",
+            "whitefish": "White Fish",
+            "whitefish_info": "Versatile and low calorie."
           }
         },
         "seafood": {
@@ -159,9 +173,13 @@
           "metric": "📏 1 Palm",
           "sub": {
             "shrimp": "Shrimp",
+            "shrimp_info": "Low calorie, high protein.",
             "squid": "Squid",
+            "squid_info": "Great protein source, avoid fried.",
             "clams": "Clams",
-            "mussels": "Mussels"
+            "clams_info": "Extremely high in iron.",
+            "mussels": "Mussels",
+            "mussels_info": "Cheap, sustainable, B12 rich."
           }
         },
         "dairy_zero": {
@@ -170,13 +188,21 @@
           "metric": "📏 1 Cup / 2 Eggs",
           "sub": {
             "eggs": "Eggs",
+            "eggs_info": "High biological value protein. Yolk has vitamins.",
             "whites": "Egg Whites",
+            "whites_info": "Pure fat-free protein.",
             "fresh_cheese": "Fresh Cheese 0%",
+            "fresh_cheese_info": "Light option rich in calcium.",
             "beaten_cheese": "Beaten Cheese 0%",
+            "beaten_cheese_info": "Creamy quark style, high casein.",
             "greek_yogurt": "Greek Yogurt",
+            "greek_yogurt_info": "Creamier, more protein. Choose unsweetened.",
             "kefir": "Kefir",
+            "kefir_info": "Natural probiotic for gut health.",
             "protein_whey": "Whey Protein",
-            "cottage": "Cottage Cheese"
+            "protein_whey_info": "Fast absorption, ideal post-workout.",
+            "cottage": "Cottage Cheese",
+            "cottage_info": "Granulated, low fat, slow protein."
           }
         },
         "veggie_prot": {
@@ -185,11 +211,17 @@
           "metric": "📏 1 Palm",
           "sub": {
             "tofu": "Tofu",
+            "tofu_info": "Complete soy protein, absorbs flavors.",
             "textured_soy": "Textured Soy",
+            "textured_soy_info": "High protein/fiber. Hydrate first.",
             "edamame": "Edamame",
+            "edamame_info": "Young soy, great snack.",
             "seitan": "Seitan",
+            "seitan_info": "Wheat gluten, meat-like texture.",
             "tempeh": "Tempeh",
-            "legumes": "Legumes (Protein)"
+            "tempeh_info": "Fermented soy, intense flavor.",
+            "legumes": "Legumes (Protein)",
+            "legumes_info": "Lentils/Chickpeas used as main protein."
           }
         }
       }
@@ -204,13 +236,21 @@
           "metric": "📏 2 Hands",
           "sub": {
             "spinach": "Spinach",
+            "spinach_info": "Iron, calcium, Vit A, C, K.",
             "lambs_lettuce": "Lamb's Lettuce",
+            "lambs_lettuce_info": "Soft, digestive, Vit C.",
             "arugula": "Arugula",
+            "arugula_info": "Bitter taste stimulates digestion.",
             "chard": "Chard",
+            "chard_info": "High fiber, cook stems separately.",
             "kale": "Kale",
+            "kale_info": "Superfood, antioxidants, plant calcium.",
             "endive": "Endive",
+            "endive_info": "Low calorie, refreshing.",
             "cabbage": "Cabbage",
-            "lettuce": "Lettuce"
+            "cabbage_info": "Cheap and versatile.",
+            "lettuce": "Lettuce",
+            "lettuce_info": "Hydrating salad base."
           }
         },
         "cruciferous": {
@@ -219,10 +259,15 @@
           "metric": "📏 2 Hands",
           "sub": {
             "broccoli": "Broccoli",
+            "broccoli_info": "Potent anti-cancer, sulforaphane rich.",
             "cauliflower": "Cauliflower",
+            "cauliflower_info": "Low carb sub for rice/mash.",
             "cabbage_re": "Cabbage",
+            "cabbage_re_info": "Vit C and sulfur rich.",
             "red_cabbage": "Red Cabbage",
-            "brussels": "Brussels Sprouts"
+            "red_cabbage_info": "Potent antioxidant pigments.",
+            "brussels": "Brussels Sprouts",
+            "brussels_info": "Tiny but nutrient dense."
           }
         },
         "green_veg": {
@@ -231,11 +276,17 @@
           "metric": "📏 2 Hands",
           "sub": {
             "asparagus": "Asparagus",
+            "asparagus_info": "Natural diuretic.",
             "celery": "Celery",
+            "celery_info": "Crunchy, hydrating, low calorie.",
             "cucumber": "Cucumber",
+            "cucumber_info": "95% water, hydration.",
             "green_beans": "Green Beans",
+            "green_beans_info": "Fiber and satiety.",
             "zucchini": "Zucchini",
-            "artichoke": "Artichoke"
+            "zucchini_info": "Versatile, neutral taste.",
+            "artichoke": "Artichoke",
+            "artichoke_info": "Liver protector and digestive."
           }
         },
         "colors": {
@@ -244,12 +295,19 @@
           "metric": "📏 2 Hands",
           "sub": {
             "tomato": "Tomato",
+            "tomato_info": "Lycopene rich (better cooked).",
             "pepper": "Pepper",
+            "pepper_info": "More Vit C than oranges.",
             "carrot": "Carrot",
+            "carrot_info": "Beta-carotene for skin/eyes.",
             "pumpkin": "Pumpkin",
+            "pumpkin_info": "Natural sweet, good fiber.",
             "eggplant": "Eggplant",
+            "eggplant_info": "Spongy, low cal, absorbs flavors.",
             "onion": "Onion",
-            "mushrooms": "Mushrooms"
+            "onion_info": "Flavor base, quercetin rich.",
+            "mushrooms": "Mushrooms",
+            "mushrooms_info": "Umami flavor, Vit D."
           }
         }
       }
@@ -264,9 +322,13 @@
           "metric": "📏 1 Fist",
           "sub": {
             "potato": "Potato",
+            "potato_info": "Best cooked and cooled (resistant starch).",
             "sweet_potato": "Sweet Potato",
+            "sweet_potato_info": "Beta-carotenes, sweet taste.",
             "gnocchi": "Gnocchi",
-            "yucca": "Yucca"
+            "gnocchi_info": "Energy dense, watch portion.",
+            "yucca": "Yucca",
+            "yucca_info": "Very energetic, complex carbs."
           }
         },
         "grains": {
@@ -279,12 +341,12 @@
             "rice_info": "Whole or basmati is best.",
             "oats": "Oats",
             "oats_info": "Beta-glucans for cholesterol.",
-            "quinoa": "Quinoa",
-            "quinoa_info": "Complete protein pseudocereal.",
-            "corn": "Corn",
-            "corn_info": "Sweet cereal, rich in antioxidants.",
-            "buckwheat": "Buckwheat",
-            "buckwheat_info": "Gluten-free, rich in magnesium."
+            "pasta": "Pasta",
+            "pasta_info": "Energy source. Whole wheat is better.",
+            "wasa_bread": "Wasa / Crisp Bread",
+            "wasa_bread_info": "Crunchy and light bread substitute.",
+            "rice_corn_cakes": "Rice/Corn Cakes",
+            "rice_corn_cakes_info": "Quick carb snack."
           }
         },
         "legumes": {
@@ -300,7 +362,9 @@
             "peas": "Peas",
             "peas_info": "Green protein.",
             "chickpeas": "Chickpeas",
-            "chickpeas_info": "Versatile and fiber-rich."
+            "chickpeas_info": "Versatile and fiber-rich.",
+            "soy": "Textured Soy / Edamame",
+            "soy_info": "Complete plant protein."
           }
         },
         "fruit": {

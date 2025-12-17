@@ -352,10 +352,12 @@
                         "quinoa_info": "Pseudocereal con proteína completa.",
                         "oats": "Avena",
                         "oats_info": "Betaglucanos para el colesterol.",
-                        "corn": "Maíz",
-                        "corn_info": "Cereal dulce, rico en antioxidantes.",
-                        "buckwheat": "Trigo Sarraceno",
-                        "buckwheat_info": "Sin gluten, rico en magnesio."
+                        "pasta": "Pasta",
+                        "pasta_info": "Fuente de energía. Mejor integral.",
+                        "wasa_bread": "Pan Wasa / Tostado",
+                        "wasa_bread_info": "Crujiente y ligero, sustituto del pan.",
+                        "rice_corn_cakes": "Tortitas Arroz/Maíz",
+                        "rice_corn_cakes_info": "Snack rápido de carbohidratos."
                     }
                 },
                 "legumes": {
@@ -371,7 +373,9 @@
                         "beans": "Alubias",
                         "beans_info": "Saciantes y económicas.",
                         "peas": "Guisantes",
-                        "peas_info": "Proteína verde."
+                        "peas_info": "Proteína verde.",
+                        "soy": "Soja Texturizada / Edamame",
+                        "soy_info": "Proteína completa vegetal."
                     }
                 },
                 "fruit": {

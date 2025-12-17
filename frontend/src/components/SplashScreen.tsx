@@ -39,7 +39,7 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
                 className="flex flex-col items-center"
             >
                 <img
-                    src="/brand-full1.png"
+                    src="/logo2befitancho.PNG"
                     alt="2BeFit"
                     className="w-64 h-auto object-contain drop-shadow-xl"
                 />
